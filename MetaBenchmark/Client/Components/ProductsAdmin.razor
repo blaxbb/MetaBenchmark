@@ -29,9 +29,10 @@
                 <div class="row">
                     <div class="col">
                         <select class="form-control">
-                            <option>Spec 1</option>
-                            <option>Spec 2</option>
-                            <option>Spec 3</option>
+                            @foreach(var name in AllSpecifications.GroupBy(s => s.Name).Select(s => s.Key))
+                            {
+                                <option @onclick="() => {NewSpecName = name; this.StateHasChanged();}">@name</option>
+                            }
                         </select>
                     </div>
                     <div class="col">
@@ -39,9 +40,10 @@
                     </div>
                     <div class="col">
                         <select class="form-control">
-                            <option>Val 1</option>
-                            <option>Val 2</option>
-                            <option>Val 3</option>
+                            @foreach(var val in AllSpecifications.Where(s => s.Name == NewSpecName).Select(s => s.Value).Distinct())
+                            {
+                                <option @onclick="() => NewSpecValue = val">@val</option>
+                            }
                         </select>
                     </div>
                     <div class="col">
@@ -129,6 +131,8 @@ else
     string NewSpecName = "";
     string NewSpecValue = "";
 
+    List<Specification> AllSpecifications = new List<Specification>();
+
     protected override async Task OnInitializedAsync()
     {
         Model = new Product();
@@ -140,6 +144,8 @@ else
         try
         {
             Products = await Http.GetFromJsonAsync<Product[]>("api/Products");
+            AllSpecifications = await Http.GetFromJsonAsync<List<Specification>>("api/Specifications");
+
             this.StateHasChanged();
         }
         catch (AccessTokenNotAvailableException exception)
