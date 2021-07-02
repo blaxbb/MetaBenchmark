@@ -1,0 +1,232 @@
+﻿@using MetaBenchmark.Client.Components
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+
+@using MetaBenchmark.Shared
+@using MetaBenchmark.Shared.Models
+@inject HttpClient Http
+@inject IJSRuntime Js
+
+<Modal Name="Add Product" Id="AddProductModal">
+	<EditForm Model="Model">
+		<div class="form-group">
+			<label for="productName">Name</label>
+			<InputText class="form-control" id="productName" placeholder="Name" @bind-Value=Model.Name />
+		</div>
+		<div class="form-group">
+			<label for="productType">Product Type</label>
+			<InputSelect class="form-control" id="productType" @bind-Value=Model.Type>
+                @foreach(var type in Enum.GetValues(typeof(Product.ProductType)))
+                {
+                    <option>@type</option>
+                }
+            </InputSelect>
+		</div>
+        @if(Model.ID != -1)
+        {
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <select class="form-control">
+                            <option>Spec 1</option>
+                            <option>Spec 2</option>
+                            <option>Spec 3</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="addSpecName" placeholder="Name" @bind=NewSpecName />
+                    </div>
+                    <div class="col">
+                        <select class="form-control">
+                            <option>Val 1</option>
+                            <option>Val 2</option>
+                            <option>Val 3</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="addSpecValue" placeholder="Value" @bind=NewSpecValue />
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" @onclick=AddSpecClicked>Add</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model != null && Model.Specs != null)
+                            {
+                                @foreach(var spec in Model?.Specs.Select(s => s.Spec))
+                                {
+                                        <tr>
+                                            <td>@spec?.Name</td>
+                                            <td>@spec?.Value</td>
+                                        </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+		<button @onclick=SubmitModel class="btn btn-primary">Submit</button>
+        @if (Model.ID != -1)
+        {
+            <button @onclick=DeleteModel class="btn btn-primary">Delete</button>
+        }
+	</EditForm>
+</Modal>
+
+
+@if(Products == null)
+{
+    <div>Loading....</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
+                <th><button class="btn btn-primary btn-sm" @onclick=AddProductClick>Add</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Type</td>
+                    <td>
+                        <a href="/product/@product.ID" class="btn btn-primary btn-sm">
+                            Details
+                        </a>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary  btn-sm" @onclick="(() => EditProductClick(product))">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Product[] Products;
+    Product Model;
+    string NewSpecName = "";
+    string NewSpecValue = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = new Product();
+        await Refresh();
+    }
+
+    async Task Refresh()
+    {
+        try
+        {
+            Products = await Http.GetFromJsonAsync<Product[]>("api/Products");
+            this.StateHasChanged();
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    async void AddProductClick()
+    {
+        Model = new Product();
+        Model.ID = -1;
+        await Js.InvokeVoidAsync("ShowModal", "#AddProductModal");
+    }
+
+    async void EditProductClick(Product product)
+    {
+        Model = new Product()
+        {
+            ID = product.ID,
+            Name = product.Name,
+            Type = product.Type,
+            Specs = product.Specs
+        };
+
+        await Js.InvokeVoidAsync("ShowModal", "#AddProductModal");
+    }
+
+    async void SubmitModel()
+    {
+        await Js.InvokeVoidAsync("HideModal", "#AddProductModal");
+        if (Model.ID == -1)
+        {
+            Model.ID = 0;
+            await Http.PostAsJsonAsync("api/Products", Model);
+        }
+        else
+        {
+            await Http.PutAsJsonAsync($"api/Products/{Model.ID}", Model);
+        }
+        await Refresh();
+        Model = new Product();
+    }
+
+    async void DeleteModel()
+    {
+        await Js.InvokeVoidAsync("HideModal", "#AddProductModal");
+        if (Model.ID != -1)
+        {
+            await Http.DeleteAsync($"api/Products/{Model.ID}");
+        }
+
+        await Refresh();
+        Model = new Product();
+    }
+
+    async void AddSpecClicked()
+    {
+        if(Model.ID == -1)
+        {
+            return;
+        }
+
+        var spec = new Specification()
+        {
+            Name = NewSpecName,
+            Value = NewSpecValue,
+        };
+
+        var content = await Http.PostAsJsonAsync($"api/Specifications", spec);
+        spec = await content.Content.ReadFromJsonAsync<Specification>();
+
+        var entry = new SpecificationEntry()
+        {
+            SpecId = spec.Id,
+            ProductId = Model.ID
+        };
+
+        await Http.PostAsJsonAsync($"api/SpecificationEntries", entry);
+
+        if(Model.Specs == null)
+        {
+            Model.Specs = new List<SpecificationEntry>();
+        }
+        entry.Spec = spec;
+        Model.Specs.Add(entry);
+        NewSpecName = "";
+        NewSpecValue = "";
+        await Refresh();
+    }
+
+}

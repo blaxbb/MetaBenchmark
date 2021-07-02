@@ -1,0 +1,32 @@
+﻿@page "/admin"
+
+@using MetaBenchmark.Client.Components
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+
+@using MetaBenchmark.Shared
+@inject HttpClient Http
+@inject IJSRuntime Js
+
+<div>
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="nav-item"><a class="nav-link active" href="#products" aria-controls="products" role="tab" data-toggle="tab">Products</a></li>
+		<li role="presentation" class="nav-item"><a class="nav-link" href="#benchmarks" aria-controls="benchmarks" role="tab" data-toggle="tab">Benchmarks</a></li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="products">
+			<ProductsAdmin />
+		</div>
+		<div role="tabpanel" class="tab-pane" id="benchmarks">
+			<BenchmarksAdmin />
+		</div>
+		<div role="tabpanel" class="tab-pane" id="benchmarkEntries">
+			<BenchmarksAdmin />
+		</div>
+	</div>
+</div>
