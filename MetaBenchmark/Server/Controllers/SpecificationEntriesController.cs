@@ -111,6 +111,13 @@ namespace MetaBenchmark.Server.Controllers
             _context.SpecificationEntries.Remove(specificationEntry);
             await _context.SaveChangesAsync();
 
+            var spec = await _context.Specifications.Include(s => s.Products).FirstOrDefaultAsync(s => s.Id == specificationEntry.SpecId);
+            if(spec.Products.Count == 0)
+            {
+                _context.Specifications.Remove(spec);
+                await _context.SaveChangesAsync();
+            }
+
             return NoContent();
         }
 
