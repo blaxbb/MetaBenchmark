@@ -47,7 +47,7 @@ namespace MetaBenchmark.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSpecificationEntry(long id, SpecificationEntry specificationEntry)
         {
-            if (id != specificationEntry.ProductId)
+            if (id != specificationEntry.Id)
             {
                 return BadRequest();
             }
@@ -85,7 +85,7 @@ namespace MetaBenchmark.Server.Controllers
             }
             catch (DbUpdateException)
             {
-                if (SpecificationEntryExists(specificationEntry.ProductId))
+                if (SpecificationEntryExists(specificationEntry.Id))
                 {
                     return Conflict();
                 }
@@ -95,7 +95,7 @@ namespace MetaBenchmark.Server.Controllers
                 }
             }
 
-            return CreatedAtAction("GetSpecificationEntry", new { id = specificationEntry.ProductId }, specificationEntry);
+            return CreatedAtAction("GetSpecificationEntry", new { id = specificationEntry.Id }, specificationEntry);
         }
 
         // DELETE: api/SpecificationEntries/5
@@ -123,7 +123,7 @@ namespace MetaBenchmark.Server.Controllers
 
         private bool SpecificationEntryExists(long id)
         {
-            return _context.SpecificationEntries.Any(e => e.ProductId == id);
+            return _context.SpecificationEntries.Any(e => e.Id == id);
         }
     }
 }

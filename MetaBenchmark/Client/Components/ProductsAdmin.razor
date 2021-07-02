@@ -218,8 +218,10 @@ else
             ProductId = Model.ID,
         };
 
-        await Http.PostAsJsonAsync($"api/SpecificationEntries", entry);
-
+        content = await Http.PostAsJsonAsync($"api/SpecificationEntries", entry);
+        var entryUpdated = await content.Content.ReadFromJsonAsync<SpecificationEntry>();
+        entry.Id = entryUpdated.Id;
+        Console.WriteLine(entry.Id);
         if(Model.Specs == null)
         {
             Model.Specs = new List<SpecificationEntry>();
