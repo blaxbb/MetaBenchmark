@@ -8,6 +8,7 @@ namespace MetaBenchmark.Shared.Models
 {
     public class SpecificationEntry
     {
+        public long Id { get; set; }
         public Specification Spec { get; set; }
         public long SpecId { get; set; }
 

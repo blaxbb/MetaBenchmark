@@ -252,13 +252,20 @@ namespace MetaBenchmark.Server.Migrations
 
             modelBuilder.Entity("MetaBenchmark.Shared.Models.SpecificationEntry", b =>
                 {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("SpecId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("ProductId", "SpecId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("SpecId");
 

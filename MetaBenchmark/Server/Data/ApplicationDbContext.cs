@@ -28,7 +28,7 @@ namespace MetaBenchmark.Server.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<SpecificationEntry>()
-                .HasKey(e => new { e.ProductId, e.SpecId });
+                .HasKey(e => e.Id);
 
             builder.Entity<SpecificationEntry>()
                 .HasOne(e => e.Spec)

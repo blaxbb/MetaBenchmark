@@ -102,7 +102,7 @@ namespace MetaBenchmark.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSpecificationEntry(long id)
         {
-            var specificationEntry = await _context.SpecificationEntries.FindAsync(id);
+            var specificationEntry = await _context.SpecificationEntries.FirstOrDefaultAsync(s => s.Id == id);
             if (specificationEntry == null)
             {
                 return NotFound();
