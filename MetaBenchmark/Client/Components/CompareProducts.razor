@@ -1,0 +1,56 @@
+﻿@using MetaBenchmark.Shared
+@inject HttpClient Http;
+<h3>CompareProducts</h3>
+
+@if(AllProducts != null)
+{
+    <div class="row">
+        @for(int i = 0; i < 2; i++)
+        {
+            var index = i;
+            <div class="col">
+                <form>
+                    <select class="form-control">
+                        <option>Select a product</option>
+                        @foreach(var product in AllProducts)
+                        {
+                            <option @onclick="(() => Selected(product, index))">@product.Name</option>
+                        }
+                    </select>
+                </form>
+                @if(SelectedProducts.Length > i && SelectedProducts[i] != default)
+                {
+                    <h5>@SelectedProducts[i].Name</h5>
+                }
+                else
+                {
+                    <h5>Select a product above</h5>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>Loading...</div>
+}
+
+
+@code {
+    List<Product> AllProducts;
+    Product[] SelectedProducts;
+    protected override async Task OnInitializedAsync()
+    {
+        AllProducts = await Http.GetFromJsonAsync<List<Product>>("api/Products");
+
+        SelectedProducts = new Product[2];
+
+        StateHasChanged();
+    }
+
+    void Selected(Product p, int index)
+    {
+        SelectedProducts[index] = p;
+        StateHasChanged();
+    }
+}

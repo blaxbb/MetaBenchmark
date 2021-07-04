@@ -28,11 +28,20 @@ namespace MetaBenchmark.Server
         public void ConfigureServices(IServiceCollection services)
         {
             var secrets = Configuration.GetSection(Secrets.SecretsName).Get<Secrets>();
-            var connection = $"Server=db;Database=master;User=sa;Password={secrets?.DbPassword ?? ""};";
+            if (secrets == null || string.IsNullOrWhiteSpace(secrets.DbPassword))
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            }
+            else
+            {
+                var connection = $"Server=db;Database=master;User=sa;Password={secrets?.DbPassword ?? ""};";
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connection)
-            );
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(connection)
+                );
+            }
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
