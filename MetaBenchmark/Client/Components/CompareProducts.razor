@@ -1,6 +1,6 @@
 ﻿@using MetaBenchmark.Shared
 @inject HttpClient Http;
-<h3>CompareProducts</h3>
+<h3>Compare Products</h3>
 
 @if(AllProducts != null)
 {
@@ -11,7 +11,7 @@
             <div class="col">
                 <form>
                     <select class="form-control">
-                        <option>Select a product</option>
+                        <option @onclick="(() => Selected(default, index))">Select a product</option>
                         @foreach(var product in AllProducts)
                         {
                             <option @onclick="(() => Selected(product, index))">@product.Name</option>
@@ -20,7 +20,39 @@
                 </form>
                 @if(SelectedProducts.Length > i && SelectedProducts[i] != default)
                 {
-                    <h5>@SelectedProducts[i].Name</h5>
+                    var prod = SelectedProducts[i];
+                    <h5>@prod.Name</h5>
+                    @foreach(var group in prod.BenchmarkEntries.GroupBy(e => e.Benchmark.ID))
+                    {
+                        var avg = group.Average(e => e.Value);
+                        var midpoint = BenchmarkAverages[group.Key];
+                        <div class="row">
+                            <div class="col">
+                                @group.FirstOrDefault()?.Benchmark.Name
+                            </div>
+                            <div class="col">
+                                @if(avg > midpoint)
+                                {
+                                    <div>High</div>
+                                }
+                                else if(avg < midpoint)
+                                {
+                                    <div>Low</div>
+                                }
+                                else
+                                {
+                                    <div>Mid</div>
+                                }
+                            </div>
+
+                            <div class="col">
+                                @foreach(var entry in group)
+                                {
+                                 <div>@entry.Value</div>   
+                                }
+                            </div>
+                        </div>
+                    }
                 }
                 else
                 {
@@ -39,11 +71,12 @@ else
 @code {
     List<Product> AllProducts;
     Product[] SelectedProducts;
+    Dictionary<long, double> BenchmarkAverages = new Dictionary<long, double>();
     protected override async Task OnInitializedAsync()
     {
         AllProducts = await Http.GetFromJsonAsync<List<Product>>("api/Products");
-
         SelectedProducts = new Product[2];
+        ComputeAverages();
 
         StateHasChanged();
     }
@@ -51,6 +84,40 @@ else
     void Selected(Product p, int index)
     {
         SelectedProducts[index] = p;
+        ComputeAverages();
         StateHasChanged();
+    }
+
+    void ComputeAverages()
+    {
+        BenchmarkAverages.Clear();
+        Dictionary<long, int> BenchmarkCount = new Dictionary<long, int>();
+        foreach(var product in SelectedProducts)
+        {
+            if(product == null)
+            {
+                continue;
+            }
+
+            foreach(var groups in product.BenchmarkEntries.GroupBy(e => e.BenchmarkId))
+            {
+                var avg = groups.Average(g => g.Value);
+                if(BenchmarkAverages.ContainsKey(groups.Key))
+                {
+                    BenchmarkAverages[groups.Key] += avg;
+                    BenchmarkCount[groups.Key] += 1;
+                }
+                else
+                {
+                    BenchmarkAverages.Add(groups.Key, avg);
+                    BenchmarkCount.Add(groups.Key, 1);
+                }
+            }
+        }
+
+        foreach(var key in BenchmarkAverages.Keys)
+        {
+            BenchmarkAverages[key] /= BenchmarkCount[key];
+        }
     }
 }

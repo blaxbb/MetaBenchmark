@@ -28,6 +28,8 @@ namespace MetaBenchmark.Server.Controllers
             return await _context.Products
                 .Include(p => p.Specs)
                 .ThenInclude(s => s.Spec)
+                .Include(p => p.BenchmarkEntries)
+                .ThenInclude(b => b.Benchmark)
                 .ToListAsync();
         }
 
