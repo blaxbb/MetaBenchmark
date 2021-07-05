@@ -25,7 +25,7 @@
                     {
                         var avg = group.Average(e => e.Value);
                         var midpoint = BenchmarkAverages[group.Key];
-                        var backgroundClass = avg > midpoint ? "bg-success text-light" : "";
+                        var backgroundClass = BenchmarkMaximums[group.Key].productId == prod.ID ? "bg-success text-light" : "";
                         <div class="product row @backgroundClass">
                             <div class="col my-auto">
                                 @group.FirstOrDefault()?.Benchmark.Name
@@ -60,8 +60,10 @@
                 }
             </div>
         }
-        <div class="col">
-            <button class="btn" @onclick=AddProduct>Add</button>
+        <div class="col-auto">
+            <button class="btn btn-lg" @onclick=AddProduct>
+                <span class="oi oi-plus" aria-hidden="true"></span>
+            </button>
         </div>
     </div>
 }
@@ -75,6 +77,9 @@ else
     List<Product> AllProducts;
     Product[] SelectedProducts;
     Dictionary<long, double> BenchmarkAverages = new Dictionary<long, double>();
+
+    //key = benchmarkID, value = productID and benchmark value
+    Dictionary<long, (long productId, double value)> BenchmarkMaximums = new Dictionary<long, (long productId, double value)>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -112,6 +117,8 @@ else
     void ComputeAverages()
     {
         BenchmarkAverages.Clear();
+        BenchmarkMaximums.Clear();
+
         Dictionary<long, int> BenchmarkCount = new Dictionary<long, int>();
         foreach(var product in SelectedProducts)
         {
@@ -127,11 +134,16 @@ else
                 {
                     BenchmarkAverages[groups.Key] += avg;
                     BenchmarkCount[groups.Key] += 1;
+                    if(BenchmarkMaximums[groups.Key].value < avg)
+                    {
+                        BenchmarkMaximums[groups.Key] = (product.ID, avg);
+                    }
                 }
                 else
                 {
                     BenchmarkAverages.Add(groups.Key, avg);
                     BenchmarkCount.Add(groups.Key, 1);
+                    BenchmarkMaximums.Add(groups.Key, (product.ID, avg));
                 }
             }
         }
