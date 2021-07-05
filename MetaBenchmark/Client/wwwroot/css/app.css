@@ -63,3 +63,7 @@ a, .btn-link {
     background-color: #404040 !important;
     border-bottom: 1px solid #000 !important;
 }
+
+.compare-products .product {
+    padding: 1em;
+}

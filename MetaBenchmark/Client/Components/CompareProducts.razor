@@ -1,11 +1,10 @@
 ﻿@using MetaBenchmark.Shared
 @inject HttpClient Http;
-<h3>Compare Products</h3>
 
 @if(AllProducts != null)
 {
-    <div class="row">
-        @for(int i = 0; i < 2; i++)
+    <div class="row compare-products">
+        @for(int i = 0; i < SelectedProducts.Length; i++)
         {
             var index = i;
             <div class="col">
@@ -26,22 +25,23 @@
                     {
                         var avg = group.Average(e => e.Value);
                         var midpoint = BenchmarkAverages[group.Key];
-                        <div class="row">
-                            <div class="col">
+                        var backgroundClass = avg > midpoint ? "bg-success text-light" : "";
+                        <div class="product row @backgroundClass">
+                            <div class="col my-auto">
                                 @group.FirstOrDefault()?.Benchmark.Name
                             </div>
-                            <div class="col">
+                            <div class="col text-center my-auto">
                                 @if(avg > midpoint)
                                 {
-                                    <div>High</div>
+                                    <span class="oi oi-caret-top text-success" aria-hidden="true"></span>
                                 }
                                 else if(avg < midpoint)
                                 {
-                                    <div>Low</div>
+                                    <span class="oi oi-caret-bottom text-danger" aria-hidden="true"></span>
                                 }
                                 else
                                 {
-                                    <div>Mid</div>
+                                    <span class="oi oi-ellipses" aria-hidden="true"></span>
                                 }
                             </div>
 
@@ -60,6 +60,9 @@
                 }
             </div>
         }
+        <div class="col">
+            <button class="btn" @onclick=AddProduct>Add</button>
+        </div>
     </div>
 }
 else
@@ -72,6 +75,7 @@ else
     List<Product> AllProducts;
     Product[] SelectedProducts;
     Dictionary<long, double> BenchmarkAverages = new Dictionary<long, double>();
+
     protected override async Task OnInitializedAsync()
     {
         AllProducts = await Http.GetFromJsonAsync<List<Product>>("api/Products");
@@ -83,7 +87,24 @@ else
 
     void Selected(Product p, int index)
     {
-        SelectedProducts[index] = p;
+        if (p == null && SelectedProducts.Length > 1)
+        {
+            var newArr = new Product[SelectedProducts.Length - 1];
+            //0 1 2 3
+            if(index > 0)
+            {
+                SelectedProducts.Take(index).ToArray().CopyTo(newArr, 0);
+            }
+            if(index < SelectedProducts.Length)
+            {
+                SelectedProducts.Skip(index + 1).ToArray().CopyTo(newArr, index);
+            }
+            SelectedProducts = newArr;
+        }
+        else
+        {
+            SelectedProducts[index] = p;
+        }
         ComputeAverages();
         StateHasChanged();
     }
@@ -119,5 +140,13 @@ else
         {
             BenchmarkAverages[key] /= BenchmarkCount[key];
         }
+    }
+
+    void AddProduct()
+    {
+        var newArr = new Product[SelectedProducts.Length + 1];
+        SelectedProducts.CopyTo(newArr, 0);
+        SelectedProducts = newArr;
+        StateHasChanged();
     }
 }
