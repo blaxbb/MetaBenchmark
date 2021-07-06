@@ -65,5 +65,9 @@ a, .btn-link {
 }
 
 .compare-products .product {
-    padding: 1em;
+    /*padding: 1em;*/
+}
+
+.benchmark {
+    border-bottom: 1px solid;
 }
