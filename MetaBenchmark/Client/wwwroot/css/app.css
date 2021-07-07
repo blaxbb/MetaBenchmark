@@ -80,7 +80,12 @@ a, .btn-link {
     color: #28a745 !important;
 }
 
-.benchmark-entry, .benchmark-entry img {
+.benchmark-entry {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.benchmark-entry img {
     height: 40px;
 }
 

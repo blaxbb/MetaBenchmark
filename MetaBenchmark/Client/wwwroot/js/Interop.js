@@ -22,3 +22,7 @@ window.HideModal = function (id) {
 window.ShowSelectPicker = function () {
     $('.selectpicker').selectpicker();
 }
+
+window.RemoveSelectPicker = function (index) {
+    $(".bootstrap-select:eq(" + index + ")").remove();
+}

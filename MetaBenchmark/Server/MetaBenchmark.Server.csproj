@@ -34,6 +34,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Migrations\" />
+    <Watch Include="**\*.js;**\*.css" />
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\MetaBenchmark.Shared.csproj" />
+    <Watch Include="**\*.js;**\*.css" />
   </ItemGroup>
 
 </Project>

@@ -9,24 +9,45 @@
             @for(int i = 0; i < SelectedProducts.Length; i++)
             {
                 var index = i;
-                <div class="col">
-                    <form class="row">
-                        <select data-live-search="true" class="selectpicker form-control form-control-lg col" @onchange="((val) => SelectedId((string)val.Value, index))">
-                            <option>Select a product</option>
-                            @foreach(var product in AllProducts)
+                <div class="col card">
+                    @if (SelectedProducts[i] == null)
+                    {
+                        <form class="row card-body">
+                            <select data-live-search="true" class="selectpicker form-control form-control-lg col" @onchange="((val) => SelectedId((string)val.Value, index))">
+                                <option>Select a product</option>
+                                @foreach (var product in AllProducts)
+                                {
+                                    <option value=@product.ID>@product.Name</option>
+                                }
+                            </select>
+                            @if(i == SelectedProducts.Length - 1)
                             {
-                                <option value=@product.ID>@product.Name</option>
+                                <div class="col-auto">
+                                    <button class="btn btn-lg" @onclick="AddProduct">
+                                        <span class="oi oi-plus" aria-hidden="true"></span>
+                                    </button>
+                                </div>
                             }
-                        </select>
-                        @if(i == SelectedProducts.Length - 1)
-                        {
-                            <div class="col-auto">
-                                <button class="btn btn-lg" @onclick="AddProduct">
-                                    <span class="oi oi-plus" aria-hidden="true"></span>
-                                </button>
-                            </div>
-                        }
-                    </form>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="row card-body">
+                            <h4 class="col my-auto">@SelectedProducts[i].Name</h4>
+                            <button class="btn btn-lg col-auto btn-warning" @onclick="(() => Selected(null, index))">
+                                <span class="oi oi-x" aria-hidden="true"></span>
+                            </button>
+                            @if(i == SelectedProducts.Length - 1)
+                            {
+                                <div class="col-auto">
+                                    <button class="btn btn-lg btn-success" @onclick="AddProduct">
+                                        <span class="oi oi-plus" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    }
+                        
                 </div>
             }
         </div>
@@ -75,7 +96,7 @@
                                 {
                                     <div class="row benchmark-entry">
                                         <div class="col"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" /></div>
-                                        <div class="col">@entry.ValueLabel()</div>
+                                        <div class="col my-auto">@entry.ValueLabel()</div>
                                     </div>
                                 }
                             </div>
@@ -116,41 +137,63 @@ else
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
-    void SelectedId(string productId, int index)
+    async Task SelectedId(string productId, int index)
     {
         if(long.TryParse(productId, out long id))
         {
             var prod = AllProducts.FirstOrDefault(p => p.ID == id);
-            Selected(prod, index);
+            await Selected(prod, index);
         }
         else
         {
-            Selected(null, index);
+            await Selected(null, index);
         }
     }
 
-    void Selected(Product p, int index)
+    async Task Selected(Product p, int index)
     {
+        int nullIndex = 0;
+        for(int i = 0; i < SelectedProducts.Length; i++)
+        {
+            if(i == index)
+            {
+                break;
+            }
+            if(SelectedProducts[i] == null)
+            {
+                nullIndex++;
+            }
+        }
+
         if (p == null && SelectedProducts.Length > 1)
         {
-            var newArr = new Product[SelectedProducts.Length - 1];
-            //0 1 2 3
-            if(index > 0)
+            if (SelectedProducts.Length > 1)
             {
-                SelectedProducts.Take(index).ToArray().CopyTo(newArr, 0);
+                var newArr = new Product[SelectedProducts.Length - 1];
+                //0 1 2 3
+                if (index > 0)
+                {
+                    SelectedProducts.Take(index).ToArray().CopyTo(newArr, 0);
+                }
+                if (index < SelectedProducts.Length)
+                {
+                    SelectedProducts.Skip(index + 1).ToArray().CopyTo(newArr, index);
+                }
+                SelectedProducts = newArr;
             }
-            if(index < SelectedProducts.Length)
+            else
             {
-                SelectedProducts.Skip(index + 1).ToArray().CopyTo(newArr, index);
+                SelectedProducts = new Product[1];
             }
-            SelectedProducts = newArr;
         }
         else
         {
             SelectedProducts[index] = p;
         }
         ComputeAverages();
+        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex);
         StateHasChanged();
+        await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
     void ComputeAverages()
@@ -201,6 +244,5 @@ else
         StateHasChanged();
         await Task.Delay(1);
         await js.InvokeVoidAsync("ShowSelectPicker");
-        await js.InvokeVoidAsync("console.log", "ZZZ");
     }
 }
