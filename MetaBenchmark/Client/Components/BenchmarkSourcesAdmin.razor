@@ -1,0 +1,140 @@
+﻿@using MetaBenchmark.Client.Components
+@using MetaBenchmark.Shared.Models
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+
+@using MetaBenchmark.Shared
+@inject HttpClient Http
+@inject IJSRuntime Js
+
+<Modal Name="Add Benchmark Source" Id="AddBenchmarkSourceModal">
+	<h3>Add Benchmark Source</h3>
+	<EditForm Model="Model">
+		<div class="form-group">
+			<label for="sourceName">Name</label>
+			<InputText class="form-control" id="sourceName" placeholder="Name" @bind-Value=Model.Name />
+		</div>
+		<div class="form-group">
+			<label for="sourceUrl">Url</label>
+			<InputText class="form-control" id="sourceUrl" placeholder="Url" @bind-Value=Model.Url />
+		</div>
+        <div class="form-group">
+			<label for="sourceLogo">Logo</label>
+			<InputText class="form-control" id="sourceLogo" placeholder="Logo" @bind-Value=Model.LogoUrl />
+		</div>
+		<button @onclick=SubmitModel class="btn btn-primary">Submit</button>
+        @if (Model.Id != -1)
+        {
+            <button @onclick=DeleteModel class="btn btn-primary">Delete</button>
+        }
+	</EditForm>
+</Modal>
+
+
+@if(Sources == null)
+{
+    <div>Loading....</div>
+}
+else
+{    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+                <th>
+                    <button class="btn btn-primary btn-sm" @onclick=AddClick>Add</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var source in Sources)
+            {
+                <tr>
+                    <td>@source.Name</td>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @onclick="(() => EditClick(source))">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    BenchmarkSource[] Sources;
+    BenchmarkSource Model;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = new BenchmarkSource();
+        await Refresh();
+    }
+
+    async Task Refresh()
+    {
+        try
+        {
+            Sources = await Http.GetFromJsonAsync<BenchmarkSource[]>("api/BenchmarkSources");
+            this.StateHasChanged();
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    async void AddClick()
+    {
+        Model = new BenchmarkSource();
+        Model.Id = -1;
+        await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkSourceModal");
+    }
+
+    async void EditClick(BenchmarkSource source)
+    {
+        Model = new BenchmarkSource()
+        {
+            Id = source.Id,
+            Name = source.Name,
+            BenchmarkEntries = source.BenchmarkEntries,
+            LogoUrl = source.LogoUrl,
+            Url = source.Url
+        };
+
+        await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkSourceModal");
+    }
+
+    async void SubmitModel()
+    {
+        await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkSourceModal");
+        if (Model.Id == -1)
+        {
+            Model.Id = 0;
+            await Http.PostAsJsonAsync("api/BenchmarkSources", Model);
+        }
+        else
+        {
+            await Http.PutAsJsonAsync($"api/BenchmarkSources/{Model.Id}", Model);
+        }
+        await Refresh();
+        Model = new BenchmarkSource();
+    }
+
+    async void DeleteModel()
+    {
+        await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkSourceModal");
+        if (Model.Id != -1)
+        {
+            await Http.DeleteAsync($"api/BenchmarkSources/{Model.Id}");
+        }
+
+        await Refresh();
+        Model = new BenchmarkSource();
+    }
+
+}

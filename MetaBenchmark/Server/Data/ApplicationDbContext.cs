@@ -19,6 +19,7 @@ namespace MetaBenchmark.Server.Data
         public DbSet<BenchmarkEntry> BenchmarkEntries { get; set; }
         public DbSet<Specification> Specifications { get; set; }
         public DbSet<SpecificationEntry> SpecificationEntries { get; set; }
+        public DbSet<BenchmarkSource> BenchmarkSources { get; set; }
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)

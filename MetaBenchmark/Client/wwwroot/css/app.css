@@ -71,3 +71,11 @@ a, .btn-link {
 .benchmark {
     border-bottom: 1px solid;
 }
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}

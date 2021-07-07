@@ -18,3 +18,7 @@ window.ShowModalFocus = function (modal, focus) {
 window.HideModal = function (id) {
     $(id).modal('hide');
 }
+
+window.ShowSelectPicker = function () {
+    $('.selectpicker').selectpicker();
+}

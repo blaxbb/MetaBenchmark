@@ -30,6 +30,8 @@ namespace MetaBenchmark.Server.Controllers
                 .ThenInclude(s => s.Spec)
                 .Include(p => p.BenchmarkEntries)
                 .ThenInclude(b => b.Benchmark)
+                .Include(p => p.BenchmarkEntries)
+                .ThenInclude(b => b.Source)
                 .ToListAsync();
         }
 

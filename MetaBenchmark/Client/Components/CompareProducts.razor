@@ -1,30 +1,34 @@
 ﻿@using MetaBenchmark.Shared
 @inject HttpClient Http;
+@inject IJSRuntime js
 
 @if(AllProducts != null)
 {
-    <div class="container compare-products">
+    <div class="compare-products">
         <div class="row">
             @for(int i = 0; i < SelectedProducts.Length; i++)
             {
                 var index = i;
                 <div class="col">
                     <form class="row">
-                        <select class="form-control form-control-lg">
-                            <option @onclick="(() => Selected(default, index))">Select a product</option>
+                        <select data-live-search="true" class="selectpicker form-control form-control-lg col" @onchange="((val) => SelectedId((string)val.Value, index))">
+                            <option>Select a product</option>
                             @foreach(var product in AllProducts)
                             {
-                                <option @onclick="(() => Selected(product, index))">@product.Name</option>
+                                <option value=@product.ID>@product.Name</option>
                             }
                         </select>
+                        @if(i == SelectedProducts.Length - 1)
+                        {
+                            <div class="col-auto">
+                                <button class="btn btn-lg" @onclick="AddProduct">
+                                    <span class="oi oi-plus" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        }
                     </form>
                 </div>
             }
-@*            <div class="col-auto">
-                <button class="btn btn-lg" @onclick=AddProduct>
-                    <span class="oi oi-plus" aria-hidden="true"></span>
-                </button>
-            </div>*@
         </div>
         @foreach(var benchmarkId in BenchmarkCount.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key))
         {
@@ -46,12 +50,9 @@
                         var avg = entries.Average(e => e.Value);
                         var midpoint = BenchmarkAverages[benchmarkId];
                         var backgroundClass = BenchmarkMaximums[benchmarkId].productId == prod.ID ? "bg-success text-light" : "";
-
+                        backgroundClass = "";
                         <div class="product col row m-0 py-3 @backgroundClass">
-                            <div class="col my-auto">
-                                @entries.First().Benchmark.Name
-                            </div>
-                            <div class="col text-center my-auto">
+                            <div class="col-auto text-center my-auto">
                                 @if(avg > midpoint)
                                 {
                                     <span class="oi oi-caret-top text-success" aria-hidden="true"></span>
@@ -65,11 +66,14 @@
                                     <span class="oi oi-ellipses" aria-hidden="true"></span>
                                 }
                             </div>
+                            <div class="col my-auto">
+                                <h4>@entries.First().Benchmark.Name</h4>
+                            </div>
 
-                            <div class="col">
+                            <div class="col text-right">
                                 @foreach(var entry in entries)
                                 {
-                                 <div>@entry.Value</div>   
+                                 <div>@entry.ValueLabel()</div>   
                                 }
                             </div>
                         </div>
@@ -106,6 +110,20 @@ else
         ComputeAverages();
 
         StateHasChanged();
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    void SelectedId(string productId, int index)
+    {
+        if(long.TryParse(productId, out long id))
+        {
+            var prod = AllProducts.FirstOrDefault(p => p.ID == id);
+            Selected(prod, index);
+        }
+        else
+        {
+            Selected(null, index);
+        }
     }
 
     void Selected(Product p, int index)
@@ -127,10 +145,6 @@ else
         else
         {
             SelectedProducts[index] = p;
-            if(SelectedProducts.All(prod => prod != default))
-            {
-                AddProduct();
-            }
         }
         ComputeAverages();
         StateHasChanged();
@@ -176,11 +190,14 @@ else
         }
     }
 
-    void AddProduct()
+    async Task AddProduct()
     {
         var newArr = new Product[SelectedProducts.Length + 1];
         SelectedProducts.CopyTo(newArr, 0);
         SelectedProducts = newArr;
         StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+        await js.InvokeVoidAsync("console.log", "ZZZ");
     }
 }
