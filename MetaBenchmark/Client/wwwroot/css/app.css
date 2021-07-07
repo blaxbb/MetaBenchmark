@@ -68,10 +68,6 @@ a, .btn-link {
     /*padding: 1em;*/
 }
 
-.benchmark > div {
-    border-bottom: 1px solid;
-}
-
 .text-danger {
     color: #dc3545 !important;
 }

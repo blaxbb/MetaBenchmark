@@ -1,5 +1,5 @@
 ﻿@using MetaBenchmark.Shared
-@inject HttpClient Http;
+@inject IHttpClientFactory Http;
 @inject IJSRuntime js
 
 @if(AllProducts != null)
@@ -13,8 +13,11 @@
                     @if (SelectedProducts[i] == null)
                     {
                         <form class="row card-body">
-                            <select data-live-search="true" class="selectpicker form-control form-control-lg col" @onchange="((val) => SelectedId((string)val.Value, index))">
-                                <option>Select a product</option>
+                            <select data-live-search="true"
+                                    data-style="btn-secondary"
+                                    class="selectpicker form-control form-control-lg col" 
+                                    title="Select a product"
+                                    @onchange="((val) => SelectedId((string)val.Value, index))">
                                 @foreach (var product in AllProducts)
                                 {
                                     <option value=@product.ID>@product.Name</option>
@@ -72,34 +75,36 @@
                         var midpoint = BenchmarkAverages[benchmarkId];
                         var backgroundClass = BenchmarkMaximums[benchmarkId].productId == prod.ID ? "bg-success text-light" : "";
                         backgroundClass = "";
-                        <div class="product col row m-0 py-3 @backgroundClass">
-                            <div class="col-auto text-center my-auto">
-                                @if(avg > midpoint)
-                                {
-                                    <span class="oi oi-caret-top text-success" aria-hidden="true"></span>
-                                }
-                                else if(avg < midpoint)
-                                {
-                                    <span class="oi oi-caret-bottom text-danger" aria-hidden="true"></span>
-                                }
-                                else
-                                {
-                                    <span class="oi oi-ellipses" aria-hidden="true"></span>
-                                }
-                            </div>
-                            <div class="col my-auto">
-                                <h4>@entries.First().Benchmark.Name</h4>
-                            </div>
+                        <div class="product col m-0 py-3 @backgroundClass card">
+                            <div class="row">
+                                <div class="col-auto text-center my-auto">
+                                    @if(avg > midpoint)
+                                    {
+                                        <span class="oi oi-caret-top text-success" aria-hidden="true"></span>
+                                    }
+                                    else if(avg < midpoint)
+                                    {
+                                        <span class="oi oi-caret-bottom text-danger" aria-hidden="true"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="oi oi-ellipses" aria-hidden="true"></span>
+                                    }
+                                </div>
+                                <div class="col my-auto">
+                                    <h4>@entries.First().Benchmark.Name</h4>
+                                </div>
 
-                            <div class="col text-right">
-                                @foreach(var entry in entries)
-                                {
-                                    <div class="row benchmark-entry">
-                                        <div class="col"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" /></div>
-                                        <div class="col my-auto">@entry.ValueLabel()</div>
-                                    </div>
-                                }
-                            </div>
+                                <div class="col text-right">
+                                    @foreach(var entry in entries)
+                                    {
+                                        <div class="row benchmark-entry">
+                                            <div class="col"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></div>
+                                            <div class="col my-auto">@entry.ValueLabel()</div>
+                                        </div>
+                                    }
+                                </div>
+                                </div>
                         </div>
                     }
                     else
@@ -130,7 +135,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         SelectedProducts = new Product[2];
-        AllProducts = await Http.GetFromJsonAsync<List<Product>>("api/Products");
+        AllProducts = await Http.CreateClient("public").GetFromJsonAsync<List<Product>>("api/Products");
         ComputeAverages();
 
         StateHasChanged();
