@@ -68,7 +68,7 @@ a, .btn-link {
     /*padding: 1em;*/
 }
 
-.benchmark {
+.benchmark > div {
     border-bottom: 1px solid;
 }
 
@@ -78,4 +78,14 @@ a, .btn-link {
 
 .text-success {
     color: #28a745 !important;
+}
+
+.benchmark-entry, .benchmark-entry img {
+    height: 40px;
+}
+
+.compare-products > .row > .col {
+    max-width: 600px;
+    padding-right: 1em;
+    padding-left: 1em;
 }
