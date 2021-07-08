@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MetaBenchmark.Shared;
 using MetaBenchmark.Server.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MetaBenchmark.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BenchmarksController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +25,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/Benchmarks
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Benchmark>>> GetBenchmarks()
         {
             return await _context.Benchmarks.ToListAsync();
@@ -30,6 +33,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/Benchmarks/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Benchmark>> GetBenchmark(long id)
         {
             var benchmark = await _context.Benchmarks.FindAsync(id);

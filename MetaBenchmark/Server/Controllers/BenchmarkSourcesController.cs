@@ -13,6 +13,7 @@ namespace MetaBenchmark.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BenchmarkSourcesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -24,6 +25,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/BenchmarkSources
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<BenchmarkSource>>> GetBenchmarkSources()
         {
             return await _context.BenchmarkSources.ToListAsync();
@@ -31,6 +33,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/BenchmarkSources/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<BenchmarkSource>> GetBenchmarkSource(long id)
         {
             var benchmarkSource = await _context.BenchmarkSources.FindAsync(id);

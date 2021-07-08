@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MetaBenchmark.Shared;
 using MetaBenchmark.Server.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MetaBenchmark.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +25,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/Products
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products
@@ -37,6 +40,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/Products/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Product>> GetProduct(long id)
         {
             var product = await _context.Products
@@ -51,18 +55,6 @@ namespace MetaBenchmark.Server.Controllers
                 return NotFound();
             }
 
-            //product.BenchmarkEntries.ForEach(e => {
-            //    e.Product = null;
-            //    if(e.Benchmark != null)
-            //    {
-            //        e.Benchmark.Entries = null;
-            //    }
-            //});
-
-            //product.Specs.ForEach(s =>
-            //{
-            //    s.Products = null;
-            //});
 
             return product;
         }

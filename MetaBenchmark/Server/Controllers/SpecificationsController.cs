@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MetaBenchmark.Server.Data;
 using MetaBenchmark.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MetaBenchmark.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SpecificationsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +25,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/Specifications
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Specification>>> GetSpecifications()
         {
             return await _context.Specifications
@@ -32,6 +35,7 @@ namespace MetaBenchmark.Server.Controllers
 
         // GET: api/Specifications/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Specification>> GetSpecification(long id)
         {
             var specification = await _context.Specifications.FindAsync(id);
