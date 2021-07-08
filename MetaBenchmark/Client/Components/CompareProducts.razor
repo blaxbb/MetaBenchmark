@@ -76,23 +76,23 @@
                         var backgroundClass = BenchmarkMaximums[benchmarkId].productId == prod.ID ? "bg-success text-light" : "";
                         backgroundClass = "";
                         <div class="product col m-0 py-3 @backgroundClass card">
-                            <div class="row">
+                            <div class="row h-100">
                                 <div class="col-auto text-center my-auto">
                                     @if(avg > midpoint)
                                     {
-                                        <span class="oi oi-caret-top text-success" aria-hidden="true"></span>
+                                        <i class="fas fa-angle-double-up fa-4x text-success"></i>
                                     }
                                     else if(avg < midpoint)
                                     {
-                                        <span class="oi oi-caret-bottom text-danger" aria-hidden="true"></span>
+                                        <i class="fas fa-angle-double-down fa-4x text-danger"></i>
                                     }
                                     else
                                     {
-                                        <span class="oi oi-ellipses" aria-hidden="true"></span>
+                                        <i class="fas fa-ellipsis-h fa-2x"></i>
                                     }
                                 </div>
                                 <div class="col my-auto">
-                                    <h4>@entries.First().Benchmark.Name</h4>
+                                    <h4 class="m-0">@entries.First().Benchmark.Name</h4>
                                 </div>
 
                                 <div class="col text-right">

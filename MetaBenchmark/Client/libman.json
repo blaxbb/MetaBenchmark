@@ -9,6 +9,10 @@
         "js/bootstrap-select.min.js",
         "css/bootstrap-select.min.css"
       ]
+    },
+    {
+      "library": "font-awesome@5.15.3",
+      "destination": "wwwroot/font-awesome/"
     }
   ]
 }

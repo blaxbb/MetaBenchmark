@@ -90,3 +90,7 @@ a, .btn-link {
     padding-right: 1em;
     padding-left: 1em;
 }
+
+.bootstrap-select {
+    background: transparent;
+}
