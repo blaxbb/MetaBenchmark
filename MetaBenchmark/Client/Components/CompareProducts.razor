@@ -98,9 +98,10 @@
                                 <div class="col text-right">
                                     @foreach(var entry in entries)
                                     {
+                                        var textClass = GetTextClass(entry);
                                         <div class="row benchmark-entry">
                                             <div class="col"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></div>
-                                            <div class="col my-auto">@entry.ValueLabel()</div>
+                                            <div class="col my-auto @textClass">@entry.ValueLabel()</div>
                                         </div>
                                     }
                                 </div>
@@ -249,5 +250,21 @@ else
         StateHasChanged();
         await Task.Delay(1);
         await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    string GetTextClass(BenchmarkEntry entry)
+    {
+        switch(entry.Benchmark.Type)
+        {
+            case Benchmark.BenchmarkType.FPS:
+                return entry.Value switch
+                {
+                    > 100 => "text-success",
+                    > 60  => "text-info",
+                    _     => "text-warning"
+                };
+        }
+
+        return "";
     }
 }
