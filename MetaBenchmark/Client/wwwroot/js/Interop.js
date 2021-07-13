@@ -37,6 +37,11 @@ window.GetActiveBenchmarks = function () {
     return $("#benchmarkFilter").val();
 }
 
+window.GetActiveSources = function () {
+    return $("#sourceFilter").val();
+}
+
 window.MoveFilterToNav = function () {
     document.getElementById("filterContainer").appendChild(document.getElementById("benchmarkFilter").parentElement)
+    document.getElementById("filterContainer").appendChild(document.getElementById("sourceFilter").parentElement)
 }

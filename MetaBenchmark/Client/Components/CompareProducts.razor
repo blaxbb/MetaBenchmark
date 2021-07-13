@@ -1,4 +1,5 @@
 ﻿@using MetaBenchmark.Shared
+@using MetaBenchmark.Shared.Models
 @using Newtonsoft.Json
 @inject IHttpClientFactory Http;
 @inject IJSRuntime js
@@ -15,6 +16,18 @@
         @foreach(var bench in AvailableBenchmarks)
         {
             <option selected value=@bench.ID>@bench.Name</option>
+        }
+    </select>
+    <select class="form-control selectpicker form-control-lg"
+            id="sourceFilter"
+            data-live-search="true"
+            data-actions-box="true"
+            data-selected-text-format="count"
+            multiple
+            @onchange="((val) => SelectedSource())">
+        @foreach(var source in AvailableSources)
+        {
+            <option selected value=@source.Id>@source.Name</option>
         }
     </select>
     <div class="compare-products">
@@ -75,7 +88,7 @@
                     if (SelectedProducts.Length > i && SelectedProducts[i] != default)
                     {
                         var prod = SelectedProducts[i];
-                        var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == benchmarkId).ToList();
+                        var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == benchmarkId && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
                         if(entries.Count == 0)
                         {
                             <div class="col">
@@ -145,8 +158,12 @@ else
     //key = benchmarkID, value = productID and benchmark value
     Dictionary<long, (long productId, double value)> BenchmarkMaximums = new Dictionary<long, (long productId, double value)>();
     Dictionary<long, int> BenchmarkCount = new Dictionary<long, int>();
+
     List<Benchmark> AvailableBenchmarks = new List<Benchmark>();
     List<Benchmark> ActiveBenchmarks = new List<Benchmark>();
+
+    List<BenchmarkSource> AvailableSources = new List<BenchmarkSource>();
+    List<BenchmarkSource> ActiveSources = new List<BenchmarkSource>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -214,7 +231,7 @@ else
             SelectedProducts[index] = p;
         }
         ComputeAverages();
-        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 1);
+        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 2);
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
@@ -225,6 +242,8 @@ else
         BenchmarkMaximums.Clear();
         AvailableBenchmarks.Clear();
         BenchmarkCount.Clear();
+        AvailableSources.Clear();
+
         foreach(var product in SelectedProducts)
         {
             if(product == null)
@@ -258,6 +277,15 @@ else
                     BenchmarkMaximums.Add(groups.Key, (product.ID, avg));
                 }
             }
+
+            foreach(var source in product.BenchmarkEntries.GroupBy(e => e.Source))
+            {
+                if (!AvailableSources.Contains(source.Key))
+                {
+                    AvailableSources.Add(source.Key);
+                    ActiveSources.Add(source.Key);
+                }
+            }
         }
 
         foreach(var key in BenchmarkAverages.Keys)
@@ -281,6 +309,14 @@ else
         var items = await js.InvokeAsync<List<string>>("GetActiveBenchmarks");
         ActiveBenchmarks = items.Select(i => AvailableBenchmarks.FirstOrDefault(b => b.ID == long.Parse(i))).ToList();
         Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Select(b => b.Name).ToList()));
+        StateHasChanged();
+    }
+
+    async Task SelectedSource()
+    {
+        var items = await js.InvokeAsync<List<string>>("GetActiveSources");
+        ActiveSources = items.Select(i => AvailableSources.FirstOrDefault(b => b.Id == long.Parse(i))).ToList();
+        Console.WriteLine(JsonConvert.SerializeObject(ActiveSources.Select(b => b.Name).ToList()));
         StateHasChanged();
     }
 

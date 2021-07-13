@@ -96,7 +96,7 @@ a, .btn-link {
     background: transparent;
 }
 
-#filterContainer {
+#filterContainer > div {
     min-width: 350px;
 }
 
