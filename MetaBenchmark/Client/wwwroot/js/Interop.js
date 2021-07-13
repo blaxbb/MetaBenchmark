@@ -21,8 +21,22 @@ window.HideModal = function (id) {
 
 window.ShowSelectPicker = function () {
     $('.selectpicker').selectpicker();
+    $('.selectpicker').selectpicker('refresh');
+    console.log('refresh');
 }
 
 window.RemoveSelectPicker = function (index) {
     $(".bootstrap-select:eq(" + index + ")").remove();
+}
+
+window.SelectPickerAll = function (selector) {
+    $(selector).selectpicker('selectAll');
+}
+
+window.GetActiveBenchmarks = function () {
+    return $("#benchmarkFilter").val();
+}
+
+window.MoveFilterToNav = function () {
+    document.getElementById("filterContainer").appendChild(document.getElementById("benchmarkFilter").parentElement)
 }
