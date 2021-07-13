@@ -1,0 +1,37 @@
+[
+  {
+    "ID": 1,
+    "Name": "CS:GO 4k Ultra",
+    "Type": 0
+  },
+  {
+    "ID": 2,
+    "Name": "game 1",
+    "Type": 0
+  },
+  {
+    "ID": 4,
+    "Name": "bench 2",
+    "Type": 0
+  },
+  {
+    "ID": 9,
+    "Name": "bench 3",
+    "Type": 1
+  },
+  {
+    "ID": 10,
+    "Name": "bench 4",
+    "Type": 2
+  },
+  {
+    "ID": 11,
+    "Name": "bench 5 imp",
+    "Type": 2
+  },
+  {
+    "ID": 12,
+    "Name": "Bench 6",
+    "Type": 0
+  }
+]

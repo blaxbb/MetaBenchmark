@@ -39,7 +39,10 @@ namespace MetaBenchmark.Server
                 var connection = $"Server=db;Database=master;User=sa;Password={secrets?.DbPassword ?? ""};";
 
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(connection)
+                    {
+                        options.EnableSensitiveDataLogging(true);
+                        options.UseSqlServer(connection);
+                    }
                 );
             }
 
@@ -54,16 +57,23 @@ namespace MetaBenchmark.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddRazorPages().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllersWithViews().AddNewtonsoftJson(x => {
+                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                x.SerializerSettings.DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore;
+            });
+
+            services.AddRazorPages().AddNewtonsoftJson(x => {
+                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                x.SerializerSettings.DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore;
+            });
 
             services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext db)
         {
-            context.Database.Migrate();
+            db.Database.Migrate();
 
             if (env.IsDevelopment())
             {
@@ -83,11 +93,15 @@ namespace MetaBenchmark.Server
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "MetaBenchmark");
             });
 
+            //DataImporter.Import(db);
+
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            DataImporter.Import(db);
 
             app.UseIdentityServer();
             app.UseAuthentication();

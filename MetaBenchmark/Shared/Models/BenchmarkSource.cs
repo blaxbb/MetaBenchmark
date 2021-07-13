@@ -13,5 +13,27 @@ namespace MetaBenchmark.Shared.Models
         public string Url { get; set; }
         public string LogoUrl { get; set; }
         public ICollection<BenchmarkEntry> BenchmarkEntries { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is BenchmarkSource source &&
+                   Name == source.Name &&
+                   Url == source.Url &&
+                   LogoUrl == source.LogoUrl;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Url, LogoUrl);
+        }
+        public static bool operator ==(BenchmarkSource left, BenchmarkSource right)
+        {
+            return EqualityComparer<BenchmarkSource>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(BenchmarkSource left, BenchmarkSource right)
+        {
+            return !(left == right);
+        }
     }
 }

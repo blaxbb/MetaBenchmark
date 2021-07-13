@@ -20,6 +20,30 @@ namespace MetaBenchmark.Shared
         public BenchmarkSource Source { get; set; }
         public long SourceId { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is BenchmarkEntry entry &&
+                   BenchmarkId == entry.BenchmarkId &&
+                   ProductId == entry.ProductId &&
+                   Value == entry.Value &&
+                   SourceId == entry.SourceId;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(BenchmarkId, ProductId, Value, SourceId);
+        }
+
+        public static bool operator ==(BenchmarkEntry left, BenchmarkEntry right)
+        {
+            return EqualityComparer<BenchmarkEntry>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(BenchmarkEntry left, BenchmarkEntry right)
+        {
+            return !(left == right);
+        }
+
         public string ValueLabel() {
             switch (Benchmark?.Type ?? Benchmark.BenchmarkType.FPS)
             {
@@ -39,5 +63,7 @@ namespace MetaBenchmark.Shared
                     return Value.ToString();
             }
         }
+
+
     }
 }
