@@ -9,5 +9,6 @@ namespace MetaBenchmark.Server
     {
         public const string SecretsName = "Secrets";
         public string DbPassword { get; set; }
+        public string AdminEmail { get; set; }
     }
 }
