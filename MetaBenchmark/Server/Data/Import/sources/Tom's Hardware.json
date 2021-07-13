@@ -1,0 +1,302 @@
+{
+  "Id": 3,
+  "Name": "Tom's Hardware",
+  "Url": "https://www.tomshardware.com",
+  "LogoUrl": "/logos/tomshardware.png",
+  "BenchmarkEntries": [
+    {
+      "Id": 10,
+      "BenchmarkId": 8,
+      "ProductId": 4,
+      "Value": 76.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 11,
+      "BenchmarkId": 9,
+      "ProductId": 4,
+      "Value": 127.8,
+      "SourceId": 3
+    },
+    {
+      "Id": 12,
+      "BenchmarkId": 10,
+      "ProductId": 4,
+      "Value": 81.8,
+      "SourceId": 3
+    },
+    {
+      "Id": 13,
+      "BenchmarkId": 11,
+      "ProductId": 4,
+      "Value": 144.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 14,
+      "BenchmarkId": 12,
+      "ProductId": 4,
+      "Value": 107.6,
+      "SourceId": 3
+    },
+    {
+      "Id": 15,
+      "BenchmarkId": 13,
+      "ProductId": 4,
+      "Value": 150.0,
+      "SourceId": 3
+    },
+    {
+      "Id": 16,
+      "BenchmarkId": 14,
+      "ProductId": 4,
+      "Value": 123.5,
+      "SourceId": 3
+    },
+    {
+      "Id": 17,
+      "BenchmarkId": 15,
+      "ProductId": 4,
+      "Value": 190.4,
+      "SourceId": 3
+    },
+    {
+      "Id": 18,
+      "BenchmarkId": 16,
+      "ProductId": 4,
+      "Value": 158.0,
+      "SourceId": 3
+    },
+    {
+      "Id": 19,
+      "BenchmarkId": 17,
+      "ProductId": 4,
+      "Value": 185.8,
+      "SourceId": 3
+    },
+    {
+      "Id": 20,
+      "BenchmarkId": 18,
+      "ProductId": 4,
+      "Value": 76.6,
+      "SourceId": 3
+    },
+    {
+      "Id": 21,
+      "BenchmarkId": 19,
+      "ProductId": 4,
+      "Value": 115.0,
+      "SourceId": 3
+    },
+    {
+      "Id": 22,
+      "BenchmarkId": 20,
+      "ProductId": 4,
+      "Value": 82.8,
+      "SourceId": 3
+    },
+    {
+      "Id": 23,
+      "BenchmarkId": 21,
+      "ProductId": 4,
+      "Value": 118.8,
+      "SourceId": 3
+    },
+    {
+      "Id": 24,
+      "BenchmarkId": 22,
+      "ProductId": 4,
+      "Value": 95.2,
+      "SourceId": 3
+    },
+    {
+      "Id": 25,
+      "BenchmarkId": 23,
+      "ProductId": 4,
+      "Value": 159.6,
+      "SourceId": 3
+    },
+    {
+      "Id": 26,
+      "BenchmarkId": 8,
+      "ProductId": 5,
+      "Value": 66.5,
+      "SourceId": 3
+    },
+    {
+      "Id": 27,
+      "BenchmarkId": 9,
+      "ProductId": 5,
+      "Value": 112.6,
+      "SourceId": 3
+    },
+    {
+      "Id": 28,
+      "BenchmarkId": 10,
+      "ProductId": 5,
+      "Value": 81.8,
+      "SourceId": 3
+    },
+    {
+      "Id": 29,
+      "BenchmarkId": 11,
+      "ProductId": 5,
+      "Value": 144.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 30,
+      "BenchmarkId": 24,
+      "ProductId": 6,
+      "Value": 86.4,
+      "SourceId": 3
+    },
+    {
+      "Id": 31,
+      "BenchmarkId": 9,
+      "ProductId": 6,
+      "Value": 126.0,
+      "SourceId": 3
+    },
+    {
+      "Id": 32,
+      "BenchmarkId": 26,
+      "ProductId": 6,
+      "Value": 141.2,
+      "SourceId": 3
+    },
+    {
+      "Id": 33,
+      "BenchmarkId": 11,
+      "ProductId": 6,
+      "Value": 142.8,
+      "SourceId": 3
+    },
+    {
+      "Id": 34,
+      "BenchmarkId": 13,
+      "ProductId": 6,
+      "Value": 148.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 35,
+      "BenchmarkId": 15,
+      "ProductId": 6,
+      "Value": 188.6,
+      "SourceId": 3
+    },
+    {
+      "Id": 36,
+      "BenchmarkId": 17,
+      "ProductId": 6,
+      "Value": 186.7,
+      "SourceId": 3
+    },
+    {
+      "Id": 37,
+      "BenchmarkId": 27,
+      "ProductId": 6,
+      "Value": 130.3,
+      "SourceId": 3
+    },
+    {
+      "Id": 38,
+      "BenchmarkId": 19,
+      "ProductId": 6,
+      "Value": 112.6,
+      "SourceId": 3
+    },
+    {
+      "Id": 39,
+      "BenchmarkId": 21,
+      "ProductId": 6,
+      "Value": 114.3,
+      "SourceId": 3
+    },
+    {
+      "Id": 40,
+      "BenchmarkId": 23,
+      "ProductId": 6,
+      "Value": 158.3,
+      "SourceId": 3
+    },
+    {
+      "Id": 41,
+      "BenchmarkId": 25,
+      "ProductId": 6,
+      "Value": 59.5,
+      "SourceId": 3
+    },
+    {
+      "Id": 42,
+      "BenchmarkId": 8,
+      "ProductId": 6,
+      "Value": 73.5,
+      "SourceId": 3
+    },
+    {
+      "Id": 43,
+      "BenchmarkId": 29,
+      "ProductId": 6,
+      "Value": 98.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 44,
+      "BenchmarkId": 10,
+      "ProductId": 6,
+      "Value": 80.0,
+      "SourceId": 3
+    },
+    {
+      "Id": 45,
+      "BenchmarkId": 12,
+      "ProductId": 6,
+      "Value": 106.3,
+      "SourceId": 3
+    },
+    {
+      "Id": 46,
+      "BenchmarkId": 14,
+      "ProductId": 6,
+      "Value": 121.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 47,
+      "BenchmarkId": 16,
+      "ProductId": 6,
+      "Value": 161.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 48,
+      "BenchmarkId": 30,
+      "ProductId": 6,
+      "Value": 88.1,
+      "SourceId": 3
+    },
+    {
+      "Id": 49,
+      "BenchmarkId": 18,
+      "ProductId": 6,
+      "Value": 74.9,
+      "SourceId": 3
+    },
+    {
+      "Id": 50,
+      "BenchmarkId": 20,
+      "ProductId": 6,
+      "Value": 79.5,
+      "SourceId": 3
+    },
+    {
+      "Id": 51,
+      "BenchmarkId": 22,
+      "ProductId": 6,
+      "Value": 96.4,
+      "SourceId": 3
+    }
+  ]
+}
