@@ -5,7 +5,7 @@
 @using MetaBenchmark.Shared.Models
 
 @inject IJSRuntime js
-@inject HttpClient Http
+
 
 
 @if(product == null || allBenchmarks == null)
@@ -117,10 +117,15 @@ else
             Id = entry.Id,
             BenchmarkId = entry.BenchmarkId,
             ProductId = entry.ProductId,
-            Value = entry.Value
+            Value = entry.Value,
+            Benchmark = entry.Benchmark,
+            Product = entry.Product,
+            Source = entry.Source,
+            SourceId = entry.SourceId
         };
 
         await js.InvokeVoidAsync("ShowModal", "#AddBenchmarkEntryModal");
+        await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
 	async void SubmitModel()
@@ -129,11 +134,11 @@ else
         if (Model.Id == -1)
         {
             Model.Id = 0;
-            await Http.PostAsJsonAsync("api/BenchmarkEntries", Model);
+            await http.PostAsJsonAsync("api/BenchmarkEntries", Model);
         }
         else
         {
-            await Http.PutAsJsonAsync($"api/BenchmarkEntries/{Model.Id}", Model);
+            await http.PutAsJsonAsync($"api/BenchmarkEntries/{Model.Id}", Model);
         }
         await Refresh();
     }
@@ -143,7 +148,7 @@ else
         await js.InvokeVoidAsync("HideModal", "#AddBenchmarkEntryModal");
         if (Model.Id != -1)
         {
-            await Http.DeleteAsync($"api/BenchmarkEntries/{Model.Id}");
+            await http.DeleteAsync($"api/BenchmarkEntries/{Model.Id}");
         }
 
         await Refresh();
