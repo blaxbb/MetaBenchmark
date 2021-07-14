@@ -95,7 +95,7 @@ namespace MetaBenchmark.Server
 
             //DataImporter.Import(db);
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 

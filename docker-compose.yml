@@ -7,6 +7,7 @@ services:
       context: .
       dockerfile: MetaBenchmark/Server/Dockerfile
     environment:
+      ASPNETCORE_URLS: "http://+:80"
       Secrets__DbPassword: "password123!@#"
     depends_on:
       - db
