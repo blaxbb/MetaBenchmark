@@ -42,6 +42,7 @@ window.GetActiveSources = function () {
 }
 
 window.MoveFilterToNav = function () {
+    document.getElementById("filterContainer").innerHTML = "";
     document.getElementById("filterContainer").appendChild(document.getElementById("benchmarkFilter").parentElement)
     document.getElementById("filterContainer").appendChild(document.getElementById("sourceFilter").parentElement)
 }
