@@ -36,7 +36,7 @@ namespace MetaBenchmark.Server
             }
             else
             {
-                var connection = $"Server=metabenchmarkdb;Database=master;User=sa;Password={secrets?.DbPassword ?? ""};";
+                var connection = $"Server=db;Database=master;User=sa;Password={secrets?.DbPassword ?? ""};";
 
                 services.AddDbContext<ApplicationDbContext>(options =>
                     {

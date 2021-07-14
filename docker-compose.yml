@@ -9,8 +9,8 @@ services:
     environment:
       Secrets__DbPassword: "password123!@#"
     depends_on:
-      - metabenchmarkdb
-  metabenchmarkdb:
+      - db
+  db:
     image: "mcr.microsoft.com/mssql/server"
     environment:
       SA_PASSWORD: "password123!@#"
