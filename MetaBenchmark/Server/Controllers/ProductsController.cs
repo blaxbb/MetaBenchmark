@@ -29,6 +29,8 @@ namespace MetaBenchmark.Server.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products
+                .AsNoTracking()
+                .AsSplitQuery()
                 .Include(p => p.Specs)
                 .ThenInclude(s => s.Spec)
                 .Include(p => p.BenchmarkEntries)
