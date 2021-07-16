@@ -31,6 +31,36 @@
 	</EditForm>
 </Modal>
 
+@if (allProducts != null && allBenchmarks != null)
+{
+    <Modal Name="Add Benchmarks" Id="BulkAddBenchmarksModal">
+        <EditForm Model="BulkBenchmark">
+            <div class="form-group">
+                <label for="benchmark">Benchmark</label>
+                <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" @bind-Value=BulkBenchmark.BenchmarkId>
+                    @foreach (var bench in allBenchmarks)
+                    {
+                        <option value="@bench.ID">@bench.Name</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label for="benchmark">Product</label>
+                <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" @bind-Value=BulkBenchmark.ProductId>
+                    @foreach (var prod in allProducts)
+                    {
+                        <option value="@prod.ID">@prod.Name</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label for="benchmarkValue">Value</label>
+                <InputNumber class="form-control" id="benchmarkValue" placeholder="Value" @bind-Value=BulkBenchmark.Value />
+            </div>
+            <button @onclick=SubmitBenchmark class="btn btn-primary">Submit</button>
+        </EditForm>	
+    </Modal>
+}
 
 @if(Sources == null)
 {
@@ -46,6 +76,8 @@ else
                 <th>
                     <button class="btn btn-primary btn-sm" @onclick=AddClick>Add</button>
                 </th>
+                <th></th>
+
             </tr>
         </thead>
         <tbody>
@@ -59,6 +91,12 @@ else
                             Edit
                         </button>
                     </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @onclick="(() => AddBenchmarksClick(source))">
+                            Add Benchmarks
+                        </button>
+                    </td>
+
                 </tr>
             }
         </tbody>
@@ -69,9 +107,15 @@ else
     BenchmarkSource[] Sources;
     BenchmarkSource Model;
 
+    Benchmark[] allBenchmarks;
+    Product[] allProducts;
+    BenchmarkEntry BulkBenchmark;
+
+
     protected override async Task OnInitializedAsync()
     {
         Model = new BenchmarkSource();
+        BulkBenchmark = new BenchmarkEntry();
         await Refresh();
     }
 
@@ -80,6 +124,8 @@ else
         try
         {
             Sources = await Http.GetFromJsonAsync<BenchmarkSource[]>("api/BenchmarkSources");
+            allBenchmarks = await Http.GetFromJsonAsync<Benchmark[]>($"api/Benchmarks");
+            allProducts = await Http.GetFromJsonAsync<Product[]>($"api/Products");
             this.StateHasChanged();
         }
         catch (AccessTokenNotAvailableException exception)
@@ -107,6 +153,17 @@ else
         };
 
         await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkSourceModal");
+    }
+
+    async void AddBenchmarksClick(BenchmarkSource source)
+    {
+        BulkBenchmark = new BenchmarkEntry()
+        {
+            SourceId = source.Id,
+        };
+
+        await Js.InvokeVoidAsync("ShowModal", "#BulkAddBenchmarksModal");
+        await Js.InvokeVoidAsync("ShowSelectPicker");
     }
 
     async void SubmitModel()
@@ -137,4 +194,13 @@ else
         Model = new BenchmarkSource();
     }
 
+    async void SubmitBenchmark()
+    {
+        Console.WriteLine($"{BulkBenchmark.ProductId} - {BulkBenchmark.BenchmarkId} - {BulkBenchmark.SourceId}");
+        if (BulkBenchmark.ProductId != 0 && BulkBenchmark.BenchmarkId != 0 && BulkBenchmark.SourceId != 0)
+        {
+            BulkBenchmark.Id = 0;
+            await Http.PostAsJsonAsync("api/BenchmarkEntries", BulkBenchmark);
+        }
+    }
 }
