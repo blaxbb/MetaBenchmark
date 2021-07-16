@@ -16,6 +16,20 @@ namespace MetaBenchmark.Server
 
         public static void Import(ApplicationDbContext db)
         {
+            db.Database.ExecuteSqlRaw("DELETE FROM [Benchmarks]");
+            db.Database.ExecuteSqlRaw("DELETE FROM [BenchmarkSources]");
+            db.Database.ExecuteSqlRaw("DELETE FROM [Products]");
+            db.Database.ExecuteSqlRaw("DELETE FROM [Specifications]");
+            db.Database.ExecuteSqlRaw("DELETE FROM [SpecificationEntries]");
+            db.Database.ExecuteSqlRaw("DELETE FROM [BenchmarkEntries]");
+
+            db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ([Benchmarks], RESEED, 0)");
+            db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ([BenchmarkSources], RESEED, 0)");
+            db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ([Products], RESEED, 0)");
+            db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ([Specifications], RESEED, 0)");
+            db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ([SpecificationEntries], RESEED, 0)");
+            db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ([BenchmarkEntries], RESEED, 0)");
+
             if (db.Products.Count() == 0)
             {
                 ImportSpecifications("Data/Import/specifications.json", db);
