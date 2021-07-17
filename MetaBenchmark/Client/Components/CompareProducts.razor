@@ -1,8 +1,10 @@
 ﻿@using MetaBenchmark.Shared
 @using MetaBenchmark.Shared.Models
 @using Newtonsoft.Json
+@using System.Web
 @inject IHttpClientFactory Http;
-@inject IJSRuntime js
+@inject IJSRuntime js;
+@inject NavigationManager nav;
 
 @if(AllProducts != null)
 {
@@ -167,8 +169,21 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        SelectedProducts = new Product[2];
         AllProducts = await Http.CreateClient("public").GetFromJsonAsync<List<Product>>("api/Products");
+
+        Console.WriteLine(nav.Uri);
+        var prodParam = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query).Get("products");
+        Console.WriteLine(prodParam);
+        string[] prodFromQuery = null;
+        if (!string.IsNullOrWhiteSpace(prodParam))
+        {
+            SelectedProducts = prodParam.Split(',').Select(id => AllProducts.FirstOrDefault(p => p.ID.ToString() == id)).ToArray();
+        }
+        else
+        {
+            SelectedProducts = new Product[2];
+        }
+
 
         ComputeAverages();
 
@@ -234,6 +249,7 @@ else
         await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 2);
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
+        await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}?products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.ID))}");
     }
 
     void ComputeAverages()

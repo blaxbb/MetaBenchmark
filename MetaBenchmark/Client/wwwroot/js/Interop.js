@@ -46,3 +46,7 @@ window.MoveFilterToNav = function () {
     document.getElementById("filterContainer").appendChild(document.getElementById("benchmarkFilter").parentElement)
     document.getElementById("filterContainer").appendChild(document.getElementById("sourceFilter").parentElement)
 }
+
+window.SetUrl = function (url) {
+    window.history.replaceState({}, document.title, url)
+}
