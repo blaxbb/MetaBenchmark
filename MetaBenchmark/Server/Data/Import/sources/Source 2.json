@@ -7,15 +7,15 @@
     {
       "Id": 1,
       "BenchmarkId": 1,
-      "ProductId": 2,
-      "Value": 205.0,
+      "ProductId": 1,
+      "Value": 145.0,
       "SourceId": 1
     },
     {
       "Id": 2,
       "BenchmarkId": 1,
-      "ProductId": 1,
-      "Value": 145.0,
+      "ProductId": 2,
+      "Value": 205.0,
       "SourceId": 1
     },
     {
