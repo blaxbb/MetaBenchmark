@@ -18,5 +18,60 @@
     "Id": 4,
     "Name": "count",
     "Value": "3"
+  },
+  {
+    "Id": 5,
+    "Name": "brand",
+    "Value": "Nvidia"
+  },
+  {
+    "Id": 6,
+    "Name": "brand",
+    "Value": "Nvidia"
+  },
+  {
+    "Id": 7,
+    "Name": "brand",
+    "Value": "Nvidia"
+  },
+  {
+    "Id": 8,
+    "Name": "brand",
+    "Value": "Nvidia"
+  },
+  {
+    "Id": 9,
+    "Name": "brand",
+    "Value": "Nvidia"
+  },
+  {
+    "Id": 10,
+    "Name": "brand",
+    "Value": "Nvidia"
+  },
+  {
+    "Id": 11,
+    "Name": "brand",
+    "Value": "Nvidia"
+  },
+  {
+    "Id": 12,
+    "Name": "brand",
+    "Value": "AMD"
+  },
+  {
+    "Id": 13,
+    "Name": "brand",
+    "Value": "AMD"
+  },
+  {
+    "Id": 14,
+    "Name": "brand",
+    "Value": "AMD"
+  },
+  {
+    "Id": 15,
+    "Name": "brand",
+    "Value": "AMD"
   }
 ]

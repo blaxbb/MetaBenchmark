@@ -15,7 +15,7 @@
             data-selected-text-format="count"
             multiple
             @onchange="((val) => SelectedBenchmark())">
-        @foreach(var bench in AvailableBenchmarks)
+        @foreach(var bench in AvailableBenchmarks.OrderBy(b => b.Name))
         {
             <option selected value=@bench.ID>@bench.Name</option>
         }
@@ -27,7 +27,7 @@
             data-selected-text-format="count"
             multiple
             @onchange="((val) => SelectedSource())">
-        @foreach(var source in AvailableSources)
+        @foreach(var source in AvailableSources.OrderBy(s => s.Name))
         {
             <option selected value=@source.Id>@source.Name</option>
         }
@@ -46,7 +46,7 @@
                                     class="selectpicker form-control form-control-lg col" 
                                     title="Select a product"
                                     @onchange="((val) => SelectedId((string)val.Value, index))">
-                                @foreach (var product in AllProducts)
+                                @foreach (var product in AllProducts.OrderByDescending(p => p.Name))
                                 {
                                     <option value=@product.ID>@product.Name</option>
                                 }
@@ -82,15 +82,15 @@
                 </div>
             }
         </div>
-        @foreach(var benchmarkId in BenchmarkCount.Where(kvp => ActiveBenchmarks.Any(b => b.ID == kvp.Key)).OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key))
+        @foreach(var bench in ActiveBenchmarks.OrderBy(b => b.Name))
         {
-            <div class="row justify-content-center benchmark benchmark-@benchmarkId">
+            <div class="row justify-content-center benchmark benchmark-@bench.ID">
                 @for(int i = 0; i < SelectedProducts.Length; i++)
                 {
                     if (SelectedProducts.Length > i && SelectedProducts[i] != default)
                     {
                         var prod = SelectedProducts[i];
-                        var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == benchmarkId && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
+                        var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == bench.ID && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
                         if(entries.Count == 0)
                         {
                             <div class="col">
@@ -100,8 +100,8 @@
                         }
 
                         var avg = entries.Average(e => e.Value);
-                        var midpoint = BenchmarkAverages[benchmarkId];
-                        var backgroundClass = BenchmarkMaximums[benchmarkId].productId == prod.ID ? "bg-success text-light" : "";
+                        var midpoint = BenchmarkAverages[bench.ID];
+                        var backgroundClass = BenchmarkMaximums[bench.ID].productId == prod.ID ? "bg-success text-light" : "";
                         backgroundClass = "";
                         <div class="product col m-0 py-3 @backgroundClass card">
                             <div class="row h-100">
