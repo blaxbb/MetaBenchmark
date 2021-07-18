@@ -103,3 +103,54 @@ a, .btn-link {
 #filterContainer .dropdown-menu {
     overflow: hidden;
 }
+
+.product-header::before {
+    content: '';
+    flex: 0 0 auto;
+}
+
+.product-header.brand-Nvidia::before {
+    background: url(/logos/nvidia.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.product-header.brand-AMD::before {
+    background: url(/logos/amd.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.bootstrap-select .dropdown-item.brand-Nvidia::before {
+    content: '';
+    background: url(/logos/nvidia.jpg);
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-size: auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 25px;
+    display: inline-block;
+    height: 25px;
+    background-position-y: 100%;
+    margin-right: .5em;
+}
+
+.bootstrap-select .dropdown-item.brand-AMD::before {
+    content: '';
+    background: url(/logos/amd.png);
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-size: auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 25px;
+    display: inline-block;
+    height: 25px;
+    background-position-y: 100%;
+    margin-right: .5em;
+}

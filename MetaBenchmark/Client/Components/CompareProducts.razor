@@ -48,23 +48,21 @@
                                     @onchange="((val) => SelectedId((string)val.Value, index))">
                                 @foreach (var product in AllProducts.OrderByDescending(p => p.Name))
                                 {
-                                    <option value=@product.ID>@product.Name</option>
+                                    var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                                    var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
+                                    <option class="@brandClass" value=@product.ID>@product.Name</option>
                                 }
                             </select>
-                            @if(i == SelectedProducts.Length - 1)
-                            {
-                                <div class="col-auto">
-                                    <button class="btn btn-lg" @onclick="AddProduct">
-                                        <span class="oi oi-plus" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            }
                         </form>
                     }
                     else
                     {
-                        <div class="row card-body">
-                            <h4 class="col my-auto">@SelectedProducts[i].Name</h4>
+                        var brand = SelectedProducts[i].Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                        var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
+                        <div class="row card-body product-header @brandClass">
+                            <h4 class="col my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
                             <button class="btn btn-lg col-auto btn-warning" @onclick="(() => Selected(null, index))">
                                 <span class="oi oi-x" aria-hidden="true"></span>
                             </button>
