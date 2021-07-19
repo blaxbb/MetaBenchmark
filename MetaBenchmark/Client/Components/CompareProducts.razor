@@ -9,13 +9,40 @@
 @if(AllProducts != null)
 {
     <select class="form-control selectpicker form-control-lg"
+            id="productTypeFilter"
+            data-selected-text-format="count"
+            @onchange="((val) => SelectedProductType(val.Value))">
+        @foreach(var type in AllProducts.Select(p => p.Type).Distinct())
+        {
+            <option selected value=@((int)type)>@type</option>
+        }
+    </select>
+    <select class="form-control selectpicker form-control-lg"
+            id="benchmarkTypeFilter"
+            data-selected-text-format="count"
+            data-actions-box="true"
+            multiple
+            @onchange="((val) => SelectedBenchmarkType())">
+        @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
+        {
+            if (CurrentBenchmarkTypes.Contains(type))
+            {
+                <option selected value=@((int)type)>@type</option>
+            }
+            else
+            {
+                <option value=@((int)type)>@type</option>                
+            }
+        }
+    </select>
+    <select class="form-control selectpicker form-control-lg"
             id="benchmarkFilter"
             data-live-search="true"
             data-actions-box="true"
             data-selected-text-format="count"
             multiple
             @onchange="((val) => SelectedBenchmark())">
-        @foreach(var bench in AvailableBenchmarks.OrderBy(b => b.Name))
+        @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkTypes.Contains(b.Type)).OrderBy(b => b.Name))
         {
             <option selected value=@bench.ID>@bench.Name</option>
         }
@@ -80,7 +107,7 @@
                 </div>
             }
         </div>
-        @foreach(var bench in ActiveBenchmarks.OrderBy(b => b.Name))
+        @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkTypes.Contains(b.Type)).OrderBy(b => b.Name))
         {
             <div class="row justify-content-center benchmark benchmark-@bench.ID">
                 @for(int i = 0; i < SelectedProducts.Length; i++)
@@ -165,8 +192,14 @@ else
     List<BenchmarkSource> AvailableSources = new List<BenchmarkSource>();
     List<BenchmarkSource> ActiveSources = new List<BenchmarkSource>();
 
+    Product.ProductType CurrentProductType;
+    List<Benchmark.BenchmarkType> CurrentBenchmarkTypes = new List<Benchmark.BenchmarkType>();
+
     protected override async Task OnInitializedAsync()
     {
+        CurrentProductType = Product.ProductType.GPU;
+        CurrentBenchmarkTypes.Add(Benchmark.BenchmarkType.FPS_1440P);
+
         AllProducts = await Http.CreateClient("public").GetFromJsonAsync<List<Product>>("api/Products");
 
         Console.WriteLine(nav.Uri);
@@ -244,7 +277,13 @@ else
             SelectedProducts[index] = p;
         }
         ComputeAverages();
-        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 2);
+        //
+        //
+        //  nullIndex + X -> x == filter select element count
+        //
+        //
+        Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Where(p => p != null).Select(p => p.Name)));
+        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 4);
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
         await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}?products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.ID))}");
@@ -257,6 +296,7 @@ else
         AvailableBenchmarks.Clear();
         BenchmarkCount.Clear();
         AvailableSources.Clear();
+        ActiveBenchmarks.Clear();
 
         foreach(var product in SelectedProducts)
         {
@@ -320,7 +360,7 @@ else
 
     async Task SelectedBenchmark()
     {
-        var items = await js.InvokeAsync<List<string>>("GetActiveBenchmarks");
+        var items = await js.InvokeAsync<List<string>>("GetVal", "#benchmarkFilter");
         ActiveBenchmarks = items.Select(i => AvailableBenchmarks.FirstOrDefault(b => b.ID == long.Parse(i))).ToList();
         Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Select(b => b.Name).ToList()));
         StateHasChanged();
@@ -328,10 +368,28 @@ else
 
     async Task SelectedSource()
     {
-        var items = await js.InvokeAsync<List<string>>("GetActiveSources");
+        var items = await js.InvokeAsync<List<string>>("GetVal", "#sourceFilter");
         ActiveSources = items.Select(i => AvailableSources.FirstOrDefault(b => b.Id == long.Parse(i))).ToList();
         Console.WriteLine(JsonConvert.SerializeObject(ActiveSources.Select(b => b.Name).ToList()));
         StateHasChanged();
+    }
+
+    async Task SelectedProductType(object val)
+    {
+        if(val is Product.ProductType type)
+        {
+            CurrentProductType = type;
+            StateHasChanged();
+            Console.WriteLine($"SELECTEED {type}");
+        }
+        
+    }
+
+    async Task SelectedBenchmarkType()
+    {
+        var items = await js.InvokeAsync<List<string>>("GetVal", "#benchmarkTypeFilter");
+        CurrentBenchmarkTypes = items.Select(i => (Benchmark.BenchmarkType)(int.Parse(i))).ToList();
+        Console.WriteLine(JsonConvert.SerializeObject(CurrentBenchmarkTypes));
     }
 
     string GetTextClass(BenchmarkEntry entry)
@@ -339,6 +397,9 @@ else
         switch(entry.Benchmark.Type)
         {
             case Benchmark.BenchmarkType.FPS:
+            case Benchmark.BenchmarkType.FPS_4K:
+            case Benchmark.BenchmarkType.FPS_1440P:
+            case Benchmark.BenchmarkType.FPS_1080P:
                 return entry.Value switch
                 {
                     > 100 => "text-success",

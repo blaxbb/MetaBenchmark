@@ -33,16 +33,14 @@ window.SelectPickerAll = function (selector) {
     $(selector).selectpicker('selectAll');
 }
 
-window.GetActiveBenchmarks = function () {
-    return $("#benchmarkFilter").val();
-}
-
-window.GetActiveSources = function () {
-    return $("#sourceFilter").val();
+window.GetVal = function (selector) {
+    return $(selector).val();
 }
 
 window.MoveFilterToNav = function () {
     document.getElementById("filterContainer").innerHTML = "";
+    document.getElementById("filterContainer").appendChild(document.getElementById("productTypeFilter").parentElement)
+    document.getElementById("filterContainer").appendChild(document.getElementById("benchmarkTypeFilter").parentElement)
     document.getElementById("filterContainer").appendChild(document.getElementById("benchmarkFilter").parentElement)
     document.getElementById("filterContainer").appendChild(document.getElementById("sourceFilter").parentElement)
 }

@@ -14,7 +14,10 @@ namespace MetaBenchmark.Shared
         {
             FPS,
             Compute,
-            Timing
+            Timing,
+            FPS_4K,
+            FPS_1440P,
+            FPS_1080P
         }
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public BenchmarkType Type { get; set; }
