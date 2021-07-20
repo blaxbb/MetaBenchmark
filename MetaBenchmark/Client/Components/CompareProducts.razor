@@ -11,6 +11,7 @@
     <select class="form-control selectpicker form-control-lg"
             id="productTypeFilter"
             data-selected-text-format="count"
+            data-style="btn-secondary"
             @onchange="((val) => SelectedProductType(val.Value))">
         @foreach(var type in AllProducts.Select(p => p.Type).Distinct())
         {
@@ -19,20 +20,11 @@
     </select>
     <select class="form-control selectpicker form-control-lg"
             id="benchmarkTypeFilter"
-            data-selected-text-format="count"
-            data-actions-box="true"
-            multiple
+            data-style="btn-secondary"
             @onchange="((val) => SelectedBenchmarkType())">
         @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
         {
-            if (CurrentBenchmarkTypes.Contains(type))
-            {
-                <option selected value=@((int)type)>@type</option>
-            }
-            else
-            {
-                <option value=@((int)type)>@type</option>                
-            }
+            <option value=@((int)type)>@type.DisplayName()</option>
         }
     </select>
     <select class="form-control selectpicker form-control-lg"
@@ -40,6 +32,7 @@
             data-live-search="true"
             data-actions-box="true"
             data-selected-text-format="count"
+            data-style="btn-secondary"
             multiple
             @onchange="((val) => SelectedBenchmark())">
         @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkTypes.Contains(b.Type)).OrderBy(b => b.Name))
@@ -52,6 +45,7 @@
             data-live-search="true"
             data-actions-box="true"
             data-selected-text-format="count"
+            data-style="btn-secondary"
             multiple
             @onchange="((val) => SelectedSource())">
         @foreach(var source in AvailableSources.OrderBy(s => s.Name))
@@ -90,7 +84,7 @@
 
                         <div class="row card-body product-header @brandClass">
                             <h4 class="col my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
-                            <button class="btn btn-lg col-auto btn-warning" @onclick="(() => Selected(null, index))">
+                            <button class="btn btn-lg col-auto btn-danger" @onclick="(() => Selected(null, index))">
                                 <span class="oi oi-x" aria-hidden="true"></span>
                             </button>
                             @if(i == SelectedProducts.Length - 1)
@@ -133,11 +127,11 @@
                                 <div class="col-auto text-center my-auto">
                                     @if(avg > midpoint)
                                     {
-                                        <i class="fas fa-angle-double-up fa-4x text-success"></i>
+                                        <i class="fas fa-angle-double-up fa-2x text-success"></i>
                                     }
                                     else if(avg < midpoint)
                                     {
-                                        <i class="fas fa-angle-double-down fa-4x text-danger"></i>
+                                        <i class="fas fa-angle-double-down fa-2x text-danger"></i>
                                     }
                                     else
                                     {
@@ -198,7 +192,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         CurrentProductType = Product.ProductType.GPU;
-        CurrentBenchmarkTypes.Add(Benchmark.BenchmarkType.FPS_1440P);
 
         AllProducts = await Http.CreateClient("public").GetFromJsonAsync<List<Product>>("api/Products");
 
@@ -387,8 +380,10 @@ else
 
     async Task SelectedBenchmarkType()
     {
-        var items = await js.InvokeAsync<List<string>>("GetVal", "#benchmarkTypeFilter");
-        CurrentBenchmarkTypes = items.Select(i => (Benchmark.BenchmarkType)(int.Parse(i))).ToList();
+        var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
+        CurrentBenchmarkTypes.Clear();
+        CurrentBenchmarkTypes.Add((Benchmark.BenchmarkType)(int.Parse(val)));
+        StateHasChanged();
         Console.WriteLine(JsonConvert.SerializeObject(CurrentBenchmarkTypes));
     }
 
@@ -403,7 +398,7 @@ else
                 return entry.Value switch
                 {
                     > 100 => "text-success",
-                    > 60  => "text-info",
+                    > 60  => "text-primary",
                     _     => "text-warning"
                 };
         }

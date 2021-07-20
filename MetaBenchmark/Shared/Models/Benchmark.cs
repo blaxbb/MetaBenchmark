@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MetaBenchmark.Shared
@@ -44,5 +45,19 @@ namespace MetaBenchmark.Shared
         {
             return !(left == right);
         }
+    }
+
+    public static class BenchmarkExtensions
+    {
+        public static string DisplayName(this Benchmark.BenchmarkType type) => type switch
+        {
+            Benchmark.BenchmarkType.FPS => "FPS",
+            Benchmark.BenchmarkType.Compute => "Compute",
+            Benchmark.BenchmarkType.Timing => "Timing",
+            Benchmark.BenchmarkType.FPS_4K => "FPS 4K",
+            Benchmark.BenchmarkType.FPS_1440P => "FPS 1440p",
+            Benchmark.BenchmarkType.FPS_1080P => "FPS 1080p",
+            _ => type.ToString(),
+        };
     }
 }
