@@ -209,14 +209,19 @@ else
             return;
         }
 
-        var spec = new Specification()
+        var spec = AllSpecifications.FirstOrDefault(s => s.Name == NewSpecName && s.Value == NewSpecValue);
+        if (spec == null)
         {
-            Name = NewSpecName,
-            Value = NewSpecValue,
-        };
+            spec = new Specification()
+            {
+                Name = NewSpecName,
+                Value = NewSpecValue,
+            };
 
-        var content = await Http.PostAsJsonAsync($"api/Specifications", spec);
-        spec = await content.Content.ReadFromJsonAsync<Specification>();
+
+            var postContent = await Http.PostAsJsonAsync($"api/Specifications", spec);
+            spec = await postContent.Content.ReadFromJsonAsync<Specification>();
+        }
 
         var entry = new SpecificationEntry()
         {
@@ -224,7 +229,7 @@ else
             ProductId = Model.ID,
         };
 
-        content = await Http.PostAsJsonAsync($"api/SpecificationEntries", entry);
+        var content = await Http.PostAsJsonAsync($"api/SpecificationEntries", entry);
         var entryUpdated = await content.Content.ReadFromJsonAsync<SpecificationEntry>();
         entry.Id = entryUpdated.Id;
         Console.WriteLine(entry.Id);
