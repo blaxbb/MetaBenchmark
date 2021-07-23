@@ -32,14 +32,22 @@ namespace MetaBenchmark.Server
 
             if (db.Products.Count() == 0)
             {
-                ImportSpecifications("Data/Import/specifications.json", db);
-                ImportBenchmarks("Data/Import/benchmarks.json", db);
+                ImportSpecifications(db);
+                ImportBenchmarks(db);
                 ImportProducts("Data/Import/products.json", db);
                 ImportSources(db);
             }
         }
 
-        private static void ImportBenchmarks(string path, ApplicationDbContext db)
+        private static void ImportBenchmarks(ApplicationDbContext db)
+        {
+            foreach (var file in Directory.EnumerateFiles("Data/Import/benchmarks"))
+            {
+                ImportBenchmark(file, db);
+            }
+        }
+
+        private static void ImportBenchmark(string path, ApplicationDbContext db)
         {
             if (!File.Exists(path))
             {
@@ -48,31 +56,32 @@ namespace MetaBenchmark.Server
 
             try
             {
+                var typeName = Path.GetFileNameWithoutExtension(path);
+                var type = (Benchmark.BenchmarkType)Enum.Parse(typeof(Benchmark.BenchmarkType), typeName);
                 var imported = JsonConvert.DeserializeObject<List<Benchmark>>(File.ReadAllText(path));
                 var fromDb = db.Benchmarks.ToList();
 
                 foreach (var import in imported)
                 {
+                    import.Type = type;
+
                     var existing = fromDb.FirstOrDefault(b => b == import);
                     if (existing == null)
                     {
-                        import.ID = 0;
-                        db.Benchmarks.Add(import);
-                        db.SaveChanges();
+                        using (var transaction = db.Database.BeginTransaction())
+                        {
+                            var entityType = db.Model.FindEntityType(typeof(Benchmark));
+                            db.Benchmarks.Add(import);
+                            db.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType.GetSchema()}.{entityType.GetTableName()} ON;");
+                            db.SaveChanges();
+                            db.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType.GetSchema()}.{entityType.GetTableName()} OFF");
+                            transaction.Commit();
+                        }
                     }
                     else if (existing != import)
                     {
                         existing.Name = import.Name;
                         existing.Type = import.Type;
-                        db.SaveChanges();
-                    }
-                }
-
-                foreach(var existing in fromDb)
-                {
-                    if(!imported.Any(b => b.ID == existing.ID))
-                    {
-                        db.Remove(existing);
                         db.SaveChanges();
                     }
                 }
@@ -100,14 +109,21 @@ namespace MetaBenchmark.Server
                     var existing = fromDb.FirstOrDefault(b => b == import);
                     if (existing == null)
                     {
-                        import.ID = 0;
                         foreach (var s in import.Specs)
                         {
                             s.Id = 0;
+                            s.ProductId = import.ID;
                         }
-                        db.Products.Add(import);
-                        db.SaveChanges();
-                        existing = import;
+
+                        using (var transaction = db.Database.BeginTransaction())
+                        {
+                            var entityType = db.Model.FindEntityType(typeof(Product));
+                            db.Products.Add(import);
+                            db.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType.GetSchema()}.{entityType.GetTableName()} ON;");
+                            db.SaveChanges();
+                            db.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType.GetSchema()}.{entityType.GetTableName()} OFF");
+                            transaction.Commit();
+                        }
                     }
                     else
                     {
@@ -129,16 +145,6 @@ namespace MetaBenchmark.Server
                             }
                         }
                     }
-
-                    foreach (var existingSpec in existing.Specs)
-                    {
-                        if (!import.Specs.Any(b => b == existingSpec))
-                        {
-                            db.Remove(existingSpec);
-                            db.SaveChanges();
-                        }
-                    }
-
                 }
             }
             catch(Exception e)
@@ -147,7 +153,15 @@ namespace MetaBenchmark.Server
             }
         }
 
-        private static void ImportSpecifications(string path, ApplicationDbContext db)
+        private static void ImportSpecifications(ApplicationDbContext db)
+        {
+            foreach (var file in Directory.EnumerateFiles("Data/Import/specifications"))
+            {
+                ImportSpecification(file, db);
+            }
+        }
+
+        private static void ImportSpecification(string path, ApplicationDbContext db)
         {
             if (!File.Exists(path))
             {
@@ -156,17 +170,26 @@ namespace MetaBenchmark.Server
 
             try
             {
+                var name = Path.GetFileNameWithoutExtension(path);
+
                 var imported = JsonConvert.DeserializeObject<List<Specification>>(File.ReadAllText(path));
                 var fromDb = db.Specifications.ToList();
 
                 foreach (var import in imported)
                 {
+                    import.Name = name;
                     var existing = fromDb.FirstOrDefault(b => b == import);
                     if (existing == null)
                     {
-                        import.Id = 0;
-                        db.Specifications.Add(import);
-                        db.SaveChanges();
+                        using (var transaction = db.Database.BeginTransaction())
+                        {
+                            var entityType = db.Model.FindEntityType(typeof(Specification));
+                            db.Specifications.Add(import);
+                            db.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType.GetSchema()}.{entityType.GetTableName()} ON;");
+                            db.SaveChanges();
+                            db.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType.GetSchema()}.{entityType.GetTableName()} OFF");
+                            transaction.Commit();
+                        }
                     }
                     else if (existing != import)
                     {

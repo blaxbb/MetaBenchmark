@@ -48,16 +48,45 @@ namespace MetaBenchmark.Server.Controllers
                 };
 
                 var names = sources.Select(s => $"sources/{s.Name}.json").ToList();
-                var jsonItems = sources.Select(s => JsonConvert.SerializeObject(s, jsonSettings)).ToList();
+                var jsonItems = sources.Select(s =>
+                {
+                    s.BenchmarkEntries.ToList().ForEach(b =>
+                    {
+                        b.Id = 0;
+                        b.SourceId = 0;
+                    });
+                    return JsonConvert.SerializeObject(s, jsonSettings);
+                }).ToList();
 
+                products.ForEach(p =>
+                    p.Specs.ToList().ForEach(s =>
+                    {
+                        s.Id = 0;
+                        s.ProductId = 0;
+                    })
+                );
                 jsonItems.Add(JsonConvert.SerializeObject(products, jsonSettings));
                 names.Add("products.json");
 
-                jsonItems.Add(JsonConvert.SerializeObject(benchmarks, jsonSettings));
-                names.Add("benchmarks.json");
+                var benchmarkTypes = benchmarks.GroupBy(b => b.Type);
+                foreach(var group in benchmarkTypes)
+                {
+                    names.Add($"benchmarks/{group.Key.ToString()}.json");
+                    /*
+                     * 
+                     * Using anonymous type to remove b.Type from json output
+                     * 
+                     */
+                    jsonItems.Add(JsonConvert.SerializeObject(group.Select(b => new { ID = b.ID, Name = b.Name }).ToList(), jsonSettings));
+                }
 
-                jsonItems.Add(JsonConvert.SerializeObject(specs, jsonSettings));
-                names.Add("specifications.json");
+                var specGroups = specs.GroupBy(s => s.Name);
+                foreach(var group in specGroups)
+                {
+                    group.ToList().ForEach(s => s.Name = default);
+                    names.Add($"specifications/{group.Key}.json");
+                    jsonItems.Add(JsonConvert.SerializeObject(group.ToList(), jsonSettings));
+                }
 
                 using (var zipArchive = new ZipArchive(new WriteOnlyStreamWrapper(outputStream), ZipArchiveMode.Create))
                 {

@@ -15,7 +15,7 @@
             @onchange="((val) => SelectedProductType(val.Value))">
         @foreach(var type in AllProducts.Select(p => p.Type).Distinct())
         {
-            <option selected value=@((int)type)>@type</option>
+            <option value=@((int)type)>@type</option>
         }
     </select>
     <select class="form-control selectpicker form-control-lg"
@@ -24,7 +24,14 @@
             @onchange="((val) => SelectedBenchmarkType())">
         @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
         {
-            <option value=@((int)type)>@type.DisplayName()</option>
+            if (CurrentBenchmarkType == type && false)
+            {
+                <option selected value=@((int)type)>@type.DisplayName()</option>
+            }
+            else
+            {
+                <option value=@((int)type)>@type.DisplayName()</option>
+            }
         }
     </select>
     <select class="form-control selectpicker form-control-lg"
@@ -35,7 +42,7 @@
             data-style="btn-secondary"
             multiple
             @onchange="((val) => SelectedBenchmark())">
-        @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkTypes.Contains(b.Type)).OrderBy(b => b.Name))
+        @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
         {
             <option selected value=@bench.ID>@bench.Name</option>
         }
@@ -101,7 +108,7 @@
                 </div>
             }
         </div>
-        @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkTypes.Contains(b.Type)).OrderBy(b => b.Name))
+        @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
         {
             <div class="row justify-content-center benchmark benchmark-@bench.ID">
                 @for(int i = 0; i < SelectedProducts.Length; i++)
@@ -187,11 +194,13 @@ else
     List<BenchmarkSource> ActiveSources = new List<BenchmarkSource>();
 
     Product.ProductType CurrentProductType;
-    List<Benchmark.BenchmarkType> CurrentBenchmarkTypes = new List<Benchmark.BenchmarkType>();
+    Benchmark.BenchmarkType CurrentBenchmarkType;
 
     protected override async Task OnInitializedAsync()
     {
         CurrentProductType = Product.ProductType.GPU;
+        CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+        
 
         AllProducts = await Http.CreateClient("public").GetFromJsonAsync<List<Product>>("api/Products");
 
@@ -381,10 +390,9 @@ else
     async Task SelectedBenchmarkType()
     {
         var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
-        CurrentBenchmarkTypes.Clear();
-        CurrentBenchmarkTypes.Add((Benchmark.BenchmarkType)(int.Parse(val)));
+        CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
         StateHasChanged();
-        Console.WriteLine(JsonConvert.SerializeObject(CurrentBenchmarkTypes));
+        Console.WriteLine(JsonConvert.SerializeObject(CurrentBenchmarkType));
     }
 
     string GetTextClass(BenchmarkEntry entry)

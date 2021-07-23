@@ -5,263 +5,189 @@
   "LogoUrl": "/logos/gamersnexus.png",
   "BenchmarkEntries": [
     {
-      "Id": 1,
-      "BenchmarkId": 22,
-      "ProductId": 5,
-      "Value": 98.0,
-      "SourceId": 1
-    },
-    {
-      "Id": 2,
       "BenchmarkId": 20,
       "ProductId": 5,
-      "Value": 86.6,
-      "SourceId": 1
+      "Value": 86.6
     },
     {
-      "Id": 3,
-      "BenchmarkId": 20,
-      "ProductId": 11,
-      "Value": 83.8,
-      "SourceId": 1
-    },
-    {
-      "Id": 4,
-      "BenchmarkId": 20,
-      "ProductId": 12,
-      "Value": 75.2,
-      "SourceId": 1
-    },
-    {
-      "Id": 5,
-      "BenchmarkId": 20,
-      "ProductId": 13,
-      "Value": 65.9,
-      "SourceId": 1
-    },
-    {
-      "Id": 6,
-      "BenchmarkId": 20,
-      "ProductId": 8,
-      "Value": 63.3,
-      "SourceId": 1
-    },
-    {
-      "Id": 7,
-      "BenchmarkId": 20,
-      "ProductId": 14,
-      "Value": 58.5,
-      "SourceId": 1
-    },
-    {
-      "Id": 8,
-      "BenchmarkId": 20,
-      "ProductId": 9,
-      "Value": 57.3,
-      "SourceId": 1
-    },
-    {
-      "Id": 9,
-      "BenchmarkId": 20,
-      "ProductId": 10,
-      "Value": 43.7,
-      "SourceId": 1
-    },
-    {
-      "Id": 10,
-      "BenchmarkId": 21,
-      "ProductId": 11,
-      "Value": 144.8,
-      "SourceId": 1
-    },
-    {
-      "Id": 11,
-      "BenchmarkId": 21,
-      "ProductId": 6,
-      "Value": 138.2,
-      "SourceId": 1
-    },
-    {
-      "Id": 12,
-      "BenchmarkId": 21,
-      "ProductId": 5,
-      "Value": 129.8,
-      "SourceId": 1
-    },
-    {
-      "Id": 13,
-      "BenchmarkId": 21,
-      "ProductId": 12,
-      "Value": 124.8,
-      "SourceId": 1
-    },
-    {
-      "Id": 14,
-      "BenchmarkId": 21,
-      "ProductId": 13,
-      "Value": 111.3,
-      "SourceId": 1
-    },
-    {
-      "Id": 15,
-      "BenchmarkId": 21,
-      "ProductId": 8,
-      "Value": 102.6,
-      "SourceId": 1
-    },
-    {
-      "Id": 16,
-      "BenchmarkId": 21,
-      "ProductId": 14,
-      "Value": 101.0,
-      "SourceId": 1
-    },
-    {
-      "Id": 17,
-      "BenchmarkId": 20,
-      "ProductId": 6,
-      "Value": 94.5,
-      "SourceId": 1
-    },
-    {
-      "Id": 18,
-      "BenchmarkId": 21,
-      "ProductId": 9,
-      "Value": 92.9,
-      "SourceId": 1
-    },
-    {
-      "Id": 19,
-      "BenchmarkId": 23,
-      "ProductId": 10,
-      "Value": 84.9,
-      "SourceId": 1
-    },
-    {
-      "Id": 20,
-      "BenchmarkId": 23,
-      "ProductId": 8,
-      "Value": 116.7,
-      "SourceId": 1
-    },
-    {
-      "Id": 21,
       "BenchmarkId": 22,
       "ProductId": 4,
-      "Value": 104.4,
-      "SourceId": 1
+      "Value": 104.4
     },
     {
-      "Id": 22,
+      "BenchmarkId": 20,
+      "ProductId": 11,
+      "Value": 83.8
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 12,
+      "Value": 75.2
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 13,
+      "Value": 65.9
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 8,
+      "Value": 63.3
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 14,
+      "Value": 58.5
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 9,
+      "Value": 57.3
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 10,
+      "Value": 43.7
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 11,
+      "Value": 144.8
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 6,
+      "Value": 138.2
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 5,
+      "Value": 129.8
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 12,
+      "Value": 124.8
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 13,
+      "Value": 111.3
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 8,
+      "Value": 102.6
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 14,
+      "Value": 101.0
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 6,
+      "Value": 94.5
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 9,
+      "Value": 92.9
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 10,
+      "Value": 84.9
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 8,
+      "Value": 116.7
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 5,
+      "Value": 98.0
+    },
+    {
       "BenchmarkId": 22,
       "ProductId": 6,
-      "Value": 104.3,
-      "SourceId": 1
+      "Value": 104.3
     },
     {
-      "Id": 23,
       "BenchmarkId": 22,
       "ProductId": 11,
-      "Value": 97.7,
-      "SourceId": 1
+      "Value": 97.7
     },
     {
-      "Id": 24,
       "BenchmarkId": 22,
       "ProductId": 12,
-      "Value": 93.0,
-      "SourceId": 1
+      "Value": 93.0
     },
     {
-      "Id": 25,
       "BenchmarkId": 22,
       "ProductId": 13,
-      "Value": 80.9,
-      "SourceId": 1
+      "Value": 80.9
     },
     {
-      "Id": 26,
       "BenchmarkId": 22,
       "ProductId": 14,
-      "Value": 69.7,
-      "SourceId": 1
+      "Value": 69.7
     },
     {
-      "Id": 27,
       "BenchmarkId": 22,
       "ProductId": 8,
-      "Value": 65.7,
-      "SourceId": 1
+      "Value": 65.7
     },
     {
-      "Id": 28,
       "BenchmarkId": 22,
       "ProductId": 9,
-      "Value": 59.0,
-      "SourceId": 1
+      "Value": 59.0
     },
     {
-      "Id": 29,
       "BenchmarkId": 23,
       "ProductId": 11,
-      "Value": 171.7,
-      "SourceId": 1
+      "Value": 171.7
     },
     {
-      "Id": 30,
       "BenchmarkId": 23,
       "ProductId": 4,
-      "Value": 169.1,
-      "SourceId": 1
+      "Value": 169.1
     },
     {
-      "Id": 31,
       "BenchmarkId": 23,
       "ProductId": 6,
-      "Value": 169.0,
-      "SourceId": 1
+      "Value": 169.0
     },
     {
-      "Id": 32,
       "BenchmarkId": 23,
       "ProductId": 12,
-      "Value": 164.0,
-      "SourceId": 1
+      "Value": 164.0
     },
     {
-      "Id": 33,
       "BenchmarkId": 23,
       "ProductId": 5,
-      "Value": 162.6,
-      "SourceId": 1
+      "Value": 162.6
     },
     {
-      "Id": 34,
       "BenchmarkId": 23,
       "ProductId": 13,
-      "Value": 140.6,
-      "SourceId": 1
+      "Value": 140.6
     },
     {
-      "Id": 35,
       "BenchmarkId": 23,
       "ProductId": 14,
-      "Value": 123.6,
-      "SourceId": 1
+      "Value": 123.6
     },
     {
-      "Id": 36,
       "BenchmarkId": 23,
       "ProductId": 9,
-      "Value": 104.8,
-      "SourceId": 1
+      "Value": 104.8
     },
     {
-      "Id": 37,
       "BenchmarkId": 21,
       "ProductId": 10,
-      "Value": 71.3,
-      "SourceId": 1
+      "Value": 71.3
     }
   ]
 }

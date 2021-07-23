@@ -5,14 +5,10 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 1,
-        "SpecId": 1,
-        "ProductId": 1
+        "SpecId": 1
       },
       {
-        "Id": 2,
-        "SpecId": 2,
-        "ProductId": 1
+        "SpecId": 2
       }
     ]
   },
@@ -22,9 +18,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 3,
-        "SpecId": 3,
-        "ProductId": 2
+        "SpecId": 3
       }
     ]
   },
@@ -34,9 +28,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 4,
-        "SpecId": 4,
-        "ProductId": 3
+        "SpecId": 4
       }
     ]
   },
@@ -46,9 +38,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 5,
-        "SpecId": 5,
-        "ProductId": 4
+        "SpecId": 5000
       }
     ]
   },
@@ -58,9 +48,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 6,
-        "SpecId": 6,
-        "ProductId": 5
+        "SpecId": 5000
       }
     ]
   },
@@ -70,9 +58,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 7,
-        "SpecId": 7,
-        "ProductId": 6
+        "SpecId": 5000
       }
     ]
   },
@@ -82,9 +68,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 8,
-        "SpecId": 8,
-        "ProductId": 7
+        "SpecId": 5000
       }
     ]
   },
@@ -94,9 +78,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 9,
-        "SpecId": 9,
-        "ProductId": 8
+        "SpecId": 5000
       }
     ]
   },
@@ -106,9 +88,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 10,
-        "SpecId": 10,
-        "ProductId": 9
+        "SpecId": 5000
       }
     ]
   },
@@ -118,9 +98,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 11,
-        "SpecId": 11,
-        "ProductId": 10
+        "SpecId": 5000
       }
     ]
   },
@@ -130,9 +108,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 12,
-        "SpecId": 12,
-        "ProductId": 11
+        "SpecId": 5001
       }
     ]
   },
@@ -142,9 +118,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 13,
-        "SpecId": 13,
-        "ProductId": 12
+        "SpecId": 5001
       }
     ]
   },
@@ -154,9 +128,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 14,
-        "SpecId": 14,
-        "ProductId": 13
+        "SpecId": 5001
       }
     ]
   },
@@ -166,9 +138,7 @@
     "Type": 2,
     "Specs": [
       {
-        "Id": 15,
-        "SpecId": 15,
-        "ProductId": 14
+        "SpecId": 5001
       }
     ]
   }

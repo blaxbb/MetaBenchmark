@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using MetaBenchmark.Shared.Models;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace MetaBenchmark.Server.Data
 {
@@ -26,6 +27,12 @@ namespace MetaBenchmark.Server.Data
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(w => w.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS));
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
