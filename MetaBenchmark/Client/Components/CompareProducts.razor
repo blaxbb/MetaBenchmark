@@ -5,9 +5,21 @@
 @inject IHttpClientFactory Http;
 @inject IJSRuntime js;
 @inject NavigationManager nav;
+@inject DataCache cache;
 
 @if(AllProducts != null)
 {
+    @if (UserModified)
+    {
+        <div class="row justify-content-center">
+            <div class="col col-auto alert alert-secondary alert-dismissible fade show" role="alert">
+                <strong>User Modified Data</strong> Current data has been modified from server.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    }
     <select class="form-control selectpicker form-control-lg"
             id="productTypeFilter"
             data-selected-text-format="count"
@@ -120,7 +132,6 @@
                         if(entries.Count == 0)
                         {
                             <div class="col">
-                               
                             </div>
                             continue;
                         }
@@ -164,7 +175,7 @@
                     }
                     else
                     {
-                        <div class="col">          
+                        <div class="col">
                         </div>
                     }
                 }
@@ -195,16 +206,33 @@ else
 
     Product.ProductType CurrentProductType;
     Benchmark.BenchmarkType CurrentBenchmarkType;
+    bool UserModified;
 
     protected override async Task OnInitializedAsync()
     {
+        UserModified = false;
         CurrentProductType = Product.ProductType.GPU;
         CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
-        
 
-        AllProducts = await Http.CreateClient("public").GetFromJsonAsync<List<Product>>("api/Products");
+@*        var existing = await StorageEntry<List<Product>>.GetValue(js, "mb.AllProducts");
+        if (existing != null && (DateTime.Now - existing.Created).Minutes < 15)
+        {
+            Console.WriteLine("Using cache");
+            AllProducts = existing.Value;
+        }
+        else
+        {
+            AllProducts = await GetAllProducts();
+            Console.WriteLine("Setting cache");
+            await StorageEntry<List<Product>>.SetValue(js, "mb.AllProducts", false, AllProducts);
+        }*@
 
-        Console.WriteLine(nav.Uri);
+        var all = await cache.All();
+        AllProducts = all.Value;
+        UserModified = all.UserModified;
+
+
+    Console.WriteLine(nav.Uri);
         var prodParam = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query).Get("products");
         Console.WriteLine(prodParam);
         string[] prodFromQuery = null;
@@ -223,6 +251,98 @@ else
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
         await js.InvokeVoidAsync("MoveFilterToNav");
+    }
+
+    async Task<List<Product>> GetAllProducts()
+    {
+        var products = await Http.CreateClient("public").GetFromJsonAsync<List<Product>>("data/products.json");
+
+        var specIndex = await Http.CreateClient("public").GetFromJsonAsync<List<string>>("data/specifications/index.json");
+        var specs = new List<Specification>();
+        foreach(var specName in specIndex)
+        {
+            try
+            {
+                var url = $"data/specifications/{Uri.EscapeDataString(specName)}.json";
+                var specValues = await Http.CreateClient("public").GetFromJsonAsync<List<Specification>>(url);
+                specValues.ForEach(s => s.Name = specName);
+                specs.AddRange(specValues);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Loading data/specifications/{specName}.json failed!");
+            }
+        }
+
+        var benchmarks = new List<Benchmark>();
+        foreach(var benchType in Enum.GetValues(typeof(Benchmark.BenchmarkType)).Cast<Benchmark.BenchmarkType>())
+        {
+            try
+            {
+                var url = $"data/benchmarks/{Uri.EscapeDataString(benchType.ToString())}.json";
+                var benchEntries = await Http.CreateClient("public").GetFromJsonAsync<List<Benchmark>>(url);
+                benchEntries.ForEach(b => b.Type = benchType);
+                benchmarks.AddRange(benchEntries);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Loading data/benchmarks/{benchType}.json failed!");
+            }
+        }
+
+        var sources = new List<BenchmarkSource>();
+        var sourceIndex = await Http.CreateClient("public").GetFromJsonAsync<List<string>>("data/sources/index.json");
+        foreach(var sourceName in sourceIndex)
+        {
+            try
+            {
+                var url = $"data/sources/{Uri.EscapeDataString(sourceName)}.json";
+                var source = await Http.CreateClient("public").GetFromJsonAsync<BenchmarkSource>(url);
+                sources.Add(source);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Loading data/sources/{sourceName}.json failed!");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        foreach(var product in products)
+        {
+            product.BenchmarkEntries = new List<BenchmarkEntry>();
+            foreach(var spec in product.Specs)
+            {
+                var s = specs.FirstOrDefault(s => s.Id == spec.SpecId);
+                spec.Spec = s;
+            }
+        }
+
+        foreach(var source in sources)
+        {
+            foreach(var entry in source.BenchmarkEntries)
+            {
+                entry.Source = new BenchmarkSource()
+                {
+                    Id = source.Id,
+                    LogoUrl = source.LogoUrl,
+                    Name = source.Name,
+                    Url = source.Url
+                };
+                entry.SourceId = entry.Source.Id;
+
+                var product = products.FirstOrDefault(p => p.ID == entry.ProductId);
+                var benchmark = benchmarks.FirstOrDefault(b => b.ID == entry.BenchmarkId);
+                entry.Benchmark = benchmark;
+                product.BenchmarkEntries.Add(entry);
+            }
+        }
+
+        Console.WriteLine(JsonConvert.SerializeObject(products[4], new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        }));
+
+        return products;
     }
 
     async Task SelectedId(string productId, int index)
@@ -382,6 +502,7 @@ else
         {
             CurrentProductType = type;
             StateHasChanged();
+            await js.InvokeVoidAsync("ShowSelectPicker");
             Console.WriteLine($"SELECTEED {type}");
         }
         
@@ -391,7 +512,9 @@ else
     {
         var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
         CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
+        ActiveBenchmarks = AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).ToList();
         StateHasChanged();
+        await js.InvokeVoidAsync("ShowSelectPicker");
         Console.WriteLine(JsonConvert.SerializeObject(CurrentBenchmarkType));
     }
 

@@ -1,11 +1,9 @@
 ﻿@using MetaBenchmark.Client.Components
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@attribute [Authorize]
 
 @using MetaBenchmark.Shared
 @inject HttpClient Http
 @inject IJSRuntime Js
+@inject DataCache cache
 
 <Modal Name="Add Benchmark" Id="AddBenchmarkModal">
 	<h3>Add Benchmark</h3>
@@ -66,7 +64,7 @@ else
 }
 
 @code {
-    Benchmark[] Benchmarks;
+    List<Benchmark> Benchmarks;
     Benchmark Model;
 
     protected override async Task OnInitializedAsync()
@@ -77,15 +75,8 @@ else
 
     async Task Refresh()
     {
-        try
-        {
-            Benchmarks = await Http.GetFromJsonAsync<Benchmark[]>("api/Benchmarks");
-            this.StateHasChanged();
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
+        Benchmarks = (await cache.Benchmarks()).Value;
+        this.StateHasChanged();
     }
 
     async void AddClick()
@@ -112,14 +103,22 @@ else
         await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkModal");
         if (Model.ID == -1)
         {
-            Model.ID = 0;
-            await Http.PostAsJsonAsync("api/Benchmarks", Model);
+            Model.ID = Benchmarks.Max(b => b.ID) + 1;
+            Benchmarks.Add(Model);
+            await cache.SetBenchmarks(Benchmarks);
         }
         else
         {
-            await Http.PutAsJsonAsync($"api/Benchmarks/{Model.ID}", Model);
+            var existing = Benchmarks.FirstOrDefault(b => b.ID == Model.ID);
+            if(existing != null)
+            {
+                Benchmarks.Remove(existing);
+                Benchmarks.Add(Model);
+                Benchmarks = Benchmarks.OrderBy(b => b.ID).ToList();
+                await cache.SetBenchmarks(Benchmarks);
+            }
         }
-        await Refresh();
+        StateHasChanged();
         Model = new Benchmark();
     }
 
@@ -128,10 +127,15 @@ else
         await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkModal");
         if (Model.ID != -1)
         {
-            await Http.DeleteAsync($"api/Benchmarks/{Model.ID}");
+            var existing = Benchmarks.FirstOrDefault(b => b.ID == Model.ID);
+            if(existing != null)
+            {
+                Benchmarks.Remove(existing);
+                await cache.SetBenchmarks(Benchmarks);
+            }
         }
 
-        await Refresh();
+        this.StateHasChanged();
         Model = new Benchmark();
     }
 

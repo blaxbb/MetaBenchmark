@@ -5,6 +5,7 @@
 @using MetaBenchmark.Shared.Models
 
 @inject IJSRuntime js
+@inject DataCache cache
 
 
 
@@ -82,22 +83,24 @@ else
     [Parameter]
 	public string ID { get; set; }
 	Product product;
-    Benchmark[] allBenchmarks;
-    BenchmarkSource[] allSources;
+    List<Benchmark> allBenchmarks;
+    List<BenchmarkSource> allSources;
+    BenchmarkEntry editing;
 
 	BenchmarkEntry Model;
 	protected override async Task OnInitializedAsync()
 	{
-		await Refresh();
-        allBenchmarks = await http.GetFromJsonAsync<Benchmark[]>($"api/Benchmarks");
-        allSources = await http.GetFromJsonAsync<BenchmarkSource[]>($"api/BenchmarkSources");
+        await Refresh();
+        allBenchmarks = (await cache.Benchmarks()).Value;
+        allSources = (await cache.Sources()).Value;
 	}
 
 	async Task Refresh()
 	{
 		Model = new BenchmarkEntry();
-		Model.Id = -1;
-		product = await http.GetFromJsonAsync<Product>($"api/Products/{ID}");
+        Model.Id = -1;
+        var products = (await cache.All()).Value;
+        product = products.FirstOrDefault(p => p.ID.ToString() == ID);
         this.StateHasChanged();
 	}
 
@@ -112,6 +115,7 @@ else
 
     async void EditClick(BenchmarkEntry entry)
     {
+        editing = entry;
         Model = new BenchmarkEntry()
         {
             Id = entry.Id,
@@ -131,14 +135,33 @@ else
 	async void SubmitModel()
     {
         await js.InvokeVoidAsync("HideModal", "#AddBenchmarkEntryModal");
+        var source = allSources.FirstOrDefault(s => s.Id == Model.SourceId);
+        if(source == null)
+        {
+            return;
+        }
         if (Model.Id == -1)
         {
             Model.Id = 0;
-            await http.PostAsJsonAsync("api/BenchmarkEntries", Model);
+            source.BenchmarkEntries.Add(Model);
+            await cache.SetSources(allSources);
         }
         else
         {
-            await http.PutAsJsonAsync($"api/BenchmarkEntries/{Model.Id}", Model);
+            if(editing != null)
+            {
+                var existingSource = allSources.FirstOrDefault(s => s.Id == editing.SourceId);
+                if(existingSource != null)
+                {
+                    existingSource.BenchmarkEntries.Remove(editing);
+                }
+                Model.Benchmark = null;
+                Model.Product = null;
+                Model.Source = null;
+                source.BenchmarkEntries.Add(Model);
+                await cache.SetSources(allSources);
+                editing = null;
+            }
         }
         await Refresh();
     }
@@ -146,9 +169,15 @@ else
     async void DeleteModel()
     {
         await js.InvokeVoidAsync("HideModal", "#AddBenchmarkEntryModal");
-        if (Model.Id != -1)
+        if (editing != null)
         {
-            await http.DeleteAsync($"api/BenchmarkEntries/{Model.Id}");
+            var existingSource = allSources.FirstOrDefault(s => s.Id == editing.SourceId);
+            if (existingSource != null)
+            {
+                existingSource.BenchmarkEntries.Remove(editing);
+                await cache.SetSources(allSources);
+            }
+            editing = null;
         }
 
         await Refresh();

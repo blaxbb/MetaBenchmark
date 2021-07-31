@@ -14,6 +14,11 @@ namespace MetaBenchmark.Shared.Models
         public string LogoUrl { get; set; }
         public ICollection<BenchmarkEntry> BenchmarkEntries { get; set; }
 
+        public BenchmarkSource()
+        {
+            BenchmarkEntries = new List<BenchmarkEntry>();
+        }
+
         public override bool Equals(object obj)
         {
             return obj is BenchmarkSource source &&

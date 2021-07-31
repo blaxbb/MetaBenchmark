@@ -22,7 +22,6 @@ window.HideModal = function (id) {
 window.ShowSelectPicker = function () {
     $('.selectpicker').selectpicker();
     $('.selectpicker').selectpicker('refresh');
-    console.log('refresh');
 }
 
 window.RemoveSelectPicker = function (index) {
@@ -47,4 +46,12 @@ window.MoveFilterToNav = function () {
 
 window.SetUrl = function (url) {
     window.history.replaceState({}, document.title, url)
+}
+
+window.SetStorage = function (name, value) {
+    localStorage.setItem(name, value);
+}
+
+window.GetStorage = function (name) {
+    return localStorage.getItem(name);
 }

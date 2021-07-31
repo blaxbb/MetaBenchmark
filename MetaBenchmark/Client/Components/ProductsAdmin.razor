@@ -1,12 +1,10 @@
 ﻿@using MetaBenchmark.Client.Components
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@attribute [Authorize]
 
 @using MetaBenchmark.Shared
 @using MetaBenchmark.Shared.Models
 @inject HttpClient Http
 @inject IJSRuntime Js
+@inject DataCache cache;
 
 <Modal Name="Add Product" Id="AddProductModal">
 	<EditForm Model="Model">
@@ -126,7 +124,7 @@ else
 }
 
 @code {
-    Product[] Products;
+    List<Product> Products;
     Product Model;
     string NewSpecName = "";
     string NewSpecValue = "";
@@ -141,17 +139,10 @@ else
 
     async Task Refresh()
     {
-        try
-        {
-            Products = await Http.GetFromJsonAsync<Product[]>("api/Products");
-            AllSpecifications = await Http.GetFromJsonAsync<List<Specification>>("api/Specifications");
+        Products = (await cache.All()).Value;
+        AllSpecifications = (await cache.Specifications()).Value;
 
-            this.StateHasChanged();
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
+        this.StateHasChanged();
     }
 
     async void AddProductClick()
@@ -179,14 +170,23 @@ else
         await Js.InvokeVoidAsync("HideModal", "#AddProductModal");
         if (Model.ID == -1)
         {
-            Model.ID = 0;
-            await Http.PostAsJsonAsync("api/Products", Model);
+            Model.ID = Products.Max(p => p.ID) + 1;
+            Products.Add(Model);
+            
+            await cache.SetProducts(Products);
         }
         else
         {
-            await Http.PutAsJsonAsync($"api/Products/{Model.ID}", Model);
+            var existing = Products.FirstOrDefault(p => p.ID == Model.ID);
+            if(existing != null)
+            {
+                Products.Remove(existing);
+                Products.Add(Model);
+                Products = Products.OrderBy(p => p.ID).ToList();
+                await cache.SetProducts(Products);
+            }
         }
-        await Refresh();
+        StateHasChanged();
         Model = new Product();
     }
 
@@ -195,10 +195,15 @@ else
         await Js.InvokeVoidAsync("HideModal", "#AddProductModal");
         if (Model.ID != -1)
         {
-            await Http.DeleteAsync($"api/Products/{Model.ID}");
+            var existing = Products.FirstOrDefault(p => p.ID == Model.ID);
+            if(existing != null)
+            {
+                Products.Remove(existing);
+                await cache.SetProducts(Products);
+            }
         }
 
-        await Refresh();
+        StateHasChanged();
         Model = new Product();
     }
 
@@ -212,43 +217,60 @@ else
         var spec = AllSpecifications.FirstOrDefault(s => s.Name == NewSpecName && s.Value == NewSpecValue);
         if (spec == null)
         {
+            var existing = AllSpecifications.Any(s => s.Name == NewSpecName);
+            long id = 0;
+            if(!existing)
+            {
+                id = (AllSpecifications.Max(s => s.Id) / 1000) * 1000;
+                id += 1000;
+            }
+            else
+            {
+                id = AllSpecifications.Where(s => s.Name == NewSpecName).Max(s => s.Id);
+                id++;
+            }
+
             spec = new Specification()
             {
                 Name = NewSpecName,
                 Value = NewSpecValue,
+                Id = id
             };
-
-
-            var postContent = await Http.PostAsJsonAsync($"api/Specifications", spec);
-            spec = await postContent.Content.ReadFromJsonAsync<Specification>();
+            AllSpecifications.Add(spec);
+            AllSpecifications = AllSpecifications.OrderBy(s => s.Id).ToList();
+            await cache.SetSpecifications(AllSpecifications);
         }
 
         var entry = new SpecificationEntry()
         {
+            Spec = spec,
             SpecId = spec.Id,
             ProductId = Model.ID,
         };
 
-        var content = await Http.PostAsJsonAsync($"api/SpecificationEntries", entry);
-        var entryUpdated = await content.Content.ReadFromJsonAsync<SpecificationEntry>();
-        entry.Id = entryUpdated.Id;
-        Console.WriteLine(entry.Id);
-        if(Model.Specs == null)
+        var prod = Products.FirstOrDefault(p => p.ID == Model.ID);
+        if(prod.Specs == null)
         {
-            Model.Specs = new List<SpecificationEntry>();
+            prod.Specs = new List<SpecificationEntry>();
         }
-        entry.Spec = spec;
-        Model.Specs.Add(entry);
+        prod.Specs.Add(entry);
+        await cache.SetProducts(Products);
+
         NewSpecName = "";
         NewSpecValue = "";
-        await Refresh();
+        this.StateHasChanged();
     }
 
     async void DeleteSpec(SpecificationEntry entry)
     {
-        await Http.DeleteAsync($"api/SpecificationEntries/{entry.Id}");
-        Model.Specs.Remove(entry);
-        await Refresh();
+        var prod = Products.FirstOrDefault(p => p.ID == Model.ID);
+        if(prod != null)
+        {
+            Model.Specs.Remove(entry);
+            prod.Specs.Remove(entry);
+            await cache.SetProducts(Products);
+            this.StateHasChanged();
+        }
     }
 
 }

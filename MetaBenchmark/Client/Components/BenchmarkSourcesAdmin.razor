@@ -1,12 +1,10 @@
 ﻿@using MetaBenchmark.Client.Components
 @using MetaBenchmark.Shared.Models
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@attribute [Authorize]
 
 @using MetaBenchmark.Shared
 @inject HttpClient Http
 @inject IJSRuntime Js
+@inject DataCache cache
 
 <Modal Name="Add Benchmark Source" Id="AddBenchmarkSourceModal">
 	<h3>Add Benchmark Source</h3>
@@ -104,11 +102,11 @@ else
 }
 
 @code {
-    BenchmarkSource[] Sources;
+    List<BenchmarkSource> Sources;
     BenchmarkSource Model;
 
-    Benchmark[] allBenchmarks;
-    Product[] allProducts;
+    List<Benchmark> allBenchmarks;
+    List<Product> allProducts;
     BenchmarkEntry BulkBenchmark;
 
 
@@ -121,17 +119,10 @@ else
 
     async Task Refresh()
     {
-        try
-        {
-            Sources = await Http.GetFromJsonAsync<BenchmarkSource[]>("api/BenchmarkSources");
-            allBenchmarks = await Http.GetFromJsonAsync<Benchmark[]>($"api/Benchmarks");
-            allProducts = await Http.GetFromJsonAsync<Product[]>($"api/Products");
-            this.StateHasChanged();
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
+        Sources = (await cache.Sources()).Value;
+        allBenchmarks = (await cache.Benchmarks()).Value;
+        allProducts = (await cache.All()).Value;
+        this.StateHasChanged();
     }
 
     async void AddClick()
@@ -171,14 +162,17 @@ else
         await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkSourceModal");
         if (Model.Id == -1)
         {
-            Model.Id = 0;
-            await Http.PostAsJsonAsync("api/BenchmarkSources", Model);
+            Model.Id = Sources.Max(s => s.Id) + 1;
+            Sources.Add(Model);
+            await cache.SetSources(Sources);
         }
         else
         {
-            await Http.PutAsJsonAsync($"api/BenchmarkSources/{Model.Id}", Model);
+            Sources.RemoveAll(s => s.Id == Model.Id);
+            Sources.Add(Model);
+            await cache.SetSources(Sources);
         }
-        await Refresh();
+        this.StateHasChanged();
         Model = new BenchmarkSource();
     }
 
@@ -187,10 +181,11 @@ else
         await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkSourceModal");
         if (Model.Id != -1)
         {
-            await Http.DeleteAsync($"api/BenchmarkSources/{Model.Id}");
+            Sources.RemoveAll(s => s.Id == Model.Id);
+            await cache.SetSources(Sources);
         }
 
-        await Refresh();
+        this.StateHasChanged();
         Model = new BenchmarkSource();
     }
 
@@ -199,8 +194,16 @@ else
         Console.WriteLine($"{BulkBenchmark.ProductId} - {BulkBenchmark.BenchmarkId} - {BulkBenchmark.SourceId}");
         if (BulkBenchmark.ProductId != 0 && BulkBenchmark.BenchmarkId != 0 && BulkBenchmark.SourceId != 0)
         {
-            BulkBenchmark.Id = 0;
-            await Http.PostAsJsonAsync("api/BenchmarkEntries", BulkBenchmark);
+            var source = Sources.FirstOrDefault(s => s.Id== BulkBenchmark.SourceId);
+            source.BenchmarkEntries.Add(new BenchmarkEntry()
+            {
+                BenchmarkId = BulkBenchmark.BenchmarkId,
+                ProductId = BulkBenchmark.ProductId,
+                SourceId = BulkBenchmark.SourceId,
+                Value = BulkBenchmark.Value
+            });
+            cache.SetSources(Sources);
+            this.StateHasChanged();
         }
     }
 }
