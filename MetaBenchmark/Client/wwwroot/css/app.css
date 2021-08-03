@@ -87,7 +87,7 @@ a, .btn-link {
 }
 
 .compare-products > .row > .col {
-    max-width: 600px;
+    max-width: 400px;
     padding-right: 1em;
     padding-left: 1em;
 }
@@ -153,4 +153,8 @@ a, .btn-link {
     height: 25px;
     background-position-y: 100%;
     margin-right: .5em;
+}
+
+.benchmark-value {
+    font-size: 1.5rem;
 }

@@ -81,6 +81,9 @@
     </select>
     <div class="compare-products">
         <div class="row justify-content-center">
+            <div class="col card">
+                <div class="product-header"></div>
+            </div>
             @for(int i = 0; i < SelectedProducts.Length; i++)
             {
                 var index = i;
@@ -110,13 +113,13 @@
 
                         <div class="row card-body product-header @brandClass">
                             <h4 class="col my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
-                            <button class="btn btn-lg col-auto btn-danger" @onclick="(() => Selected(null, index))">
+                            <button class="btn col-auto btn-danger" @onclick="(() => Selected(null, index))">
                                 <span class="oi oi-x" aria-hidden="true"></span>
                             </button>
                             @if(i == SelectedProducts.Length - 1)
                             {
                                 <div class="col-auto">
-                                    <button class="btn btn-lg btn-success" @onclick="AddProduct">
+                                    <button class="btn btn-success" @onclick="AddProduct">
                                         <span class="oi oi-plus" aria-hidden="true"></span>
                                     </button>
                                 </div>
@@ -130,6 +133,13 @@
         @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
         {
             <div class="row justify-content-center benchmark benchmark-@bench.ID">
+                <div class="product col m-0 py-3 card">
+                    <div class="row h-100">
+                        <div class="col my-auto">
+                            <h4 class="m-0">@bench.Name</h4>
+                        </div>
+                    </div>
+                </div>
                 @for(int i = 0; i < SelectedProducts.Length; i++)
                 {
                     if (SelectedProducts.Length > i && SelectedProducts[i] != default)
@@ -163,17 +173,13 @@
                                         <i class="fas fa-ellipsis-h fa-2x"></i>
                                     }
                                 </div>
-                                <div class="col my-auto">
-                                    <h4 class="m-0">@entries.First().Benchmark.Name</h4>
-                                </div>
-
                                 <div class="col text-right">
                                     @foreach(var entry in entries)
                                     {
                                         var textClass = GetTextClass(entry);
                                         <div class="row benchmark-entry">
-                                            <div class="col"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></div>
-                                            <div class="col my-auto @textClass">@entry.ValueLabel()</div>
+                                            <div class="col text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                            <div class="col-auto my-auto benchmark-value @textClass">@entry.ValueLabel()</div>
                                         </div>
                                     }
                                 </div>
