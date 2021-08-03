@@ -43,7 +43,7 @@
             @onchange="((val) => SelectedBenchmarkType())">
         @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
         {
-            if (CurrentBenchmarkType == type && false)
+            if (CurrentBenchmarkType == type)
             {
                 <option selected value=@((int)type)>@type.DisplayName()</option>
             }
@@ -223,31 +223,40 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        UserModified = false;
-        CurrentProductType = Product.ProductType.GPU;
-        CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+        var query = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query);
+        var prodTypeQuery = query.Get("pt");
+        var benchTypeQuery = query.Get("bt");
 
-@*        var existing = await StorageEntry<List<Product>>.GetValue(js, "mb.AllProducts");
-        if (existing != null && (DateTime.Now - existing.Created).Minutes < 15)
+        UserModified = false;
+
+        if (!string.IsNullOrWhiteSpace(prodTypeQuery) && Enum.TryParse<Product.ProductType>(prodTypeQuery, out var prodType))
         {
-            Console.WriteLine("Using cache");
-            AllProducts = existing.Value;
+            CurrentProductType = prodType;
         }
         else
         {
-            AllProducts = await GetAllProducts();
-            Console.WriteLine("Setting cache");
-            await StorageEntry<List<Product>>.SetValue(js, "mb.AllProducts", false, AllProducts);
-        }*@
+            CurrentProductType = Product.ProductType.GPU;
+        }
 
-    var all = await cache.All();
+        if (!string.IsNullOrWhiteSpace(benchTypeQuery) && Enum.TryParse<Benchmark.BenchmarkType>(benchTypeQuery, out var benchType))
+        {
+            CurrentBenchmarkType = benchType;
+        }
+        else
+        {
+            CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+        }
+
+        var all = await cache.All();
         AllProducts = all.Value;
         UserModified = all.UserModified;
 
 
-    Console.WriteLine(nav.Uri);
-        var prodParam = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query).Get("products");
+        Console.WriteLine(nav.Uri);
+
+        var prodParam = query.Get("products");
         Console.WriteLine(prodParam);
+
         string[] prodFromQuery = null;
         if (!string.IsNullOrWhiteSpace(prodParam))
         {
@@ -421,7 +430,7 @@ else
         await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 4);
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
-        await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}?products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.ID))}");
+        await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.ID))}");
     }
 
     void ComputeAverages()

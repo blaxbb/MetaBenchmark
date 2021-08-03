@@ -1,0 +1,72 @@
+﻿@using MetaBenchmark.Shared
+@inject DataCache cache;
+@inject NavigationManager nav;
+
+@if(BenchmarkTypes != null && BenchmarkTypes.Count > 0)
+{
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            @foreach(var benchType in BenchmarkTypes)
+            {
+                <div class="col-auto text-center card landing-option" @onclick="(() => SelectBenchmarkType(benchType))">
+                    <img class="card-img-top" src="/logos/nvidia.jpg" alt="@benchType">
+                    <div class="card-body">
+                        <h4>@benchType.DisplayName()</h4>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else if(ProductTypes != null && ProductTypes.Count > 0)
+{
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            @foreach(var prodType in ProductTypes)
+            {
+                <div class="col-auto text-center card landing-option" @onclick="(() => SelectProductType(prodType))">
+                    <img class="card-img-top" src="/logos/nvidia.jpg" alt="@prodType">
+                    <div class="card-body">
+                        <h4>@prodType</h4>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+@code {
+    Product.ProductType SelectedProductType = Product.ProductType.Unknown;
+    Benchmark.BenchmarkType SelectedBenchmarkType = Benchmark.BenchmarkType.FPS;
+
+    List<Product.ProductType> ProductTypes = new List<Product.ProductType>();
+    List<Benchmark.BenchmarkType> BenchmarkTypes = new List<Benchmark.BenchmarkType>();
+
+    List<Product> AllProducts = new List<Product>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var all = await cache.All();
+        AllProducts = all.Value;
+
+        ProductTypes = AllProducts.Select(p => p.Type).Distinct().ToList();
+    }
+
+    private void SelectProductType(Product.ProductType type)
+    {
+        SelectedProductType = type;
+        BenchmarkTypes = AllProducts.Where(p => p.Type == type)
+                                    .SelectMany(p => p.BenchmarkEntries)
+                                    .Select(b => b.Benchmark.Type)
+                                    .Distinct()
+                                    .ToList();
+
+    }
+
+    private void SelectBenchmarkType(Benchmark.BenchmarkType type)
+    {
+        SelectedBenchmarkType = type;
+        nav.NavigateTo($"/compare?pt={SelectedProductType}&bt={SelectedBenchmarkType}");
+    }
+}
