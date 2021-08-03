@@ -27,7 +27,14 @@
             @onchange="((val) => SelectedProductType(val.Value))">
         @foreach(var type in AllProducts.Select(p => p.Type).Distinct())
         {
-            <option value=@((int)type)>@type</option>
+            if(type == CurrentProductType)
+            {
+                <option selected value=@(type)>@type</option>
+            }
+            else
+            {
+                <option value=@(type)>@type</option>
+            }
         }
     </select>
     <select class="form-control selectpicker form-control-lg"
@@ -86,7 +93,7 @@
                                     class="selectpicker form-control form-control-lg col" 
                                     title="Select a product"
                                     @onchange="((val) => SelectedId((string)val.Value, index))">
-                                @foreach (var product in AllProducts.OrderByDescending(p => p.Name))
+                                @foreach (var product in AllProducts.Where(p => p.Type == CurrentProductType).OrderByDescending(p => p.Name))
                                 {
                                     var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
                                     var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
@@ -227,7 +234,7 @@ else
             await StorageEntry<List<Product>>.SetValue(js, "mb.AllProducts", false, AllProducts);
         }*@
 
-        var all = await cache.All();
+    var all = await cache.All();
         AllProducts = all.Value;
         UserModified = all.UserModified;
 
@@ -498,14 +505,13 @@ else
 
     async Task SelectedProductType(object val)
     {
-        if(val is Product.ProductType type)
-        {
-            CurrentProductType = type;
-            StateHasChanged();
-            await js.InvokeVoidAsync("ShowSelectPicker");
-            Console.WriteLine($"SELECTEED {type}");
-        }
         
+        var type = (Product.ProductType)Enum.Parse(typeof(Product.ProductType), (string)val);
+        CurrentProductType = type;
+        StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+        Console.WriteLine($"SELECTEED {type}");
     }
 
     async Task SelectedBenchmarkType()
