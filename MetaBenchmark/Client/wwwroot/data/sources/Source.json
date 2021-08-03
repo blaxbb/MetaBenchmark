@@ -1,0 +1,38 @@
+{
+  "Id": 3,
+  "Name": "Source",
+  "Url": "https://google.com/",
+  "LogoUrl": "https://www.gstatic.com/images/branding/googleg/2x/googleg_standard_color_120dp.png",
+  "BenchmarkEntries": [
+    {
+      "BenchmarkId": 1,
+      "ProductId": 1,
+      "Value": 123.0
+    },
+    {
+      "BenchmarkId": 2,
+      "ProductId": 3,
+      "Value": 100.0
+    },
+    {
+      "BenchmarkId": 2,
+      "ProductId": 2,
+      "Value": 130.0
+    },
+    {
+      "BenchmarkId": 1,
+      "ProductId": 2,
+      "Value": 200.0
+    },
+    {
+      "BenchmarkId": 2,
+      "ProductId": 1,
+      "Value": 65.0
+    },
+    {
+      "BenchmarkId": 1,
+      "ProductId": 1,
+      "Value": 150.0
+    }
+  ]
+}
