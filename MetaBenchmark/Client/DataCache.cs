@@ -13,7 +13,11 @@ namespace MetaBenchmark.Client
 {
     public class DataCache
     {
+#if DEBUG
         public const bool CACHE_ENABLED = false;
+#else
+        public const bool CACHE_ENABLED = true;
+#endif
         IJSRuntime js;
         HttpClient client;
 
