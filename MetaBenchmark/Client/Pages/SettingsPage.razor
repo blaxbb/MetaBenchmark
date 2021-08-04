@@ -1,0 +1,41 @@
+﻿@page "/settings"
+@inject IJSRuntime js;
+
+
+@if (settings != null)
+{
+    <div class="container">
+        <h3>Settings</h3>
+
+        <EditForm Model="settings" class="form">
+            <div class="form-group">
+                <InputCheckbox class="form-check-input" id="cacheEnabled" @bind-Value=settings.CacheEnabled>
+                
+                </InputCheckbox>
+			    <label for="cacheEnabled">Enable Cache</label>
+		    </div>
+            <div class="form-group">
+                <InputCheckbox class="form-check-input" id="editEnabled" @bind-Value=settings.EditModeEnabled>
+                
+                </InputCheckbox>
+			    <label for="cacheEnabled">Enable Edit Mode</label>
+		    </div>
+            <button class="btn btn-primary" @onclick=SubmitClick>
+                Save
+            </button>
+        </EditForm> 
+    </div>
+}
+@code {
+    Settings settings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        settings = await Settings.Load(js);
+    }
+
+    private async Task SubmitClick()
+    {
+        await settings?.Save(js);
+    }
+}

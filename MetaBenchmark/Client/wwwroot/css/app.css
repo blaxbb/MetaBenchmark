@@ -162,6 +162,7 @@ a, .btn-link {
 .landing-option {
     width: 15rem;
     margin: 2rem;
+    cursor: pointer;
 }
 
 .landing-option > img {

@@ -13,11 +13,9 @@ namespace MetaBenchmark.Client
 {
     public class DataCache
     {
-#if DEBUG
-        public const bool CACHE_ENABLED = false;
-#else
-        public const bool CACHE_ENABLED = true;
-#endif
+
+        bool CACHE_ENABLED = true;
+        bool Initialized = false;
         IJSRuntime js;
         HttpClient client;
 
@@ -32,6 +30,17 @@ namespace MetaBenchmark.Client
             Console.WriteLine($"INIT CACHE {(js == null ? "NULL" : "HAVE JS")}");
             this.js = js;
             this.client = client;
+        }
+
+        async Task Initialize()
+        {
+            if(Initialized)
+            {
+                return;
+            }
+            Initialized = true;
+            var settings = await Settings.Load(js);
+            CACHE_ENABLED = settings.CacheEnabled;
         }
 
         public async Task<StorageEntry<List<Product>>> All()
@@ -61,6 +70,8 @@ namespace MetaBenchmark.Client
 
         async Task<StorageEntry<T>> Get<T>(string name, Func<Task<(T Value, bool userModified)>> fetchTask)
         {
+            await Initialize();
+
             var existing = await StorageEntry<T>.GetValue(js, name);
             if (existing != null && (existing.UserModified || (DateTime.Now - existing.Created).Minutes < 15 && CACHE_ENABLED))
             {

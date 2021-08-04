@@ -22,7 +22,6 @@ namespace MetaBenchmark.Client
             Created = DateTime.Now;
         }
 
-
         public async Task SetValue(IJSRuntime js)
         {
             await js.InvokeVoidAsync("SetStorage", Name, JsonConvert.SerializeObject(this));
