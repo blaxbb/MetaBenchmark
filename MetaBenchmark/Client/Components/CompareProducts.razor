@@ -21,39 +21,6 @@
         </div>
     }
     <select class="form-control selectpicker form-control-lg"
-            id="productTypeFilter"
-            data-selected-text-format="count"
-            data-style="btn-secondary"
-            @onchange="((val) => SelectedProductType(val.Value))">
-        @foreach(var type in AllProducts.Select(p => p.Type).Distinct())
-        {
-            if(type == CurrentProductType)
-            {
-                <option selected value=@(type)>@type</option>
-            }
-            else
-            {
-                <option value=@(type)>@type</option>
-            }
-        }
-    </select>
-    <select class="form-control selectpicker form-control-lg"
-            id="benchmarkTypeFilter"
-            data-style="btn-secondary"
-            @onchange="((val) => SelectedBenchmarkType())">
-        @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
-        {
-            if (CurrentBenchmarkType == type)
-            {
-                <option selected value=@((int)type)>@type.DisplayName()</option>
-            }
-            else
-            {
-                <option value=@((int)type)>@type.DisplayName()</option>
-            }
-        }
-    </select>
-    <select class="form-control selectpicker form-control-lg"
             id="benchmarkFilter"
             data-live-search="true"
             data-actions-box="true"
@@ -82,7 +49,24 @@
     <div class="compare-products">
         <div class="row justify-content-center">
             <div class="col card">
-                <div class="product-header"></div>
+                <form class="row card-body">
+                        <select class="form-control selectpicker form-control-lg"
+                            id="benchmarkTypeFilter"
+                            data-style="btn-secondary"
+                            @onchange="((val) => SelectedBenchmarkType())">
+                        @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
+                        {
+                            if (CurrentBenchmarkType == type)
+                            {
+                                <option selected value=@((int)type)>@type.DisplayName()</option>
+                            }
+                            else
+                            {
+                                <option value=@((int)type)>@type.DisplayName()</option>
+                            }
+                        }
+                    </select>
+                </form>
             </div>
             @for(int i = 0; i < SelectedProducts.Length; i++)
             {
@@ -113,16 +97,16 @@
 
                         <div class="row card-body product-header @brandClass">
                             <h4 class="col my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
+                            <div class="w-100 d-block d-md-none"></div>
+                            <div class="col d-none d-sm-block d-md-none"></div>
                             <button class="btn col-auto btn-danger" @onclick="(() => Selected(null, index))">
                                 <span class="oi oi-x" aria-hidden="true"></span>
                             </button>
                             @if(i == SelectedProducts.Length - 1)
                             {
-                                <div class="col-auto">
-                                    <button class="btn btn-success" @onclick="AddProduct">
-                                        <span class="oi oi-plus" aria-hidden="true"></span>
-                                    </button>
-                                </div>
+                                <button class="btn col-auto btn-success" @onclick="AddProduct">
+                                    <span class="oi oi-plus" aria-hidden="true"></span>
+                                </button>
                             }
                         </div>
                     }
@@ -159,7 +143,7 @@
                         backgroundClass = "";
                         <div class="product col m-0 py-3 @backgroundClass card">
                             <div class="row h-100">
-                                <div class="col-auto text-center my-auto">
+                                <div class="col-auto text-center my-auto d-none d-lg-block">
                                     @if(avg > midpoint)
                                     {
                                         <i class="fas fa-angle-double-up fa-2x text-success"></i>
@@ -178,8 +162,8 @@
                                     {
                                         var textClass = GetTextClass(entry);
                                         <div class="row benchmark-entry">
-                                            <div class="col text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
-                                            <div class="col-auto my-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                            <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                            <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
                                         </div>
                                     }
                                 </div>
@@ -427,7 +411,7 @@ else
         //
         //
         Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Where(p => p != null).Select(p => p.Name)));
-        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 4);
+        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 3);
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
         await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.ID))}");

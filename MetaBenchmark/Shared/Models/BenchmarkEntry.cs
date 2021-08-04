@@ -48,9 +48,12 @@ namespace MetaBenchmark.Shared
             switch (Benchmark?.Type ?? Benchmark.BenchmarkType.FPS)
             {
                 case Benchmark.BenchmarkType.FPS:
-                    return $"{Value:.} FPS";
+                case Benchmark.BenchmarkType.FPS_1080P:
+                case Benchmark.BenchmarkType.FPS_1440P:
+                case Benchmark.BenchmarkType.FPS_4K:
+                    return $"{Value:0.0} FPS";
                 case Benchmark.BenchmarkType.Compute:
-                    return $"{Value:.} Pts";
+                    return $"{Value:0.0} Pts";
                 case Benchmark.BenchmarkType.Timing:
                     return Value switch
                     {

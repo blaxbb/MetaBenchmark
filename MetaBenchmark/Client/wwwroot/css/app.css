@@ -82,8 +82,7 @@ a, .btn-link {
 }
 
 .benchmark-entry img {
-    max-width: 125px;
-    max-height: 40px;
+    width: 100%;
 }
 
 .compare-products > .row > .col {
@@ -109,22 +108,24 @@ a, .btn-link {
     flex: 0 0 auto;
 }
 
-.product-header.brand-Nvidia::before {
-    background: url(/logos/nvidia.jpg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-y: 50%;
-    width: 50px;
-}
+@media(min-width: 992px) {
 
-.product-header.brand-AMD::before {
-    background: url(/logos/amd.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-y: 50%;
-    width: 50px;
-}
+    .product-header.brand-Nvidia::before {
+        background: url(/logos/nvidia.jpg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-y: 50%;
+        width: 50px;
+    }
 
+    .product-header.brand-AMD::before {
+        background: url(/logos/amd.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-y: 50%;
+        width: 50px;
+    }
+}
 .bootstrap-select .dropdown-item.brand-Nvidia::before {
     content: '';
     background: url(/logos/nvidia.jpg);
@@ -155,10 +156,11 @@ a, .btn-link {
     margin-right: .5em;
 }
 
-.benchmark-value {
-    font-size: 1.5rem;
+@media(min-width: 992px) {
+    .benchmark-value {
+        font-size: 1.5rem;
+    }
 }
-
 .landing-option {
     width: 15rem;
     margin: 2rem;
