@@ -1,4 +1,8 @@
-﻿@using MetaBenchmark.Shared
+﻿@inject IJSRuntime js
+
+@using MetaBenchmark.Shared
+@using MetaBenchmark.Shared.Models
+
 @if(product != null)
 {
     var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
@@ -23,7 +27,46 @@
                 </table>
             </div>
             <div class="col-8">
-                @foreach(var group in product.BenchmarkEntries.GroupBy(b => b.Benchmark))
+                <div class="row">
+                    <div class="col">
+                        <select class="form-control selectpicker form-control-lg"
+                                id="benchmarkTypeFilter"
+                                data-style="btn-secondary"
+                                @onchange="((val) => SelectedBenchmarkType())">
+                            @foreach(var type in product.BenchmarkEntries.Select(e => e.Benchmark.Type).Distinct())
+                            {
+                                if (CurrentBenchmarkType == type)
+                                {
+                                    <option selected value=@((int)type)>@type.DisplayName()</option>
+                                }
+                                else
+                                {
+                                    <option value=@((int)type)>@type.DisplayName()</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-control selectpicker form-control-lg"
+                                id="benchmarkSourceFilter"
+                                data-style="btn-secondary"
+                                @onchange="((val) => SelectedSource())"
+                                multiple>
+                            @foreach(var source in product.BenchmarkEntries.Select(e => e.Source).Distinct())
+                            {
+                                if (CurrentSource.Contains(source))
+                                {
+                                    <option selected value=@((int)source.Id)>@source.Name</option>
+                                }
+                                else
+                                {
+                                    <option value=@((int)source.Id)>@source.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark))
                 {
                     <div class="row benchmark">
                         <div class="col-4 my-auto">
@@ -50,6 +93,55 @@
 @code {
     [Parameter]
     public Product product { get; set; }
+
+    Benchmark.BenchmarkType CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+    List<BenchmarkSource> CurrentSource = new List<BenchmarkSource>();
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine("SET");
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    bool FilterBenchmark(BenchmarkEntry b)
+    {
+        var isType = b.Benchmark.Type == CurrentBenchmarkType;
+        var isSource = CurrentSource == null || CurrentSource.Count == 0 || CurrentSource.Contains(b.Source);
+
+        return isType && isSource;
+    }
+
+    async Task SelectedBenchmarkType()
+    {
+        var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
+        CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
+        StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    async Task SelectedSource()
+    {
+        var vals = await js.InvokeAsync<string[]>("GetVal", "#benchmarkSourceFilter");
+        CurrentSource.Clear();
+        foreach(var val in vals)
+        {
+            if(long.TryParse(val, out long id))
+            {
+                var source = product.BenchmarkEntries.Select(b => b.Source).FirstOrDefault(s => s.Id == id);
+                CurrentSource.Add(source);
+            }
+        }
+
+        StateHasChanged();
+        await Task.Delay(100);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
 
     string GetTextClass(BenchmarkEntry entry)
     {

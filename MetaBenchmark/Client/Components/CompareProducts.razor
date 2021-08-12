@@ -528,7 +528,6 @@ else
         ActiveBenchmarks = AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).ToList();
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
-        Console.WriteLine(JsonConvert.SerializeObject(CurrentBenchmarkType));
     }
 
     string GetTextClass(BenchmarkEntry entry)
