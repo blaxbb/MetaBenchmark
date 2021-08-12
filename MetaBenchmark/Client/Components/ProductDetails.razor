@@ -1,0 +1,72 @@
+﻿@using MetaBenchmark.Shared
+@if(product != null)
+{
+    var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+    var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div class="product-name @brandClass">
+                    <h1>@product.Name</h1>
+                </div>
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        @foreach(var spec in product.Specs)
+                        {
+                            <tr>
+                                <td>@spec.Spec.Name</td>
+                                <td>@spec.Spec.Value</td>
+                            </tr>
+                        }      
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-8">
+                @foreach(var group in product.BenchmarkEntries.GroupBy(b => b.Benchmark))
+                {
+                    <div class="row benchmark">
+                        <div class="col-4 my-auto">
+                            <h4>@group.Key.Name</h4>
+                        </div>
+                        <div class="col-8">
+                            @foreach(var entry in group)
+                            {
+                                var textClass = GetTextClass(entry);
+                                <div class="row benchmark-entry">
+                                    <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                    <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public Product product { get; set; }
+
+    string GetTextClass(BenchmarkEntry entry)
+    {
+        switch(entry.Benchmark.Type)
+        {
+            case Benchmark.BenchmarkType.FPS:
+            case Benchmark.BenchmarkType.FPS_4K:
+            case Benchmark.BenchmarkType.FPS_1440P:
+            case Benchmark.BenchmarkType.FPS_1080P:
+                return entry.Value switch
+                {
+                    > 100 => "text-success",
+                    > 60  => "text-primary",
+                    _     => "text-warning"
+                };
+        }
+
+        return "";
+    }
+}

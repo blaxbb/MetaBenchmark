@@ -1,0 +1,23 @@
+﻿@page "/product/{productId}"
+@inject DataCache cache;
+
+@using MetaBenchmark.Client.Components
+@using MetaBenchmark.Shared
+
+<ProductDetails product="product"/>
+
+@code {
+    Product product;
+    [Parameter]
+    public string productId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var all = await cache.All();
+        if (all.Value != null && long.TryParse(productId, out long id))
+        {
+            product = all.Value.FirstOrDefault(p => p.ID == id);
+        }
+    }
+
+}

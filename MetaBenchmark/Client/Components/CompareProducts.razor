@@ -99,6 +99,9 @@
                             <h4 class="col my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
                             <div class="w-100 d-block d-md-none"></div>
                             <div class="col d-none d-sm-block d-md-none"></div>
+                            <button class="btn col-auto btn-success" @onclick="(() => NavigateProduct(SelectedProducts[index].ID))">
+                                <span class="oi oi-list" aria-hidden="true"></span>
+                            </button>
                             <button class="btn col-auto btn-danger" @onclick="(() => Selected(null, index))">
                                 <span class="oi oi-x" aria-hidden="true"></span>
                             </button>
@@ -484,6 +487,11 @@ else
         StateHasChanged();
         await Task.Delay(1);
         await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    void NavigateProduct(long id)
+    {
+        nav.NavigateTo($"/product/{id}");
     }
 
     async Task SelectedBenchmark()

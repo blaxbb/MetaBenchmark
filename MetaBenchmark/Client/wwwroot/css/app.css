@@ -85,8 +85,13 @@ a, .btn-link {
     width: 100%;
 }
 
+.compare-products > .row {
+    flex-wrap: nowrap;
+}
+
 .compare-products > .row > .col {
-    max-width: 400px;
+    max-width: 500px;
+    min-width: 500px;
     padding-right: 1em;
     padding-left: 1em;
 }

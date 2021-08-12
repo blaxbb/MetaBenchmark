@@ -16,4 +16,16 @@
     <Watch Include="**\*.js;**\*.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Components\ProductDetails.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Watch Remove="Components\ProductDetails.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\ProductDetails.razor.css" />
+  </ItemGroup>
+
 </Project>

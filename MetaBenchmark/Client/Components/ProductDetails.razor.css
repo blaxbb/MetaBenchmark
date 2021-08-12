@@ -1,0 +1,18 @@
+﻿.benchmark {
+    border-bottom: solid 1px gray;
+    padding: 1em;
+}
+
+.benchmark:last-child {
+    border-bottom: none;
+}
+
+
+.benchmark img {
+    max-width: 250px;
+    width: 100%;
+}
+
+.benchmark-entry {
+    padding-bottom: 1em;
+}
