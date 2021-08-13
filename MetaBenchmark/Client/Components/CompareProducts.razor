@@ -126,6 +126,8 @@
                     {
                         var prod = SelectedProducts[i];
                         var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == bench.ID && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
+                        var count = entries.Count();
+                        var visibleCount = 1;
                         if(entries.Count == 0)
                         {
                             <div class="col">
@@ -154,12 +156,34 @@
                                     }
                                 </div>
                                 <div class="col text-right">
-                                    @foreach(var entry in entries)
+
+
+
+                                    @for(int j = 0; j < 1 && j < count; j++)
                                     {
+                                        var entry = entries.ElementAt(j);
                                         var textClass = GetTextClass(entry);
                                         <div class="row benchmark-entry">
                                             <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
                                             <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                        </div>
+                                    }
+
+                                    @if (count > visibleCount)
+                                    {
+                                        <div class="collapse" id="bench_@(bench.ID)_collapse">
+                                            @for (int j = 1; j < count; j++)
+                                            {
+                                                var entry = entries.ElementAt(j);
+                                                var textClass = GetTextClass(entry);
+                                                <div class="row benchmark-entry">
+                                                    <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                                    <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-primary w-100 p-0" type="button" data-toggle="collapse" data-target="#bench_@(bench.ID)_collapse" aria-expanded="false" aria-controls="bench_@(bench.ID)_collapse">...</button>
                                         </div>
                                     }
                                 </div>
