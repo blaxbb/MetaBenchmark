@@ -76,6 +76,10 @@
 	IEnumerable<(string, string)> ExportSpecificationFiles(IEnumerable<Product> all)
 	{
 		var specGroups = all.SelectMany(p => p.Specs).Select(s => s.Spec).Distinct().GroupBy(s => s.Name);
+
+		var indexJson = JsonConvert.SerializeObject(specGroups.Select(g => g.Key).ToList(), Settings);
+		yield return ("specifications/index.json", indexJson);
+
 		foreach(var group in specGroups)
 		{
 			var name = group.Key;
@@ -89,6 +93,10 @@
 	IEnumerable<(string, string)> ExportSourceFiles(IEnumerable<Product> all)
 	{
 		var sourceGroups = all.SelectMany(p => p.BenchmarkEntries).GroupBy(b => b.Source);
+
+		var indexJson = JsonConvert.SerializeObject(sourceGroups.Select(g => g.Key.Name).OrderBy(s => s).ToList(), Settings);
+		yield return ("sources/index.json", indexJson);
+
 		foreach(var group in sourceGroups)
 		{
 			var source = group.Key;
