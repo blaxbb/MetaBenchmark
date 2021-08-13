@@ -20,46 +20,59 @@
             </div>
         </div>
     }
-    <select class="form-control selectpicker form-control-lg"
-            id="benchmarkFilter"
-            data-live-search="true"
-            data-actions-box="true"
-            data-selected-text-format="count"
-            data-style="btn-secondary"
-            multiple
-            @onchange="((val) => SelectedBenchmark())">
-        @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
-        {
-            <option selected value=@bench.ID>@bench.Name</option>
-        }
-    </select>
-    <select class="form-control selectpicker form-control-lg"
-            id="sourceFilter"
-            data-live-search="true"
-            data-actions-box="true"
-            data-selected-text-format="count"
-            data-style="btn-secondary"
-            multiple
-            @onchange="((val) => SelectedSource())">
-        @foreach(var source in AvailableSources.OrderBy(s => s.Name))
-        {
-            <option selected value=@source.Id>@source.Name</option>
-        }
-    </select>
     <div class="compare-products">
         <div class="row justify-content-center">
             <div class="col card">
-                <form class="row card-body">
-                        <select class="form-control selectpicker form-control-lg"
-                            id="benchmarkTypeFilter"
-                            data-style="btn-secondary"
-                            @onchange="((val) => SelectedBenchmarkType())">
-                        @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
-                        {
-                            <option value=@((int)type)>@type.DisplayName()</option>
-                        }
-                    </select>
-                </form>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-control selectpicker form-control-lg"
+                                id="benchmarkTypeFilter"
+                                data-style="btn-secondary"
+                                @onchange="((val) => SelectedBenchmarkType())">
+                                @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
+                                {
+                                    <option value=@((int)type)>@type.DisplayName()</option>
+                                }
+                            </select>
+                        </div>
+                        <button id="filterCollapseButton" class="btn btn-primary col-auto" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                           <span class="oi oi-expand-down" aria-hidden="true"></span> 
+                        </button>
+                    </div>
+                    <div id="filterCollapse" class="collapse">
+                        <div class="row">
+                            <select class="form-control selectpicker form-control-lg"
+                                    id="benchmarkFilter"
+                                    data-live-search="true"
+                                    data-actions-box="true"
+                                    data-selected-text-format="count"
+                                    data-style="btn-secondary"
+                                    multiple
+                                    @onchange="((val) => SelectedBenchmark())">
+                                @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
+                                {
+                                    <option selected value=@bench.ID>@bench.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="row">
+                            <select class="form-control selectpicker form-control-lg"
+                                    id="sourceFilter"
+                                    data-live-search="true"
+                                    data-actions-box="true"
+                                    data-selected-text-format="count"
+                                    data-style="btn-secondary"
+                                    multiple
+                                    @onchange="((val) => SelectedSource())">
+                                @foreach(var source in AvailableSources.OrderBy(s => s.Name))
+                                {
+                                    <option selected value=@source.Id>@source.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             @for(int i = 0; i < SelectedProducts.Length; i++)
             {
@@ -92,15 +105,15 @@
                             <h4 class="col my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
                             <div class="w-100 d-block d-md-none"></div>
                             <div class="col d-none d-sm-block d-md-none"></div>
-                            <button class="btn col-auto btn-success" @onclick="(() => NavigateProduct(SelectedProducts[index].ID))">
+                            <button class="btn col-auto btn-success product-btn my-auto" @onclick="(() => NavigateProduct(SelectedProducts[index].ID))">
                                 <span class="oi oi-list" aria-hidden="true"></span>
                             </button>
-                            <button class="btn col-auto btn-danger" @onclick="(() => Selected(null, index))">
+                            <button class="btn col-auto btn-danger product-btn my-auto" @onclick="(() => Selected(null, index))">
                                 <span class="oi oi-x" aria-hidden="true"></span>
                             </button>
                             @if(i == SelectedProducts.Length - 1)
                             {
-                                <button class="btn col-auto btn-success" @onclick="AddProduct">
+                                <button class="btn col-auto btn-success product-btn my-auto" @onclick="AddProduct">
                                     <span class="oi oi-plus" aria-hidden="true"></span>
                                 </button>
                             }

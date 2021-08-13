@@ -17,14 +17,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Components\CompareProducts.razor.css" />
     <None Remove="Components\ProductDetails.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Watch Remove="Components\CompareProducts.razor.css" />
     <Watch Remove="Components\ProductDetails.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Components\CompareProducts.razor.css" />
     <Content Include="Components\ProductDetails.razor.css" />
   </ItemGroup>
 
