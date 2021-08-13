@@ -10,7 +10,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-4 filter-col">
                 <div class="product-name @brandClass">
                     <h1>@product.Name</h1>
                 </div>
@@ -27,7 +27,7 @@
                 </table>
             </div>
             <div class="col-8">
-                <div class="row">
+                <div class="row filter-row">
                     <div class="col">
                         <select class="form-control selectpicker form-control-lg"
                                 id="benchmarkTypeFilter"
@@ -109,7 +109,7 @@
                                     }
                                 </div>
                                 <div>
-                                    <button class="btn btn-sm btn-primary w-100 p-0" type="button" data-toggle="collapse" data-target="#bench_@(group.Key.ID)_collapse" aria-expanded="false" aria-controls="bench_@(group.Key.ID)_collapse">...</button>
+                                    <button class="btn btn-sm btn-outline-info w-100 p-0" type="button" data-toggle="collapse" data-target="#bench_@(group.Key.ID)_collapse" aria-expanded="false" aria-controls="bench_@(group.Key.ID)_collapse">...</button>
                                 </div>
                             }
                         </div>

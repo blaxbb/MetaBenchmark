@@ -16,3 +16,16 @@
 .benchmark-entry {
     padding-bottom: 1em;
 }
+
+.container {
+    background: #4e5d6c;
+    padding: 1em;
+}
+
+.filter-col {
+    border-right: 1px solid gray;
+}
+
+.filter-row {
+    border-bottom: 1px solid gray;
+}
