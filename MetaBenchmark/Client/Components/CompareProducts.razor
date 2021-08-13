@@ -56,14 +56,7 @@
                             @onchange="((val) => SelectedBenchmarkType())">
                         @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
                         {
-                            if (CurrentBenchmarkType == type)
-                            {
-                                <option selected value=@((int)type)>@type.DisplayName()</option>
-                            }
-                            else
-                            {
-                                <option value=@((int)type)>@type.DisplayName()</option>
-                            }
+                            <option value=@((int)type)>@type.DisplayName()</option>
                         }
                     </select>
                 </form>

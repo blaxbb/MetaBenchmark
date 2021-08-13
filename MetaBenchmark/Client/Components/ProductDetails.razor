@@ -51,34 +51,65 @@
                                 id="benchmarkSourceFilter"
                                 data-style="btn-secondary"
                                 @onchange="((val) => SelectedSource())"
+                                title="Select Sources"
+                                data-actions-box="true"
                                 multiple>
-                            @foreach(var source in product.BenchmarkEntries.Select(e => e.Source).Distinct())
+                            @foreach(var source in product.BenchmarkEntries.Select(e => e.Source).Distinct().OrderBy(s => s.Name))
                             {
-                                if (CurrentSource.Contains(source))
-                                {
-                                    <option selected value=@((int)source.Id)>@source.Name</option>
-                                }
-                                else
-                                {
-                                    <option value=@((int)source.Id)>@source.Name</option>
-                                }
+                                <option value=@((int)source.Id)>@source.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-control selectpicker form-control-lg"
+                                id="benchmarkFilter"
+                                data-style="btn-secondary"
+                                @onchange="((val) => SelectedBenchmark())"
+                                title="Select Benchmarks"
+                                data-actions-box="true"
+                                data-selected-text-format="static"
+                                multiple>
+                            @foreach(var bench in AvailableBenchmarks.OrderBy(b => b.Name))
+                            {
+                                <option value=@((int)bench.ID)>@bench.Name</option>   
                             }
                         </select>
                     </div>
                 </div>
-                @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark))
+                @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark).OrderBy(g => g.Key.Name))
                 {
+                    var count = group.Count();
+                    var visibleCount = 1;
                     <div class="row benchmark">
                         <div class="col-4 my-auto">
                             <h4>@group.Key.Name</h4>
                         </div>
                         <div class="col-8">
-                            @foreach(var entry in group)
+                            @for(int i = 0; i < 1 && i < count; i++)
                             {
+                                var entry = group.ElementAt(i);
                                 var textClass = GetTextClass(entry);
                                 <div class="row benchmark-entry">
                                     <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
                                     <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                </div>                                
+                            }
+
+                            @if (count > visibleCount)
+                            {
+                                <div class="collapse" id="bench_@(group.Key.ID)_collapse">
+                                    @for (int i = 1; i < count; i++)
+                                    {
+                                        var entry = group.ElementAt(i);
+                                        var textClass = GetTextClass(entry);
+                                        <div class="row benchmark-entry">
+                                            <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                            <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                        </div>
+                                    }
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-primary w-100 p-0" type="button" data-toggle="collapse" data-target="#bench_@(group.Key.ID)_collapse" aria-expanded="false" aria-controls="bench_@(group.Key.ID)_collapse">...</button>
                                 </div>
                             }
                         </div>
@@ -96,32 +127,42 @@
 
     Benchmark.BenchmarkType CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
     List<BenchmarkSource> CurrentSource = new List<BenchmarkSource>();
-
-    protected override async Task OnInitializedAsync()
-    {
-    }
+    List<Benchmark> CurrentBenchmarks = new List<Benchmark>();
+    List<Benchmark> AvailableBenchmarks = new List<Benchmark>();
 
     protected override async Task OnParametersSetAsync()
     {
         Console.WriteLine("SET");
         await Task.Delay(1);
+        SetAvailableBenchmarks();
         await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    void SetAvailableBenchmarks()
+    {
+        AvailableBenchmarks = product.BenchmarkEntries.Select(b => b.Benchmark).Where(b => CurrentBenchmarkType == b.Type).Distinct().ToList();
     }
 
     bool FilterBenchmark(BenchmarkEntry b)
     {
         var isType = b.Benchmark.Type == CurrentBenchmarkType;
         var isSource = CurrentSource == null || CurrentSource.Count == 0 || CurrentSource.Contains(b.Source);
+        var isBench = CurrentBenchmarks == null || CurrentBenchmarks.Count == 0 || CurrentBenchmarks.Contains(b.Benchmark);
 
-        return isType && isSource;
+        return isType && isSource && isBench;
     }
 
     async Task SelectedBenchmarkType()
     {
         var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
         CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
+        CurrentSource.Clear();
+        SetAvailableBenchmarks();
+
         StateHasChanged();
         await Task.Delay(1);
+        await js.InvokeVoidAsync("SelectPickerNone", "#benchmarkFilter");
+        await js.InvokeVoidAsync("SelectPickerNone", "#benchmarkSourceFilter");
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
@@ -135,6 +176,23 @@
             {
                 var source = product.BenchmarkEntries.Select(b => b.Source).FirstOrDefault(s => s.Id == id);
                 CurrentSource.Add(source);
+            }
+        }
+        StateHasChanged();
+        await Task.Delay(100);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    async Task SelectedBenchmark()
+    {
+        var vals = await js.InvokeAsync<string[]>("GetVal", "#benchmarkFilter");
+        CurrentBenchmarks.Clear();
+        foreach(var val in vals)
+        {
+            if(long.TryParse(val, out long id))
+            {
+                var bench = product.BenchmarkEntries.Select(b => b.Benchmark).FirstOrDefault(s => s.ID == id);
+                CurrentBenchmarks.Add(bench);
             }
         }
 
