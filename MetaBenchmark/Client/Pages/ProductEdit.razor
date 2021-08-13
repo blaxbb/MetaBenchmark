@@ -55,7 +55,8 @@ else
 			<tr>
 				<th>Benchmark</th>
 				<th>Type</th>
-				<th></th>
+				<th>Source</th>
+                <th></th>
                 <th>
                     <button class="btn btn-primary btn-sm" @onclick=AddClick>Add</button>
                 </th>
@@ -67,6 +68,7 @@ else
 				<tr>
 					<td>@bench.Benchmark.Name</td>
 					<td>@bench.Benchmark.Type</td>
+                    <td>@bench.Source.Name</td>
 					<td>@bench.Value</td>
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="(() => EditClick(bench))">

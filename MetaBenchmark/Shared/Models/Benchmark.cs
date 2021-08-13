@@ -20,7 +20,6 @@ namespace MetaBenchmark.Shared
             FPS_1440P,
             FPS_1080P
         }
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public BenchmarkType Type { get; set; }
         public List<BenchmarkEntry> Entries { get; set; }
 

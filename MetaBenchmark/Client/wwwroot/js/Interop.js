@@ -53,3 +53,25 @@ window.SetStorage = function (name, value) {
 window.GetStorage = function (name) {
     return localStorage.getItem(name);
 }
+
+window.DownloadFile = function (zipName, filenames, texts) {
+    if (filenames.length != texts.length) {
+        console.logerror("Error creating zip, filenames and texts must match!");
+        return;
+    }
+
+    var zip = new JSZip();
+
+    for (var i = 0; i < filenames.length; i++) {
+        var filename = filenames[i];
+        var text = texts[i];
+        zip.file(filename, text);
+    }
+
+    zip.generateAsync({ type: "blob" })
+        .then(function (content) {
+            // see FileSaver.js
+            saveAs(content, zipName);
+        });
+
+}
