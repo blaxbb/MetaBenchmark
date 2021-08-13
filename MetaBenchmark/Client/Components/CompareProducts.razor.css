@@ -1,0 +1,8 @@
+﻿#filterCollapseButton {
+    z-index: 100;
+}
+
+.product-btn {
+    height: 3em;
+    margin-left: 5px;
+}
