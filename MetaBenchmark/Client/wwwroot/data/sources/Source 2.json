@@ -5,9 +5,9 @@
   "LogoUrl": "https://www.gstatic.com/images/branding/googleg/2x/googleg_standard_color_120dp.png",
   "BenchmarkEntries": [
     {
-      "BenchmarkId": 2,
-      "ProductId": 3,
-      "Value": 95.0
+      "BenchmarkId": 1,
+      "ProductId": 1,
+      "Value": 145.0
     },
     {
       "BenchmarkId": 1,
@@ -15,9 +15,9 @@
       "Value": 205.0
     },
     {
-      "BenchmarkId": 1,
-      "ProductId": 1,
-      "Value": 145.0
+      "BenchmarkId": 2,
+      "ProductId": 3,
+      "Value": 95.0
     }
   ]
 }

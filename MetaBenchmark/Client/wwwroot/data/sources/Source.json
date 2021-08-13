@@ -10,19 +10,9 @@
       "Value": 123.0
     },
     {
-      "BenchmarkId": 2,
-      "ProductId": 3,
-      "Value": 100.0
-    },
-    {
-      "BenchmarkId": 2,
-      "ProductId": 2,
-      "Value": 130.0
-    },
-    {
       "BenchmarkId": 1,
-      "ProductId": 2,
-      "Value": 200.0
+      "ProductId": 1,
+      "Value": 150.0
     },
     {
       "BenchmarkId": 2,
@@ -31,8 +21,18 @@
     },
     {
       "BenchmarkId": 1,
-      "ProductId": 1,
-      "Value": 150.0
+      "ProductId": 2,
+      "Value": 200.0
+    },
+    {
+      "BenchmarkId": 2,
+      "ProductId": 2,
+      "Value": 130.0
+    },
+    {
+      "BenchmarkId": 2,
+      "ProductId": 3,
+      "Value": 100.0
     }
   ]
 }

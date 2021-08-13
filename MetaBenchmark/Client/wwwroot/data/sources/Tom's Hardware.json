@@ -5,9 +5,19 @@
   "LogoUrl": "/logos/tomshardware.png",
   "BenchmarkEntries": [
     {
-      "BenchmarkId": 16,
-      "ProductId": 9,
-      "Value": 107.7
+      "BenchmarkId": 8,
+      "ProductId": 4,
+      "Value": 76.1
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 4,
+      "Value": 127.8
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 4,
+      "Value": 81.8
     },
     {
       "BenchmarkId": 11,
@@ -15,29 +25,24 @@
       "Value": 144.1
     },
     {
-      "BenchmarkId": 14,
-      "ProductId": 6,
-      "Value": 121.1
-    },
-    {
-      "BenchmarkId": 15,
+      "BenchmarkId": 12,
       "ProductId": 4,
-      "Value": 190.4
+      "Value": 107.6
     },
     {
-      "BenchmarkId": 30,
-      "ProductId": 6,
-      "Value": 88.1
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 6,
-      "Value": 79.5
+      "BenchmarkId": 13,
+      "ProductId": 4,
+      "Value": 150.0
     },
     {
       "BenchmarkId": 14,
       "ProductId": 4,
       "Value": 123.5
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 4,
+      "Value": 190.4
     },
     {
       "BenchmarkId": 16,
@@ -81,123 +86,13 @@
     },
     {
       "BenchmarkId": 24,
-      "ProductId": 6,
-      "Value": 86.4
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 6,
-      "Value": 126.0
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 6,
-      "Value": 141.2
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 6,
-      "Value": 142.8
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 6,
-      "Value": 148.1
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 6,
-      "Value": 188.6
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 6,
-      "Value": 186.7
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 6,
-      "Value": 130.3
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 6,
-      "Value": 112.6
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 6,
-      "Value": 114.3
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 6,
-      "Value": 158.3
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 6,
-      "Value": 59.5
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 6,
-      "Value": 73.5
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 6,
-      "Value": 98.1
-    },
-    {
-      "BenchmarkId": 12,
       "ProductId": 4,
-      "Value": 107.6
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 9,
-      "Value": 63.8
-    },
-    {
-      "BenchmarkId": 10,
-      "ProductId": 4,
-      "Value": 81.8
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 6,
-      "Value": 106.3
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 4,
-      "Value": 76.1
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 6,
-      "Value": 74.9
-    },
-    {
-      "BenchmarkId": 14,
-      "ProductId": 9,
-      "Value": 74.4
+      "Value": 89.9
     },
     {
       "BenchmarkId": 25,
       "ProductId": 4,
       "Value": 59.9
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 4,
-      "Value": 99.5
-    },
-    {
-      "BenchmarkId": 30,
-      "ProductId": 4,
-      "Value": 93.8
     },
     {
       "BenchmarkId": 26,
@@ -210,279 +105,19 @@
       "Value": 136.7
     },
     {
-      "BenchmarkId": 24,
-      "ProductId": 5,
-      "Value": 77.0
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 5,
-      "Value": 110.7
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 5,
-      "Value": 124.1
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 5,
-      "Value": 130.8
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 5,
-      "Value": 147.6
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 5,
-      "Value": 168.2
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 5,
-      "Value": 180.2
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 5,
-      "Value": 129.5
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 5,
-      "Value": 101.8
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 5,
-      "Value": 103.6
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 5,
-      "Value": 151.1
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 5,
-      "Value": 51.8
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 5,
-      "Value": 65.1
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 5,
-      "Value": 85.4
-    },
-    {
-      "BenchmarkId": 10,
-      "ProductId": 5,
-      "Value": 72.1
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 5,
-      "Value": 96.2
-    },
-    {
-      "BenchmarkId": 14,
-      "ProductId": 5,
-      "Value": 108.6
-    },
-    {
-      "BenchmarkId": 16,
-      "ProductId": 5,
-      "Value": 144.9
-    },
-    {
-      "BenchmarkId": 30,
-      "ProductId": 5,
-      "Value": 79.0
-    },
-    {
-      "BenchmarkId": 16,
-      "ProductId": 6,
-      "Value": 161.1
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 4,
-      "Value": 127.8
-    },
-    {
-      "BenchmarkId": 10,
-      "ProductId": 6,
-      "Value": 80.0
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 5,
-      "Value": 72.2
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 5,
-      "Value": 67.1
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 5,
-      "Value": 87.6
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 8,
-      "Value": 79.9
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 6,
-      "Value": 59.4
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 6,
-      "Value": 91.1
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 7,
-      "Value": 75.1
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 7,
-      "Value": 91.2
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 7,
-      "Value": 108.2
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 7,
-      "Value": 106.5
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 7,
-      "Value": 137.7
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 7,
-      "Value": 160.9
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 7,
-      "Value": 176.9
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 7,
-      "Value": 111.8
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 7,
-      "Value": 83.6
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 14,
-      "Value": 57.1
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 14,
-      "Value": 71.8
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 14,
-      "Value": 76.8
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 7,
-      "Value": 87.2
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 7,
-      "Value": 52.1
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 7,
-      "Value": 71.3
-    },
-    {
-      "BenchmarkId": 10,
-      "ProductId": 7,
-      "Value": 57.0
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 7,
-      "Value": 78.8
-    },
-    {
-      "BenchmarkId": 14,
-      "ProductId": 7,
-      "Value": 93.4
-    },
-    {
-      "BenchmarkId": 16,
-      "ProductId": 7,
-      "Value": 133.6
-    },
-    {
-      "BenchmarkId": 30,
-      "ProductId": 7,
-      "Value": 68.7
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 7,
-      "Value": 53.7
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 7,
-      "Value": 59.5
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 7,
-      "Value": 70.7
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 7,
-      "Value": 43.0
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 8,
-      "Value": 65.7
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 5,
-      "Value": 85.7
-    },
-    {
       "BenchmarkId": 28,
       "ProductId": 4,
       "Value": 93.6
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 4,
+      "Value": 99.5
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 4,
+      "Value": 93.8
     },
     {
       "BenchmarkId": 31,
@@ -490,164 +125,119 @@
       "Value": 61.0
     },
     {
-      "BenchmarkId": 27,
-      "ProductId": 8,
-      "Value": 97.7
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 8,
-      "Value": 149.9
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 8,
-      "Value": 98.8
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 8,
-      "Value": 114.3
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 8,
-      "Value": 69.6
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 8,
-      "Value": 42.5
-    },
-    {
       "BenchmarkId": 8,
-      "ProductId": 8,
-      "Value": 48.3
+      "ProductId": 5,
+      "Value": 65.1
     },
     {
-      "BenchmarkId": 29,
-      "ProductId": 8,
-      "Value": 64.0
+      "BenchmarkId": 9,
+      "ProductId": 5,
+      "Value": 110.7
     },
     {
       "BenchmarkId": 10,
-      "ProductId": 8,
-      "Value": 52.2
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 8,
-      "Value": 71.5
-    },
-    {
-      "BenchmarkId": 14,
-      "ProductId": 8,
-      "Value": 83.3
-    },
-    {
-      "BenchmarkId": 16,
-      "ProductId": 8,
-      "Value": 119.4
-    },
-    {
-      "BenchmarkId": 30,
-      "ProductId": 8,
-      "Value": 56.2
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 8,
-      "Value": 49.9
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 8,
-      "Value": 54.3
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 8,
-      "Value": 61.7
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 8,
-      "Value": 41.9
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 9,
-      "Value": 61.1
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 9,
-      "Value": 74.4
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 9,
-      "Value": 86.4
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 9,
-      "Value": 88.0
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 9,
-      "Value": 118.1
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 9,
-      "Value": 139.3
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 9,
-      "Value": 156.9
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 9,
-      "Value": 89.4
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 9,
-      "Value": 69.2
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 9,
+      "ProductId": 5,
       "Value": 72.1
     },
     {
-      "BenchmarkId": 13,
-      "ProductId": 8,
-      "Value": 128.7
+      "BenchmarkId": 11,
+      "ProductId": 5,
+      "Value": 130.8
     },
     {
-      "BenchmarkId": 26,
-      "ProductId": 8,
-      "Value": 97.1
+      "BenchmarkId": 12,
+      "ProductId": 5,
+      "Value": 96.2
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 5,
+      "Value": 147.6
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 5,
+      "Value": 108.6
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 5,
+      "Value": 168.2
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 5,
+      "Value": 144.9
     },
     {
       "BenchmarkId": 17,
-      "ProductId": 8,
-      "Value": 168.3
+      "ProductId": 5,
+      "Value": 180.2
     },
     {
-      "BenchmarkId": 9,
-      "ProductId": 8,
-      "Value": 84.7
+      "BenchmarkId": 18,
+      "ProductId": 5,
+      "Value": 67.1
     },
     {
       "BenchmarkId": 19,
-      "ProductId": 8,
-      "Value": 78.7
+      "ProductId": 5,
+      "Value": 101.8
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 5,
+      "Value": 72.2
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 5,
+      "Value": 103.6
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 5,
+      "Value": 87.6
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 5,
+      "Value": 151.1
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 5,
+      "Value": 77.0
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 5,
+      "Value": 51.8
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 5,
+      "Value": 124.1
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 5,
+      "Value": 129.5
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 5,
+      "Value": 85.7
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 5,
+      "Value": 85.4
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 5,
+      "Value": 79.0
     },
     {
       "BenchmarkId": 31,
@@ -655,184 +245,74 @@
       "Value": 54.2
     },
     {
-      "BenchmarkId": 23,
-      "ProductId": 9,
-      "Value": 104.2
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 9,
-      "Value": 61.7
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 9,
-      "Value": 38.8
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 10,
-      "Value": 31.9
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 10,
-      "Value": 27.9
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 4,
-      "Value": 89.9
-    },
-    {
-      "BenchmarkId": 30,
-      "ProductId": 9,
-      "Value": 50.3
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 9,
-      "Value": 43.6
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 9,
-      "Value": 48.7
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 9,
-      "Value": 55.6
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 9,
-      "Value": 36.6
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 10,
-      "Value": 50.4
+      "BenchmarkId": 8,
+      "ProductId": 6,
+      "Value": 73.5
     },
     {
       "BenchmarkId": 9,
-      "ProductId": 10,
-      "Value": 55.2
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 10,
-      "Value": 63.1
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 10,
-      "Value": 65.4
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 10,
-      "Value": 92.5
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 10,
-      "Value": 110.2
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 10,
-      "Value": 122.6
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 10,
-      "Value": 76.0
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 10,
-      "Value": 51.5
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 10,
-      "Value": 56.9
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 10,
-      "Value": 82.6
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 10,
-      "Value": 47.6
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 10,
-      "Value": 30.4
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 10,
-      "Value": 30.9
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 10,
-      "Value": 38.9
+      "ProductId": 6,
+      "Value": 126.0
     },
     {
       "BenchmarkId": 10,
-      "ProductId": 10,
-      "Value": 33.7
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 10,
-      "Value": 48.5
-    },
-    {
-      "BenchmarkId": 14,
-      "ProductId": 10,
-      "Value": 57.9
-    },
-    {
-      "BenchmarkId": 16,
-      "ProductId": 10,
-      "Value": 80.5
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 11,
-      "Value": 144.9
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 10,
-      "Value": 37.5
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 11,
-      "Value": 134.1
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 12,
-      "Value": 133.4
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 9,
-      "Value": 42.1
+      "ProductId": 6,
+      "Value": 80.0
     },
     {
       "BenchmarkId": 11,
-      "ProductId": 11,
-      "Value": 135.6
+      "ProductId": 6,
+      "Value": 142.8
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 6,
+      "Value": 106.3
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 6,
+      "Value": 148.1
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 6,
+      "Value": 121.1
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 6,
+      "Value": 188.6
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 6,
+      "Value": 161.1
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 6,
+      "Value": 186.7
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 6,
+      "Value": 74.9
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 6,
+      "Value": 112.6
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 6,
+      "Value": 79.5
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 6,
+      "Value": 114.3
     },
     {
       "BenchmarkId": 22,
@@ -840,389 +320,124 @@
       "Value": 96.4
     },
     {
+      "BenchmarkId": 23,
+      "ProductId": 6,
+      "Value": 158.3
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 6,
+      "Value": 86.4
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 6,
+      "Value": 59.5
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 6,
+      "Value": 141.2
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 6,
+      "Value": 130.3
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 6,
+      "Value": 91.1
+    },
+    {
       "BenchmarkId": 29,
-      "ProductId": 9,
-      "Value": 55.9
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 11,
-      "Value": 147.1
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 12,
-      "Value": 127.2
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 11,
-      "Value": 115.5
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 4,
-      "Value": 150.0
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 10,
-      "Value": 43.9
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 12,
-      "Value": 138.9
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 12,
-      "Value": 132.8
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 12,
-      "Value": 107.8
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 11,
-      "Value": 56.2
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 11,
-      "Value": 89.2
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 11,
-      "Value": 75.7
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 11,
-      "Value": 67.9
+      "ProductId": 6,
+      "Value": 98.1
     },
     {
       "BenchmarkId": 30,
-      "ProductId": 11,
-      "Value": 79.8
+      "ProductId": 6,
+      "Value": 88.1
     },
     {
-      "BenchmarkId": 16,
-      "ProductId": 11,
-      "Value": 180.8
+      "BenchmarkId": 31,
+      "ProductId": 6,
+      "Value": 59.4
     },
     {
-      "BenchmarkId": 14,
-      "ProductId": 11,
-      "Value": 107.7
+      "BenchmarkId": 8,
+      "ProductId": 7,
+      "Value": 52.1
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 7,
+      "Value": 91.2
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 7,
+      "Value": 57.0
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 7,
+      "Value": 106.5
     },
     {
       "BenchmarkId": 12,
-      "ProductId": 11,
-      "Value": 107.8
+      "ProductId": 7,
+      "Value": 78.8
     },
     {
-      "BenchmarkId": 10,
-      "ProductId": 11,
-      "Value": 71.2
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 11,
-      "Value": 93.6
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 11,
-      "Value": 79.7
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 11,
-      "Value": 66.3
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 11,
-      "Value": 97.0
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 11,
-      "Value": 161.4
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 11,
-      "Value": 114.8
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 11,
-      "Value": 104.1
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 11,
-      "Value": 144.4
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 11,
-      "Value": 205.1
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 11,
-      "Value": 168.8
-    },
-    {
-      "BenchmarkId": 10,
-      "ProductId": 9,
-      "Value": 45.4
-    },
-    {
-      "BenchmarkId": 30,
-      "ProductId": 10,
-      "Value": 42.0
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 12,
-      "Value": 162.7
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 12,
-      "Value": 91.4
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 12,
-      "Value": 72.6
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 12,
-      "Value": 90.3
-    },
-    {
-      "BenchmarkId": 10,
-      "ProductId": 12,
-      "Value": 66.8
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 12,
-      "Value": 101.6
+      "BenchmarkId": 13,
+      "ProductId": 7,
+      "Value": 137.7
     },
     {
       "BenchmarkId": 14,
-      "ProductId": 12,
-      "Value": 101.3
+      "ProductId": 7,
+      "Value": 93.4
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 7,
+      "Value": 160.9
     },
     {
       "BenchmarkId": 16,
-      "ProductId": 12,
-      "Value": 168.3
+      "ProductId": 7,
+      "Value": 133.6
     },
     {
-      "BenchmarkId": 30,
-      "ProductId": 12,
-      "Value": 75.8
+      "BenchmarkId": 17,
+      "ProductId": 7,
+      "Value": 176.9
     },
     {
       "BenchmarkId": 18,
-      "ProductId": 12,
-      "Value": 63.4
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 12,
-      "Value": 71.6
-    },
-    {
-      "BenchmarkId": 22,
-      "ProductId": 12,
-      "Value": 84.0
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 12,
-      "Value": 52.8
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 13,
-      "Value": 93.2
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 13,
-      "Value": 112.2
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 13,
-      "Value": 114.0
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 13,
-      "Value": 108.8
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 13,
-      "Value": 132.4
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 13,
-      "Value": 149.0
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 13,
-      "Value": 202.4
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 13,
-      "Value": 118.7
+      "ProductId": 7,
+      "Value": 53.7
     },
     {
       "BenchmarkId": 19,
-      "ProductId": 13,
-      "Value": 84.9
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 13,
-      "Value": 96.3
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 13,
-      "Value": 137.5
-    },
-    {
-      "BenchmarkId": 28,
-      "ProductId": 13,
-      "Value": 76.0
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 13,
-      "Value": 54.1
-    },
-    {
-      "BenchmarkId": 29,
-      "ProductId": 13,
-      "Value": 73.8
-    },
-    {
-      "BenchmarkId": 19,
-      "ProductId": 12,
-      "Value": 98.6
-    },
-    {
-      "BenchmarkId": 10,
-      "ProductId": 13,
-      "Value": 57.4
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 12,
-      "Value": 156.4
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 12,
-      "Value": 205.6
-    },
-    {
-      "BenchmarkId": 25,
-      "ProductId": 12,
-      "Value": 62.9
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 13,
-      "Value": 61.2
-    },
-    {
-      "BenchmarkId": 27,
-      "ProductId": 12,
-      "Value": 136.5
-    },
-    {
-      "BenchmarkId": 21,
-      "ProductId": 12,
-      "Value": 108.5
-    },
-    {
-      "BenchmarkId": 30,
-      "ProductId": 13,
-      "Value": 66.8
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 13,
-      "Value": 54.2
+      "ProductId": 7,
+      "Value": 83.6
     },
     {
       "BenchmarkId": 20,
-      "ProductId": 13,
-      "Value": 63.3
+      "ProductId": 7,
+      "Value": 59.5
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 7,
+      "Value": 87.2
     },
     {
       "BenchmarkId": 22,
-      "ProductId": 13,
-      "Value": 73.0
-    },
-    {
-      "BenchmarkId": 31,
-      "ProductId": 13,
-      "Value": 44.3
-    },
-    {
-      "BenchmarkId": 24,
-      "ProductId": 14,
-      "Value": 80.2
-    },
-    {
-      "BenchmarkId": 9,
-      "ProductId": 14,
-      "Value": 92.5
-    },
-    {
-      "BenchmarkId": 26,
-      "ProductId": 14,
-      "Value": 94.5
-    },
-    {
-      "BenchmarkId": 11,
-      "ProductId": 14,
-      "Value": 85.5
-    },
-    {
-      "BenchmarkId": 13,
-      "ProductId": 14,
-      "Value": 125.4
-    },
-    {
-      "BenchmarkId": 15,
-      "ProductId": 14,
-      "Value": 128.6
-    },
-    {
-      "BenchmarkId": 17,
-      "ProductId": 14,
-      "Value": 184.9
+      "ProductId": 7,
+      "Value": 70.7
     },
     {
       "BenchmarkId": 23,
@@ -1230,14 +445,859 @@
       "Value": 128.5
     },
     {
-      "BenchmarkId": 28,
+      "BenchmarkId": 24,
       "ProductId": 7,
-      "Value": 71.9
+      "Value": 75.1
     },
     {
       "BenchmarkId": 25,
       "ProductId": 7,
       "Value": 47.8
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 7,
+      "Value": 108.2
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 7,
+      "Value": 111.8
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 7,
+      "Value": 71.9
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 7,
+      "Value": 71.3
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 7,
+      "Value": 68.7
+    },
+    {
+      "BenchmarkId": 31,
+      "ProductId": 7,
+      "Value": 43.0
+    },
+    {
+      "BenchmarkId": 8,
+      "ProductId": 8,
+      "Value": 48.3
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 8,
+      "Value": 84.7
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 8,
+      "Value": 52.2
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 8,
+      "Value": 98.8
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 8,
+      "Value": 71.5
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 8,
+      "Value": 128.7
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 8,
+      "Value": 83.3
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 8,
+      "Value": 149.9
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 8,
+      "Value": 119.4
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 8,
+      "Value": 168.3
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 8,
+      "Value": 49.9
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 8,
+      "Value": 78.7
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 8,
+      "Value": 54.3
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 8,
+      "Value": 79.9
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 8,
+      "Value": 61.7
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 8,
+      "Value": 114.3
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 8,
+      "Value": 65.7
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 8,
+      "Value": 42.5
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 8,
+      "Value": 97.1
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 8,
+      "Value": 97.7
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 8,
+      "Value": 69.6
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 8,
+      "Value": 64.0
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 8,
+      "Value": 56.2
+    },
+    {
+      "BenchmarkId": 31,
+      "ProductId": 8,
+      "Value": 41.9
+    },
+    {
+      "BenchmarkId": 8,
+      "ProductId": 9,
+      "Value": 42.1
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 9,
+      "Value": 74.4
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 9,
+      "Value": 45.4
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 9,
+      "Value": 88.0
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 9,
+      "Value": 63.8
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 9,
+      "Value": 118.1
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 9,
+      "Value": 74.4
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 9,
+      "Value": 139.3
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 9,
+      "Value": 107.7
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 9,
+      "Value": 156.9
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 9,
+      "Value": 43.6
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 9,
+      "Value": 69.2
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 9,
+      "Value": 48.7
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 9,
+      "Value": 72.1
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 9,
+      "Value": 55.6
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 9,
+      "Value": 104.2
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 9,
+      "Value": 61.1
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 9,
+      "Value": 38.8
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 9,
+      "Value": 86.4
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 9,
+      "Value": 89.4
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 9,
+      "Value": 61.7
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 9,
+      "Value": 55.9
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 9,
+      "Value": 50.3
+    },
+    {
+      "BenchmarkId": 31,
+      "ProductId": 9,
+      "Value": 36.6
+    },
+    {
+      "BenchmarkId": 8,
+      "ProductId": 10,
+      "Value": 30.9
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 10,
+      "Value": 55.2
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 10,
+      "Value": 33.7
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 10,
+      "Value": 65.4
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 10,
+      "Value": 48.5
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 10,
+      "Value": 92.5
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 10,
+      "Value": 57.9
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 10,
+      "Value": 110.2
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 10,
+      "Value": 80.5
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 10,
+      "Value": 122.6
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 10,
+      "Value": 31.9
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 10,
+      "Value": 51.5
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 10,
+      "Value": 37.5
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 10,
+      "Value": 56.9
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 10,
+      "Value": 43.9
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 10,
+      "Value": 82.6
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 10,
+      "Value": 50.4
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 10,
+      "Value": 30.4
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 10,
+      "Value": 63.1
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 10,
+      "Value": 76.0
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 10,
+      "Value": 47.6
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 10,
+      "Value": 38.9
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 10,
+      "Value": 42.0
+    },
+    {
+      "BenchmarkId": 31,
+      "ProductId": 10,
+      "Value": 27.9
+    },
+    {
+      "BenchmarkId": 8,
+      "ProductId": 11,
+      "Value": 79.7
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 11,
+      "Value": 144.9
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 11,
+      "Value": 71.2
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 11,
+      "Value": 135.6
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 11,
+      "Value": 107.8
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 11,
+      "Value": 134.1
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 11,
+      "Value": 107.7
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 11,
+      "Value": 168.8
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 11,
+      "Value": 180.8
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 11,
+      "Value": 205.1
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 11,
+      "Value": 67.9
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 11,
+      "Value": 104.1
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 11,
+      "Value": 75.7
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 11,
+      "Value": 114.8
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 11,
+      "Value": 89.2
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 11,
+      "Value": 161.4
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 11,
+      "Value": 115.5
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 11,
+      "Value": 66.3
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 11,
+      "Value": 147.1
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 11,
+      "Value": 144.4
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 11,
+      "Value": 97.0
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 11,
+      "Value": 93.6
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 11,
+      "Value": 79.8
+    },
+    {
+      "BenchmarkId": 31,
+      "ProductId": 11,
+      "Value": 56.2
+    },
+    {
+      "BenchmarkId": 8,
+      "ProductId": 12,
+      "Value": 72.6
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 12,
+      "Value": 132.8
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 12,
+      "Value": 66.8
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 12,
+      "Value": 127.2
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 12,
+      "Value": 101.6
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 12,
+      "Value": 133.4
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 12,
+      "Value": 101.3
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 12,
+      "Value": 162.7
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 12,
+      "Value": 168.3
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 12,
+      "Value": 205.6
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 12,
+      "Value": 63.4
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 12,
+      "Value": 98.6
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 12,
+      "Value": 71.6
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 12,
+      "Value": 108.5
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 12,
+      "Value": 84.0
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 12,
+      "Value": 156.4
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 12,
+      "Value": 107.8
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 12,
+      "Value": 62.9
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 12,
+      "Value": 138.9
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 12,
+      "Value": 136.5
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 12,
+      "Value": 91.4
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 12,
+      "Value": 90.3
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 12,
+      "Value": 75.8
+    },
+    {
+      "BenchmarkId": 31,
+      "ProductId": 12,
+      "Value": 52.8
+    },
+    {
+      "BenchmarkId": 8,
+      "ProductId": 13,
+      "Value": 61.2
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 13,
+      "Value": 112.2
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 13,
+      "Value": 57.4
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 13,
+      "Value": 108.8
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 13,
+      "Value": 89.4
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 13,
+      "Value": 132.4
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 13,
+      "Value": 88.1
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 13,
+      "Value": 149.0
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 13,
+      "Value": 147.5
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 13,
+      "Value": 202.4
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 13,
+      "Value": 54.2
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 13,
+      "Value": 84.9
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 13,
+      "Value": 63.3
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 13,
+      "Value": 96.3
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 13,
+      "Value": 73.0
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 13,
+      "Value": 137.5
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 13,
+      "Value": 93.2
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 13,
+      "Value": 54.1
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 13,
+      "Value": 114.0
+    },
+    {
+      "BenchmarkId": 27,
+      "ProductId": 13,
+      "Value": 118.7
+    },
+    {
+      "BenchmarkId": 28,
+      "ProductId": 13,
+      "Value": 76.0
+    },
+    {
+      "BenchmarkId": 29,
+      "ProductId": 13,
+      "Value": 73.8
+    },
+    {
+      "BenchmarkId": 30,
+      "ProductId": 13,
+      "Value": 66.8
+    },
+    {
+      "BenchmarkId": 31,
+      "ProductId": 13,
+      "Value": 44.3
+    },
+    {
+      "BenchmarkId": 8,
+      "ProductId": 14,
+      "Value": 49.1
+    },
+    {
+      "BenchmarkId": 9,
+      "ProductId": 14,
+      "Value": 92.5
+    },
+    {
+      "BenchmarkId": 10,
+      "ProductId": 14,
+      "Value": 43.6
+    },
+    {
+      "BenchmarkId": 11,
+      "ProductId": 14,
+      "Value": 85.5
+    },
+    {
+      "BenchmarkId": 12,
+      "ProductId": 14,
+      "Value": 70.6
+    },
+    {
+      "BenchmarkId": 13,
+      "ProductId": 14,
+      "Value": 125.4
+    },
+    {
+      "BenchmarkId": 14,
+      "ProductId": 14,
+      "Value": 68.1
+    },
+    {
+      "BenchmarkId": 15,
+      "ProductId": 14,
+      "Value": 128.6
+    },
+    {
+      "BenchmarkId": 16,
+      "ProductId": 14,
+      "Value": 119.2
+    },
+    {
+      "BenchmarkId": 17,
+      "ProductId": 14,
+      "Value": 184.9
+    },
+    {
+      "BenchmarkId": 18,
+      "ProductId": 14,
+      "Value": 43.4
+    },
+    {
+      "BenchmarkId": 19,
+      "ProductId": 14,
+      "Value": 71.8
+    },
+    {
+      "BenchmarkId": 20,
+      "ProductId": 14,
+      "Value": 49.3
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 14,
+      "Value": 76.8
+    },
+    {
+      "BenchmarkId": 22,
+      "ProductId": 14,
+      "Value": 57.1
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 14,
+      "Value": 111.5
+    },
+    {
+      "BenchmarkId": 24,
+      "ProductId": 14,
+      "Value": 80.2
+    },
+    {
+      "BenchmarkId": 25,
+      "ProductId": 14,
+      "Value": 43.0
+    },
+    {
+      "BenchmarkId": 26,
+      "ProductId": 14,
+      "Value": 94.5
     },
     {
       "BenchmarkId": 27,
@@ -1250,74 +1310,14 @@
       "Value": 63.4
     },
     {
-      "BenchmarkId": 25,
-      "ProductId": 14,
-      "Value": 43.0
-    },
-    {
-      "BenchmarkId": 8,
-      "ProductId": 14,
-      "Value": 49.1
-    },
-    {
       "BenchmarkId": 29,
       "ProductId": 14,
       "Value": 60.7
     },
     {
-      "BenchmarkId": 10,
-      "ProductId": 14,
-      "Value": 43.6
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 14,
-      "Value": 70.6
-    },
-    {
-      "BenchmarkId": 14,
-      "ProductId": 14,
-      "Value": 68.1
-    },
-    {
-      "BenchmarkId": 16,
-      "ProductId": 14,
-      "Value": 119.2
-    },
-    {
       "BenchmarkId": 30,
       "ProductId": 14,
       "Value": 50.6
-    },
-    {
-      "BenchmarkId": 18,
-      "ProductId": 14,
-      "Value": 43.4
-    },
-    {
-      "BenchmarkId": 20,
-      "ProductId": 14,
-      "Value": 49.3
-    },
-    {
-      "BenchmarkId": 12,
-      "ProductId": 13,
-      "Value": 89.4
-    },
-    {
-      "BenchmarkId": 14,
-      "ProductId": 13,
-      "Value": 88.1
-    },
-    {
-      "BenchmarkId": 16,
-      "ProductId": 13,
-      "Value": 147.5
-    },
-    {
-      "BenchmarkId": 23,
-      "ProductId": 14,
-      "Value": 111.5
     },
     {
       "BenchmarkId": 31,
