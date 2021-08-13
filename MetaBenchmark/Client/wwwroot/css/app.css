@@ -59,7 +59,7 @@ a, .btn-link {
     content: "An error has occurred."
 }
 
-.top-row {
+.navbar {
     background-color: #404040 !important;
     border-bottom: 1px solid #000 !important;
 }
