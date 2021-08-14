@@ -22,7 +22,7 @@
     }
     <div class="compare-products container-fluid">
         <div class="row justify-content-center">
-            <div class="col-4 col-sm-3 card px-2">
+            <div class="col-4 col-sm-2 card px-2">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col">
@@ -64,7 +64,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button id="filterCollapseButton" class="btn btn-primary col-auto" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                        <button id="filterCollapseButton" class="btn btn-primary col-auto h-100 my-auto" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
                            <span class="oi oi-expand-down" aria-hidden="true"></span> 
                         </button>
                     </div>
@@ -124,7 +124,7 @@
         @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
         {
             <div class="row justify-content-center benchmark benchmark-@bench.ID">
-                <div class="product col-4 col-sm-3 m-0 py-3 card">
+                <div class="product col-4 col-sm-2 m-0 py-3 card">
                     <div class="row h-100">
                         <div class="col my-auto">
                             <h4 class="m-0">@bench.Name</h4>
