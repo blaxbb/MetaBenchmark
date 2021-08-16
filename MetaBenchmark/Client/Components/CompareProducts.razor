@@ -22,8 +22,8 @@
     }
     <div class="compare-products container-fluid">
         <div class="row justify-content-center">
-            <div class="col-4 col-sm-2 card px-2">
-                <div class="card-body p-3">
+            <div class="col-5 col-md-3 card px-2">
+                <div class="card-body p-0 p-sm-3">
                     <div class="row">
                         <div class="col">
                             <select class="form-control selectpicker form-control-lg"
@@ -74,6 +74,7 @@
             {
                 var index = i;
                 var hideSmallClass = i > 1 ? "d-none d-sm-block" : "";
+                var hideAddButtonClass = i > 0 ? "d-none d-sm-block" : "";
                 var hideMdClass = i > 1 ? "d-none d-md-block" : "";
                 <div class="col card @hideSmallClass">
                     @if (SelectedProducts[i] == null)
@@ -99,18 +100,18 @@
                         var brand = SelectedProducts[i].Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
                         var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
 
-                        <div class="row card-body product-header @brandClass">
+                        <div class="row card-body product-header px-0 px-md-3 @brandClass">
                             <h4 class="col-md my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
-                            <div class="col-md-auto row">
-                                <button class="btn col-auto btn-success product-btn my-auto" @onclick="(() => NavigateProduct(SelectedProducts[index].ID))">
+                            <div class="col-md-auto row px-0 mx-auto">
+                                <button class="btn btn-sm col-auto btn-success product-btn my-auto" @onclick="(() => NavigateProduct(SelectedProducts[index].ID))">
                                     <span class="oi oi-list" aria-hidden="true"></span>
                                 </button>
-                                <button class="btn col-auto btn-danger product-btn my-auto" @onclick="(() => Selected(null, index))">
+                                <button class="btn btn-sm col-auto btn-danger product-btn my-auto" @onclick="(() => Selected(null, index))">
                                     <span class="oi oi-x" aria-hidden="true"></span>
                                 </button>
                                 @if(i == SelectedProducts.Length - 1)
                                 {
-                                    <button class="btn col-auto btn-success product-btn my-auto @hideMdClass" @onclick="AddProduct">
+                                    <button class="btn btn-sm col-auto btn-success product-btn my-auto @hideAddButtonClass" @onclick="AddProduct">
                                         <span class="oi oi-plus" aria-hidden="true"></span>
                                     </button>
                                 }
@@ -124,21 +125,23 @@
         @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
         {
             <div class="row justify-content-center benchmark benchmark-@bench.ID">
-                <div class="product col-4 col-sm-2 m-0 py-3 card">
+                <div class="product col-5 col-md-3 m-0 py-1 card">
                     <div class="row h-100">
                         <div class="col my-auto">
-                            <h4 class="m-0">@bench.Name</h4>
+                            <h5 class="m-0">@bench.Name</h5>
                         </div>
                     </div>
                 </div>
                 @for(int i = 0; i < SelectedProducts.Length; i++)
                 {
+                    var hideSmallClass = i > 1 ? "d-none d-sm-block" : "";
+
                     if (SelectedProducts.Length > i && SelectedProducts[i] != default)
                     {
                         var prod = SelectedProducts[i];
                         var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == bench.ID && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
                         var count = entries.Count();
-                        var visibleCount = 1;
+                        var visibleCount = 2;
                         if(entries.Count == 0)
                         {
                             <div class="col">
@@ -150,9 +153,8 @@
                         var midpoint = BenchmarkAverages[bench.ID];
                         var backgroundClass = BenchmarkMaximums[bench.ID].productId == prod.ID ? "bg-success text-light" : "";
                         backgroundClass = "";
-                        var hideSmallClass = i > 1 ? "d-none d-sm-block" : "";
 
-                        <div class="product col m-0 py-3 @backgroundClass @hideSmallClass card">
+                        <div class="product col m-0 py-1 @backgroundClass @hideSmallClass card">
                             <div class="row h-100">
                                 <div class="col-auto text-center my-auto d-none d-lg-block">
                                     @if(avg > midpoint)
@@ -205,7 +207,7 @@
                     }
                     else
                     {
-                        <div class="col">
+                        <div class="col @hideSmallClass">
                         </div>
                     }
                 }
