@@ -174,7 +174,7 @@
 
 
 
-                                    @for(int j = 0; j < 1 && j < count; j++)
+                                    @for(int j = 0; j < visibleCount && j < count; j++)
                                     {
                                         var entry = entries.ElementAt(j);
                                         var textClass = GetTextClass(entry);
@@ -187,7 +187,7 @@
                                     @if (count > visibleCount)
                                     {
                                         <div class="collapse" id="bench_@(bench.ID)_collapse">
-                                            @for (int j = 1; j < count; j++)
+                                            @for (int j = visibleCount; j < count; j++)
                                             {
                                                 var entry = entries.ElementAt(j);
                                                 var textClass = GetTextClass(entry);
