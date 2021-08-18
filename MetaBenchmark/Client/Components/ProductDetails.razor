@@ -79,13 +79,13 @@
                 @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark).OrderBy(g => g.Key.Name))
                 {
                     var count = group.Count();
-                    var visibleCount = 1;
-                    <div class="row benchmark">
+                    var visibleCount = 2;
+                    <div class="row benchmark py-1">
                         <div class="col-4 my-auto">
                             <h4>@group.Key.Name</h4>
                         </div>
                         <div class="col-8">
-                            @for(int i = 0; i < 1 && i < count; i++)
+                            @for(int i = 0; i < visibleCount && i < count; i++)
                             {
                                 var entry = group.ElementAt(i);
                                 var textClass = GetTextClass(entry);
@@ -98,7 +98,7 @@
                             @if (count > visibleCount)
                             {
                                 <div class="collapse" id="bench_@(group.Key.ID)_collapse">
-                                    @for (int i = 1; i < count; i++)
+                                    @for (int i = visibleCount; i < count; i++)
                                     {
                                         var entry = group.ElementAt(i);
                                         var textClass = GetTextClass(entry);
