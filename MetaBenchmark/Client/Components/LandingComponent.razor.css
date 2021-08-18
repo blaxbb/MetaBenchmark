@@ -1,0 +1,37 @@
+﻿.product {
+    cursor: pointer;
+}
+
+.product-name.brand-Nvidia::before {
+    background: url(/logos/nvidia.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.product-name.brand-AMD::before {
+    background: url(/logos/amd.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.product-name::before {
+    content: '';
+    flex: 0 0 auto;
+    margin-right: .5em;
+    margin-left: .5em;
+}
+
+.product-click-hint {
+    opacity: 0;
+    transition: 0.3s;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+.product:hover .product-click-hint {
+    opacity: 1;
+}

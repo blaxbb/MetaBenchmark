@@ -1,33 +1,35 @@
 ﻿@using MetaBenchmark.Shared
+
 @inject DataCache cache;
 @inject NavigationManager nav;
 
-@if(BenchmarkTypes != null && BenchmarkTypes.Count > 0)
+@if(AllProducts != null)
 {
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            @foreach(var benchType in BenchmarkTypes)
+    <div class="container">
+        <div class="row">
+            @foreach(var prod in AllProducts)
             {
-                <div class="col-auto text-center card landing-option" @onclick="(() => SelectBenchmarkType(benchType))">
-                    <img class="card-img-top" src="/logos/nvidia.jpg" alt="@benchType">
-                    <div class="card-body">
-                        <h4>@benchType.DisplayName()</h4>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-}
-else if(ProductTypes != null && ProductTypes.Count > 0)
-{
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            @foreach(var prodType in ProductTypes)
-            {
-                <div class="col-auto text-center card landing-option" @onclick="(() => SelectProductType(prodType))">
-                    <img class="card-img-top" src="/logos/nvidia.jpg" alt="@prodType">
-                    <div class="card-body">
-                        <h4>@prodType</h4>
+                var brand = prod.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
+                var benches = prod.BenchmarkEntries.GroupBy(b => b.Benchmark.Type).OrderBy(g => g.Key);
+                <div class="col-12 col-md-4 col-lg-3 my-3">
+                    <div class="card product h-100 p-3" @onclick="(() => SelectedProduct(prod))">
+                        <div class="product-click-hint">
+                            <span class="oi oi-external-link" aria-hidden="true"></span>
+                        </div>
+                        <h4 class="mb-3 d-flex product-name @brandClass">@prod.Name</h4>
+                        <div class="my-auto">
+                            @foreach(var group in benches)
+                            {
+                                var bench = group.ToList().RandomItem();
+                                var benchClass = GetTextClass(bench);
+                                <div class="row mb-3">
+                                    <div class="col my-auto">@bench.Benchmark.Name</div>
+                                    <div class="col-auto my-auto benchmark-value @benchClass">@bench.ValueLabel()</div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             }
@@ -37,11 +39,6 @@ else if(ProductTypes != null && ProductTypes.Count > 0)
 
 
 @code {
-    Product.ProductType SelectedProductType = Product.ProductType.Unknown;
-    Benchmark.BenchmarkType SelectedBenchmarkType = Benchmark.BenchmarkType.FPS;
-
-    List<Product.ProductType> ProductTypes = new List<Product.ProductType>();
-    List<Benchmark.BenchmarkType> BenchmarkTypes = new List<Benchmark.BenchmarkType>();
 
     List<Product> AllProducts = new List<Product>();
 
@@ -49,24 +46,29 @@ else if(ProductTypes != null && ProductTypes.Count > 0)
     {
         var all = await cache.All();
         AllProducts = all.Value;
-
-        ProductTypes = AllProducts.Select(p => p.Type).Distinct().ToList();
     }
 
-    private void SelectProductType(Product.ProductType type)
+    void SelectedProduct(Product prod)
     {
-        SelectedProductType = type;
-        BenchmarkTypes = AllProducts.Where(p => p.Type == type)
-                                    .SelectMany(p => p.BenchmarkEntries)
-                                    .Select(b => b.Benchmark.Type)
-                                    .Distinct()
-                                    .ToList();
-
+        nav.NavigateTo($"product/{prod.ID}");
     }
 
-    private void SelectBenchmarkType(Benchmark.BenchmarkType type)
+    string GetTextClass(BenchmarkEntry entry)
     {
-        SelectedBenchmarkType = type;
-        nav.NavigateTo($"/compare?pt={SelectedProductType}&bt={SelectedBenchmarkType}");
+        switch(entry.Benchmark.Type)
+        {
+            case Benchmark.BenchmarkType.FPS:
+            case Benchmark.BenchmarkType.FPS_4K:
+            case Benchmark.BenchmarkType.FPS_1440P:
+            case Benchmark.BenchmarkType.FPS_1080P:
+                return entry.Value switch
+                {
+                    > 100 => "text-success",
+                    > 60  => "text-primary",
+                    _     => "text-warning"
+                };
+        }
+
+        return "";
     }
 }
