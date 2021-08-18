@@ -10,7 +10,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-4 filter-col">
+            <div class="col-12 col-md-4 filter-col">
                 <div class="product-name @brandClass">
                     <h1>@product.Name</h1>
                 </div>
@@ -26,7 +26,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-8">
+            <div class="col-12 col-md-8">
                 <div class="row filter-row">
                     <div class="col">
                         <select class="form-control selectpicker form-control-lg"
@@ -81,10 +81,10 @@
                     var count = group.Count();
                     var visibleCount = 2;
                     <div class="row benchmark py-1">
-                        <div class="col-4 my-auto">
+                        <div class="col-6 col-md-4 my-auto">
                             <h4>@group.Key.Name</h4>
                         </div>
-                        <div class="col-8">
+                        <div class="col-6 col-md-8">
                             @for(int i = 0; i < visibleCount && i < count; i++)
                             {
                                 var entry = group.ElementAt(i);
