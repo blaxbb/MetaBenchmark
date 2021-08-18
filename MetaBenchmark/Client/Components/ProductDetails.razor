@@ -13,21 +13,19 @@
         <div class="row">
             <div class="col-12 col-md-4 filter-col">
                 <div class="row">
-                    <div class="col-auto">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownCompare" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="oi oi-expand-down" aria-hidden="true"></span> 
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownCompare">
-                                @foreach(var p in allProducts.Where(p => p != product && p.Type == product.Type))
-                                {
-                                    <a class="dropdown-item" @onclick="(() => Compare(p))">@p.Name</a>
-                                }
-                            </div>
-                        </div>
+                    <div class="col product-name d-flex @brandClass">
+                        <h1 class="my-auto">@product.Name</h1>
                     </div>
-                    <div class="col product-name @brandClass">
-                        <h1>@product.Name</h1>
+                </div>
+                <button class="compare-button my-2 btn btn-secondary dropdown-toggle w-100" type="button" data-toggle="collapse" data-target="#collapseCompare" aria-expanded="false" aria-controls="collapseCompare">Compare</button>
+                <div class="collapse w-100 mb-2" id="collapseCompare">
+                    <div class="card py-1">
+                        @foreach(var p in allProducts.Where(p => p != product && p.Type == product.Type))
+                        {
+                            var b = p.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                            var bClass = b == null ?  "" : $"brand-{b.Spec.Value}";
+                            <a class="btn btn-secondary product-name d-flex justify-content-center @bClass" @onclick="(() => Compare(p))">@p.Name</a>
+                        }
                     </div>
                 </div>
                 <table class="table table-striped table-hover">

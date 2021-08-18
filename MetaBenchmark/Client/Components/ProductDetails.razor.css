@@ -7,7 +7,6 @@
     border-bottom: none;
 }
 
-
 .benchmark img {
     max-width: 250px;
     width: 100%;
@@ -28,4 +27,36 @@
 
 #dropdownCompare::after {
     display:none;
+}
+
+.product-name {
+    border-bottom: solid 1px gray;
+}
+
+.compare-button {
+    border: solid 1px gray;
+    border-radius: 3px;
+}
+
+.product-name.brand-Nvidia::before {
+    background: url(/logos/nvidia.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.product-name.brand-AMD::before {
+    background: url(/logos/amd.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.product-name::before {
+    content: '';
+    flex: 0 0 auto;
+    margin-right: .5em;
+    margin-left: .5em;
 }
