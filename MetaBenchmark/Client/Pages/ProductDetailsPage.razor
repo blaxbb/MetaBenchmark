@@ -4,10 +4,12 @@
 @using MetaBenchmark.Client.Components
 @using MetaBenchmark.Shared
 
-<ProductDetails product="product"/>
+<ProductDetails product="product" allProducts="allProducts"/>
 
 @code {
     Product product;
+    List<Product> allProducts;
+
     [Parameter]
     public string productId { get; set; }
 
@@ -16,6 +18,7 @@
         var all = await cache.All();
         if (all.Value != null && long.TryParse(productId, out long id))
         {
+            allProducts = all.Value;
             product = all.Value.FirstOrDefault(p => p.ID == id);
         }
     }

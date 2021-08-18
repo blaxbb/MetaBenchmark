@@ -25,3 +25,7 @@
 .filter-row {
     border-bottom: 1px solid gray;
 }
+
+#dropdownCompare::after {
+    display:none;
+}

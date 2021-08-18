@@ -25,6 +25,9 @@
             <div class="col-5 col-md-3 card px-2">
                 <div class="card-body p-0 p-sm-3">
                     <div class="row">
+                        <button id="filterCollapseButton" class="btn btn-primary col-auto h-100 my-auto" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                           <span class="oi oi-expand-down" aria-hidden="true"></span> 
+                        </button>
                         <div class="col">
                             <select class="form-control selectpicker form-control-lg"
                                 id="benchmarkTypeFilter"
@@ -32,15 +35,23 @@
                                 @onchange="((val) => SelectedBenchmarkType())">
                                 @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
                                 {
-                                    <option value=@((int)type)>@type.DisplayName()</option>
+                                    if(CurrentBenchmarkType == type && !HasInit)
+                                    {
+                                        <option selected value=@((int)type)>@type.DisplayName()</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@((int)type)>@type.DisplayName()</option>
+                                    }
                                 }
                             </select>
                             <div id="filterCollapse" class="collapse">
                                 <select class="form-control selectpicker form-control-lg"
                                         id="benchmarkFilter"
+                                        title="Benchmarks"
                                         data-live-search="true"
                                         data-actions-box="true"
-                                        data-selected-text-format="count"
+                                        data-selected-text-format="static"
                                         data-style="btn-secondary"
                                         multiple
                                         @onchange="((val) => SelectedBenchmark())">
@@ -51,9 +62,10 @@
                                 </select>
                                 <select class="form-control selectpicker form-control-lg"
                                         id="sourceFilter"
+                                        title="Sources"
                                         data-live-search="true"
                                         data-actions-box="true"
-                                        data-selected-text-format="count"
+                                        data-selected-text-format="static"
                                         data-style="btn-secondary"
                                         multiple
                                         @onchange="((val) => SelectedSource())">
@@ -64,9 +76,6 @@
                                 </select>
                             </div>
                         </div>
-                        <button id="filterCollapseButton" class="btn btn-primary col-auto h-100 my-auto" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
-                           <span class="oi oi-expand-down" aria-hidden="true"></span> 
-                        </button>
                     </div>
                 </div>
             </div>
@@ -240,6 +249,8 @@ else
     Benchmark.BenchmarkType CurrentBenchmarkType;
     bool UserModified;
 
+    bool HasInit = false;
+
     protected override async Task OnInitializedAsync()
     {
         var query = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query);
@@ -292,6 +303,7 @@ else
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
         await js.InvokeVoidAsync("MoveFilterToNav");
+        HasInit = true;
     }
 
     async Task<List<Product>> GetAllProducts()
@@ -532,6 +544,8 @@ else
         ActiveBenchmarks = items.Select(i => AvailableBenchmarks.FirstOrDefault(b => b.ID == long.Parse(i))).ToList();
         Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Select(b => b.Name).ToList()));
         StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
     async Task SelectedSource()
@@ -540,6 +554,8 @@ else
         ActiveSources = items.Select(i => AvailableSources.FirstOrDefault(b => b.Id == long.Parse(i))).ToList();
         Console.WriteLine(JsonConvert.SerializeObject(ActiveSources.Select(b => b.Name).ToList()));
         StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
     async Task SelectedProductType(object val)
@@ -559,6 +575,7 @@ else
         CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
         ActiveBenchmarks = AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).ToList();
         StateHasChanged();
+        await Task.Delay(1);
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 

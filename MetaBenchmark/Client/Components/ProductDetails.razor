@@ -1,9 +1,10 @@
 ﻿@inject IJSRuntime js
+@inject NavigationManager nav
 
 @using MetaBenchmark.Shared
 @using MetaBenchmark.Shared.Models
 
-@if(product != null)
+@if(product != null && allProducts != null)
 {
     var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
     var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
@@ -11,8 +12,23 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-4 filter-col">
-                <div class="product-name @brandClass">
-                    <h1>@product.Name</h1>
+                <div class="row">
+                    <div class="col-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownCompare" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="oi oi-expand-down" aria-hidden="true"></span> 
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownCompare">
+                                @foreach(var p in allProducts.Where(p => p != product && p.Type == product.Type))
+                                {
+                                    <a class="dropdown-item" @onclick="(() => Compare(p))">@p.Name</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col product-name @brandClass">
+                        <h1>@product.Name</h1>
+                    </div>
                 </div>
                 <table class="table table-striped table-hover">
                     <tbody>
@@ -125,6 +141,9 @@
     [Parameter]
     public Product product { get; set; }
 
+    [Parameter]
+    public List<Product> allProducts { get; set; }
+
     Benchmark.BenchmarkType CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
     List<BenchmarkSource> CurrentSource = new List<BenchmarkSource>();
     List<Benchmark> CurrentBenchmarks = new List<Benchmark>();
@@ -140,7 +159,10 @@
 
     void SetAvailableBenchmarks()
     {
-        AvailableBenchmarks = product.BenchmarkEntries.Select(b => b.Benchmark).Where(b => CurrentBenchmarkType == b.Type).Distinct().ToList();
+        if (product?.BenchmarkEntries != null)
+        {
+            AvailableBenchmarks = product.BenchmarkEntries.Select(b => b.Benchmark).Where(b => CurrentBenchmarkType == b.Type).Distinct().ToList();
+        }
     }
 
     bool FilterBenchmark(BenchmarkEntry b)
@@ -218,5 +240,10 @@
         }
 
         return "";
+    }
+
+    void Compare(Product other)
+    {
+        nav.NavigateTo($"compare?pt={product.Type}&bt={CurrentBenchmarkType}&products={product.ID},{other.ID}");
     }
 }
