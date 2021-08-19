@@ -1,5 +1,6 @@
 ﻿@page "/settings"
 @inject IJSRuntime js;
+@inject DataCache cache;
 
 
 @if (settings != null)
@@ -20,6 +21,9 @@
                 </InputCheckbox>
 			    <label for="cacheEnabled">Enable Edit Mode</label>
 		    </div>
+            <button class="btn btn-primary" @onclick=ClearCacheClick>
+                Clear cache
+            </button>
             <button class="btn btn-primary" @onclick=SubmitClick>
                 Save
             </button>
@@ -32,6 +36,11 @@
     protected override async Task OnInitializedAsync()
     {
         settings = await Settings.Load(js);
+    }
+
+    private async Task ClearCacheClick()
+    {
+        await cache.Clear();
     }
 
     private async Task SubmitClick()

@@ -241,5 +241,10 @@ namespace MetaBenchmark.Client
         {
             return await SetModified(NAME_SOURCES, data);
         }
+
+        public async Task Clear()
+        {
+            await js.InvokeVoidAsync("ClearStorage");
+        }
     }
 }

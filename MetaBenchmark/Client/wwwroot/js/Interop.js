@@ -53,6 +53,9 @@ window.SetStorage = function (name, value) {
 window.GetStorage = function (name) {
     return localStorage.getItem(name);
 }
+window.ClearStorage = function () {
+    localStorage.clear();
+}
 
 window.DownloadFile = function (zipName, filenames, texts) {
     if (filenames.length != texts.length) {
