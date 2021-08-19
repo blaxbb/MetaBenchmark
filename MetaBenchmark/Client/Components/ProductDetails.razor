@@ -17,7 +17,7 @@
                         <h1 class="my-auto">@product.Name</h1>
                     </div>
                 </div>
-                <button class="compare-button my-2 btn btn-secondary dropdown-toggle w-100" type="button" data-toggle="collapse" data-target="#collapseCompare" aria-expanded="false" aria-controls="collapseCompare">Compare</button>
+                <button class="compare-button my-2 btn btn-secondary dropdown-toggle w-100 border-info" type="button" data-toggle="collapse" data-target="#collapseCompare" aria-expanded="false" aria-controls="collapseCompare">Compare</button>
                 <div class="collapse w-100 mb-2" id="collapseCompare">
                     <div class="card py-1">
                         @foreach(var p in allProducts.Where(p => p != product && p.Type == product.Type))
