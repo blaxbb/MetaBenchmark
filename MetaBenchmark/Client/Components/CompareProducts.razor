@@ -29,20 +29,13 @@
                            <span class="oi oi-expand-down" aria-hidden="true"></span> 
                         </button>
                         <div class="col">
-                            <select class="form-control selectpicker form-control-lg"
+                            <select class="form-control form-control-lg bg-secondary border-info border text-white"
                                 id="benchmarkTypeFilter"
                                 data-style="btn-secondary"
                                 @onchange="((val) => SelectedBenchmarkType())">
                                 @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
                                 {
-                                    if(CurrentBenchmarkType == type && !HasInit)
-                                    {
-                                        <option selected value=@((int)type)>@type.DisplayName()</option>
-                                    }
-                                    else
-                                    {
-                                        <option value=@((int)type)>@type.DisplayName()</option>
-                                    }
+                                    <option value=@((int)type)>@type.DisplayName()</option>
                                 }
                             </select>
                             <div id="filterCollapse" class="collapse">
@@ -109,7 +102,7 @@
                         var brand = SelectedProducts[i].Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
                         var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
 
-                        <div class="row card-body product-header px-0 px-md-3 @brandClass">
+                        <div class="row card-body product-header px-0 px-md-3 w-100 h-100 @brandClass">
                             <h4 class="col-md my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
                             <div class="col-md-auto row px-0 mx-auto">
                                 <button class="btn btn-sm col-auto btn-success product-btn my-auto" @onclick="(() => NavigateProduct(SelectedProducts[index].ID))">
@@ -301,9 +294,9 @@ else
         ComputeAverages();
 
         StateHasChanged();
+        await js.InvokeVoidAsync("SelectValue", "#benchmarkTypeFilter", (int)CurrentBenchmarkType);
         await js.InvokeVoidAsync("ShowSelectPicker");
         await js.InvokeVoidAsync("MoveFilterToNav");
-        HasInit = true;
     }
 
     async Task<List<Product>> GetAllProducts()
@@ -452,13 +445,6 @@ else
             SelectedProducts[index] = p;
         }
         ComputeAverages();
-        //
-        //
-        //  nullIndex + X -> x == filter select element count
-        //
-        //
-        Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Where(p => p != null).Select(p => p.Name)));
-        await js.InvokeVoidAsync("RemoveSelectPicker", nullIndex + 3);
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
         await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.ID))}");
@@ -573,9 +559,12 @@ else
     {
         var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
         CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
+        Console.WriteLine($"SELECTED {CurrentBenchmarkType}");
         ActiveBenchmarks = AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).ToList();
         StateHasChanged();
         await Task.Delay(1);
+        await js.InvokeVoidAsync("SelectPickerAll", "#benchmarkFilter");
+        await js.InvokeVoidAsync("SelectPickerAll", "#sourceFilter");
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 

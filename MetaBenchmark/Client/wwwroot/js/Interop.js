@@ -35,6 +35,14 @@ window.SelectPickerNone = function (selector) {
     $(selector).selectpicker('deselectAll');
 }
 
+window.SelectPickerNone = function (selector) {
+    $(selector).selectpicker('deselectAll');
+}
+
+window.SelectValue = function (selector, value) {
+    $(selector).val(value);
+}
+
 window.GetVal = function (selector) {
     return $(selector).val();
 }
