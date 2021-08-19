@@ -26,7 +26,10 @@
                                 var benchClass = GetTextClass(bench);
                                 <div class="row mb-3">
                                     <div class="col my-auto">@bench.Benchmark.Name</div>
-                                    <div class="col-auto my-auto benchmark-value @benchClass">@bench.ValueLabel()</div>
+                                    <div class="col-auto my-auto">
+                                        <div class="benchmark-value text-right @benchClass">@bench.ValueLabel()</div>
+                                        <div><img class="justify-content-end source-img" src="@bench.Source.LogoUrl" alt="@bench.Source.Name" title="@bench.Source.Name" /></div>
+                                    </div>
                                 </div>
                             }
                         </div>

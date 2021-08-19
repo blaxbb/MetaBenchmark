@@ -35,3 +35,7 @@
 .product:hover .product-click-hint {
     opacity: 1;
 }
+
+.source-img {
+    max-height: 20px;
+}
