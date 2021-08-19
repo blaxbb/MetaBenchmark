@@ -1,38 +1,5 @@
 [
   {
-    "ID": 1,
-    "Name": "PRODUCT",
-    "Type": 2,
-    "Specs": [
-      {
-        "SpecId": 1
-      },
-      {
-        "SpecId": 2
-      }
-    ]
-  },
-  {
-    "ID": 2,
-    "Name": "Product 2",
-    "Type": 2,
-    "Specs": [
-      {
-        "SpecId": 3
-      }
-    ]
-  },
-  {
-    "ID": 3,
-    "Name": "Product 3",
-    "Type": 2,
-    "Specs": [
-      {
-        "SpecId": 4
-      }
-    ]
-  },
-  {
     "ID": 4,
     "Name": "RTX 3090",
     "Type": 2,

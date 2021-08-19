@@ -24,7 +24,7 @@
                             {
                                 var bench = group.ToList().RandomItem();
                                 var benchClass = GetTextClass(bench);
-                                <div class="row mb-3">
+                                <div class="row pb-3 benchmark-entry">
                                     <div class="col my-auto">@bench.Benchmark.Name</div>
                                     <div class="col-auto my-auto">
                                         <div class="benchmark-value text-right @benchClass">@bench.ValueLabel()</div>

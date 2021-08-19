@@ -39,3 +39,11 @@
 .source-img {
     max-height: 20px;
 }
+
+.benchmark-entry {
+    border-bottom: solid 1px gray;
+}
+
+.benchmark-entry:last-child {
+    border-bottom: 0;
+}
