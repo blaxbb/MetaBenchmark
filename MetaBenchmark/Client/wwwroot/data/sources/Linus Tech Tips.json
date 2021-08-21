@@ -1,0 +1,128 @@
+{
+  "Id": 5,
+  "Name": "Linus Tech Tips",
+  "Url": "https://www.youtube.com/channel/UCXuqSBlHAE6Xw-yeJA0Tunw",
+  "LogoUrl": "/logos/linustechtips.png",
+  "BenchmarkEntries": [
+    {
+      "BenchmarkId": 32,
+      "ProductId": 9,
+      "Value": 183.0
+    },
+    {
+      "BenchmarkId": 33,
+      "ProductId": 9,
+      "Value": 76.0
+    },
+    {
+      "BenchmarkId": 34,
+      "ProductId": 9,
+      "Value": 198.0
+    },
+    {
+      "BenchmarkId": 35,
+      "ProductId": 9,
+      "Value": 140.0
+    },
+    {
+      "BenchmarkId": 36,
+      "ProductId": 9,
+      "Value": 120.0
+    },
+    {
+      "BenchmarkId": 37,
+      "ProductId": 9,
+      "Value": 54.0
+    },
+    {
+      "BenchmarkId": 32,
+      "ProductId": 10,
+      "Value": 158.0
+    },
+    {
+      "BenchmarkId": 33,
+      "ProductId": 10,
+      "Value": 68.0
+    },
+    {
+      "BenchmarkId": 34,
+      "ProductId": 10,
+      "Value": 166.0
+    },
+    {
+      "BenchmarkId": 35,
+      "ProductId": 10,
+      "Value": 109.0
+    },
+    {
+      "BenchmarkId": 36,
+      "ProductId": 10,
+      "Value": 93.0
+    },
+    {
+      "BenchmarkId": 37,
+      "ProductId": 10,
+      "Value": 40.0
+    },
+    {
+      "BenchmarkId": 32,
+      "ProductId": 14,
+      "Value": 217.0
+    },
+    {
+      "BenchmarkId": 33,
+      "ProductId": 14,
+      "Value": 110.0
+    },
+    {
+      "BenchmarkId": 34,
+      "ProductId": 14,
+      "Value": 181.0
+    },
+    {
+      "BenchmarkId": 35,
+      "ProductId": 14,
+      "Value": 152.0
+    },
+    {
+      "BenchmarkId": 36,
+      "ProductId": 14,
+      "Value": 146.0
+    },
+    {
+      "BenchmarkId": 37,
+      "ProductId": 14,
+      "Value": 49.0
+    },
+    {
+      "BenchmarkId": 32,
+      "ProductId": 15,
+      "Value": 210.0
+    },
+    {
+      "BenchmarkId": 33,
+      "ProductId": 15,
+      "Value": 94.0
+    },
+    {
+      "BenchmarkId": 34,
+      "ProductId": 15,
+      "Value": 169.0
+    },
+    {
+      "BenchmarkId": 35,
+      "ProductId": 15,
+      "Value": 124.0
+    },
+    {
+      "BenchmarkId": 36,
+      "ProductId": 15,
+      "Value": 121.0
+    },
+    {
+      "BenchmarkId": 37,
+      "ProductId": 15,
+      "Value": 40.0
+    }
+  ]
+}
