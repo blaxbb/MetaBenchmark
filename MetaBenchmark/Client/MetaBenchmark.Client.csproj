@@ -34,4 +34,11 @@
     <Content Include="Components\ProductDetails.razor.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\data\specifications\Product\brand.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

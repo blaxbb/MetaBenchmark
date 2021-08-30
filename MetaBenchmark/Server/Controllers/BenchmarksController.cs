@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MetaBenchmark.Shared;
 using MetaBenchmark.Server.Data;
 using Microsoft.AspNetCore.Authorization;
+using MetaBenchmark.Shared.Models;
 
 namespace MetaBenchmark.Server.Controllers
 {
@@ -51,7 +52,7 @@ namespace MetaBenchmark.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBenchmark(long id, Benchmark benchmark)
         {
-            if (id != benchmark.ID)
+            if (id != benchmark.Id)
             {
                 return BadRequest();
             }
@@ -85,7 +86,7 @@ namespace MetaBenchmark.Server.Controllers
             _context.Benchmarks.Add(benchmark);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBenchmark", new { id = benchmark.ID }, benchmark);
+            return CreatedAtAction("GetBenchmark", new { id = benchmark.Id }, benchmark);
         }
 
         // DELETE: api/Benchmarks/5
@@ -106,7 +107,7 @@ namespace MetaBenchmark.Server.Controllers
 
         private bool BenchmarkExists(long id)
         {
-            return _context.Benchmarks.Any(e => e.ID == id);
+            return _context.Benchmarks.Any(e => e.Id == id);
         }
     }
 }

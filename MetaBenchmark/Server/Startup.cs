@@ -79,7 +79,7 @@ namespace MetaBenchmark.Server
                 return next();
             });
 
-            db.Database.Migrate();
+            //db.Database.Migrate();
 
             if (env.IsDevelopment())
             {
@@ -107,7 +107,7 @@ namespace MetaBenchmark.Server
 
             app.UseRouting();
 
-            DataImporter.Import(db);
+            //DataImporter.Import(db);
 
             app.UseIdentityServer();
             app.UseAuthentication();

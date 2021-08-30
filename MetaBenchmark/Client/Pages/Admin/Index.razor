@@ -68,7 +68,7 @@
 			var type = group.Key;
 			var items = group.ToList();
 			items.ForEach(b => b.Type = Benchmark.BenchmarkType.FPS);
-			var json = JsonConvert.SerializeObject(items.OrderBy(b => b.ID).ToList(), Settings);
+			var json = JsonConvert.SerializeObject(items.OrderBy(b => b.Id).ToList(), Settings);
 			yield return ($"benchmarks/{type.ToString()}.json", json);
 		}
 	}
@@ -78,15 +78,19 @@
 		var specGroups = all.SelectMany(p => p.Specs).Select(s => s.Spec).Distinct().GroupBy(s => s.Name);
 
 		var indexJson = JsonConvert.SerializeObject(specGroups.Select(g => g.Key).ToList(), Settings);
-		yield return ("specifications/index.json", indexJson);
+		yield return ("specifications/Product/index.json", indexJson);
 
 		foreach(var group in specGroups)
 		{
 			var name = group.Key;
 			var items = group.ToList();
-			items.ForEach(s => s.Name = default);
+			items.ForEach(s =>
+			{
+				s.Name = default;
+				s.Type = default;
+			});
 			var json = JsonConvert.SerializeObject(group.ToList(), Settings);
-			yield return ($"specifications/{name}.json", json);
+			yield return ($"specifications/Product/{name}.json", json);
 		}
 	}
 
@@ -114,7 +118,7 @@
 
 	IEnumerable<(string, string)> ExportProductFiles(IEnumerable<Product> all)
 	{
-		var sorted = all.OrderBy(p => p.ID).ToList();
+		var sorted = all.OrderBy(p => p.Id).ToList();
 		sorted.ForEach(p =>
 		{
 			p.BenchmarkEntries = null;

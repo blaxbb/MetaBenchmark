@@ -112,7 +112,7 @@ namespace MetaBenchmark.Server
                         foreach (var s in import.Specs)
                         {
                             s.Id = 0;
-                            s.ProductId = import.ID;
+                            s.ItemId = import.Id;
                         }
 
                         using (var transaction = db.Database.BeginTransaction())

@@ -50,7 +50,7 @@ namespace MetaBenchmark.Server.Controllers
                 .ThenInclude(s => s.Spec)
                 .Include(p => p.BenchmarkEntries)
                 .ThenInclude(b => b.Benchmark)
-                .FirstOrDefaultAsync(p => p.ID == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
             {
@@ -66,7 +66,7 @@ namespace MetaBenchmark.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(long id, Product product)
         {
-            if (id != product.ID)
+            if (id != product.Id)
             {
                 return BadRequest();
             }
@@ -100,7 +100,7 @@ namespace MetaBenchmark.Server.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.ID }, product);
+            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
         // DELETE: api/Products/5
@@ -121,7 +121,7 @@ namespace MetaBenchmark.Server.Controllers
 
         private bool ProductExists(long id)
         {
-            return _context.Products.Any(e => e.ID == id);
+            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

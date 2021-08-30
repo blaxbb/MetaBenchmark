@@ -23,7 +23,7 @@ else
                 <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" @bind-Value=Model.BenchmarkId>
                     @foreach(var bench in allBenchmarks)
                     {
-                        <option value="@bench.ID">@bench.Name</option>
+                        <option value="@bench.Id">@bench.Name</option>
                     }
                 </InputSelect>
 		    </div>
@@ -102,7 +102,7 @@ else
 		Model = new BenchmarkEntry();
         Model.Id = -1;
         var products = (await cache.All()).Value;
-        product = products.FirstOrDefault(p => p.ID.ToString() == ID);
+        product = products.FirstOrDefault(p => p.Id.ToString() == ID);
         this.StateHasChanged();
 	}
 
@@ -110,7 +110,7 @@ else
     {
         Model = new BenchmarkEntry();
         Model.Id = -1;
-        Model.ProductId = product.ID;
+        Model.ProductId = product.Id;
         await js.InvokeVoidAsync("ShowModal", "#AddBenchmarkEntryModal");
         await js.InvokeVoidAsync("ShowSelectPicker");
     }

@@ -111,8 +111,8 @@ namespace MetaBenchmark.Client
                     };
                     entry.SourceId = entry.Source.Id;
 
-                    var product = products.Value.FirstOrDefault(p => p.ID == entry.ProductId);
-                    var benchmark = benchmarks.Value.FirstOrDefault(b => b.ID == entry.BenchmarkId);
+                    var product = products.Value.FirstOrDefault(p => p.Id == entry.ProductId);
+                    var benchmark = benchmarks.Value.FirstOrDefault(b => b.Id == entry.BenchmarkId);
                     entry.Benchmark = benchmark;
                     product.BenchmarkEntries.Add(entry);
                 }
@@ -123,20 +123,36 @@ namespace MetaBenchmark.Client
 
         async Task<List<Specification>> FetchSpecifications()
         {
-            var specIndex = await Fetch<List<string>>("data/specifications/index.json");
             var specs = new List<Specification>();
-            foreach (var specName in specIndex)
+
+            foreach(var type in Enum.GetValues(typeof(Specification.ItemType)))
             {
+                var itemType = (Specification.ItemType)type;
+
+                List<string> specIndex;
                 try
                 {
-                    var url = $"data/specifications/{Uri.EscapeDataString(specName)}.json";
-                    var specValues = await Fetch<List<Specification>>(url);
-                    specValues.ForEach(s => s.Name = specName);
-                    specs.AddRange(specValues);
+                    specIndex = await Fetch<List<string>>($"data/specifications/{itemType}/index.json");
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
-                    Console.WriteLine($"Loading data/specifications/{specName}.json failed!");
+                    Console.WriteLine($"Loading data/specifications/{itemType}/index.json failed!");
+                    continue;
+                }
+
+                foreach (var specName in specIndex)
+                {
+                    try
+                    {
+                        var url = $"data/specifications/{itemType}/{Uri.EscapeDataString(specName)}.json";
+                        var specValues = await Fetch<List<Specification>>(url);
+                        specValues.ForEach(s => s.Name = specName);
+                        specs.AddRange(specValues);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"Loading data/specifications/{itemType}/{specName}.json failed!");
+                    }
                 }
             }
 
@@ -194,7 +210,7 @@ namespace MetaBenchmark.Client
                 product.BenchmarkEntries = new List<BenchmarkEntry>();
                 foreach (var spec in product.Specs)
                 {
-                    var s = specs.FirstOrDefault(s => s.Id == spec.SpecId);
+                    var s = specs.FirstOrDefault(s => s.Type == Specification.ItemType.Product && s.Id == spec.SpecId);
                     spec.Spec = s;
                 }
             }
@@ -220,7 +236,7 @@ namespace MetaBenchmark.Client
         {
             return await SetModified(NAME_PRODUCTS, data.Select(p => new Product()
             {
-                ID = p.ID,
+                Id = p.Id,
                 Name = p.Name,
                 Type = p.Type,
                 Specs = p.Specs

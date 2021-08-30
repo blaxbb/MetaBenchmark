@@ -37,40 +37,40 @@ namespace MetaBenchmark.Server.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<SpecificationEntry>()
-                .HasKey(e => e.Id);
+            //builder.Entity<SpecificationEntry>()
+            //    .HasKey(e => e.Id);
 
-            builder.Entity<SpecificationEntry>()
-                .HasOne(e => e.Spec)
-                .WithMany(p => p.Products)
-                .HasForeignKey(e => e.SpecId);
+            //builder.Entity<SpecificationEntry>()
+            //    .HasOne(e => e.Spec)
+            //    .WithMany(p => p.Products)
+            //    .HasForeignKey(e => e.SpecId);
 
-            builder.Entity<SpecificationEntry>()
-                .HasOne(e => e.Product)
-                .WithMany(p => p.Specs)
-                .HasForeignKey(e => e.ProductId);
+            //builder.Entity<SpecificationEntry>()
+            //    .HasOne(e => e.Item)
+            //    .WithMany(p => p.Specs)
+            //    .HasForeignKey(e => e.ItemId);
 
 
-            builder.Entity<Specification>()
-                .HasIndex(s => s.Name);
+            //builder.Entity<Specification>()
+            //    .HasIndex(s => s.Name);
 
-            builder.Entity<BenchmarkEntry>()
-                .HasKey(e => e.Id);
+            //builder.Entity<BenchmarkEntry>()
+            //    .HasKey(e => e.Id);
 
-            builder.Entity<BenchmarkEntry>()
-                .HasOne(e => e.Product)
-                .WithMany(p => p.BenchmarkEntries)
-                .HasForeignKey(e => e.ProductId);
+            //builder.Entity<BenchmarkEntry>()
+            //    .HasOne(e => e.Product)
+            //    .WithMany(p => p.BenchmarkEntries)
+            //    .HasForeignKey(e => e.ProductId);
 
-            builder.Entity<BenchmarkEntry>()
-                .HasOne(e => e.Benchmark)
-                .WithMany(b => b.Entries)
-                .HasForeignKey(e => e.BenchmarkId);
+            //builder.Entity<BenchmarkEntry>()
+            //    .HasOne(e => e.Benchmark)
+            //    .WithMany(b => b.Entries)
+            //    .HasForeignKey(e => e.BenchmarkId);
 
-            builder.Entity<BenchmarkEntry>()
-                .HasOne(e => e.Source)
-                .WithMany(s => s.BenchmarkEntries)
-                .HasForeignKey(e => e.SourceId);
+            //builder.Entity<BenchmarkEntry>()
+            //    .HasOne(e => e.Source)
+            //    .WithMany(s => s.BenchmarkEntries)
+            //    .HasForeignKey(e => e.SourceId);
 
             //SeedBenchmarks("Data/Import/benchmarks.json", builder);
             //SeedSpecifications("Data/Import/specifications.json", builder);

@@ -13,16 +13,24 @@ namespace MetaBenchmark.Shared.Models
         public string Value { get; set; }
         public ICollection<SpecificationEntry> Products { get; set; }
 
+        public ItemType Type { get; set; }
+        public enum ItemType
+        {
+            Product,
+            Benchmark,
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Specification specification &&
                    Name == specification.Name &&
-                   Value == specification.Value;
+                   Value == specification.Value &&
+                   Type == specification.Type;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Value);
+            return HashCode.Combine(Name, Value, Type);
         }
 
         public static bool operator ==(Specification left, Specification right)

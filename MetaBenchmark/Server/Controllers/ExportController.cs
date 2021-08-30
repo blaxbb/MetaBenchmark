@@ -62,7 +62,7 @@ namespace MetaBenchmark.Server.Controllers
                     p.Specs.ToList().ForEach(s =>
                     {
                         s.Id = 0;
-                        s.ProductId = 0;
+                        s.ItemId = 0;
                     })
                 );
                 jsonItems.Add(JsonConvert.SerializeObject(products, jsonSettings));
@@ -77,7 +77,7 @@ namespace MetaBenchmark.Server.Controllers
                      * Using anonymous type to remove b.Type from json output
                      * 
                      */
-                    jsonItems.Add(JsonConvert.SerializeObject(group.Select(b => new { ID = b.ID, Name = b.Name }).ToList(), jsonSettings));
+                    jsonItems.Add(JsonConvert.SerializeObject(group.Select(b => new { ID = b.Id, Name = b.Name }).ToList(), jsonSettings));
                 }
 
                 var specGroups = specs.GroupBy(s => s.Name);

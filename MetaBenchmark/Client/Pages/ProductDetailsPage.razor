@@ -19,7 +19,7 @@
         if (all.Value != null && long.TryParse(productId, out long id))
         {
             allProducts = all.Value;
-            product = all.Value.FirstOrDefault(p => p.ID == id);
+            product = all.Value.FirstOrDefault(p => p.Id == id);
         }
     }
 

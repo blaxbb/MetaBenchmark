@@ -12,19 +12,19 @@ namespace MetaBenchmark.Shared.Models
         public Specification Spec { get; set; }
         public long SpecId { get; set; }
 
-        public Product Product { get; set; }
-        public long ProductId { get; set; }
+        public ISpecAttachable Item { get; set; }
+        public long ItemId { get; set; }
 
         public override bool Equals(object obj)
         {
             return obj is SpecificationEntry entry &&
                    SpecId == entry.SpecId &&
-                   ProductId == entry.ProductId;
+                   ItemId == entry.ItemId;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(SpecId, ProductId);
+            return HashCode.Combine(SpecId, ItemId);
         }
 
         public static bool operator ==(SpecificationEntry left, SpecificationEntry right)

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MetaBenchmark.Shared
 {
-    public class Product
+    public class Product : ISpecAttachable
     {
-        public long ID { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public enum ProductType
         {

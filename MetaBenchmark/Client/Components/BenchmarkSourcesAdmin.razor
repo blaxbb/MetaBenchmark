@@ -38,7 +38,7 @@
                 <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" @bind-Value=BulkBenchmark.BenchmarkId>
                     @foreach (var bench in allBenchmarks)
                     {
-                        <option value="@bench.ID">@bench.Name</option>
+                        <option value="@bench.Id">@bench.Name</option>
                     }
                 </InputSelect>
             </div>
@@ -47,7 +47,7 @@
                 <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" @bind-Value=BulkBenchmark.ProductId>
                     @foreach (var prod in allProducts)
                     {
-                        <option value="@prod.ID">@prod.Name</option>
+                        <option value="@prod.Id">@prod.Name</option>
                     }
                 </InputSelect>
             </div>

@@ -50,7 +50,7 @@
                                         @onchange="((val) => SelectedBenchmark())">
                                     @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
                                     {
-                                        <option selected value=@bench.ID>@bench.Name</option>
+                                        <option selected value=@bench.Id>@bench.Name</option>
                                     }
                                 </select>
                                 <select class="form-control selectpicker form-control-lg"
@@ -92,7 +92,7 @@
                                     var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
                                     var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
 
-                                    <option class="@brandClass" value=@product.ID>@product.Name</option>
+                                    <option class="@brandClass" value=@product.Id>@product.Name</option>
                                 }
                             </select>
                         </form>
@@ -105,7 +105,7 @@
                         <div class="row card-body product-header px-0 px-md-3 w-100 h-100 @brandClass">
                             <h4 class="col-md my-auto product-title @brandClass">@SelectedProducts[i].Name</h4>
                             <div class="col-md-auto row px-0 mx-auto">
-                                <button class="btn btn-sm col-auto btn-success product-btn my-auto" @onclick="(() => NavigateProduct(SelectedProducts[index].ID))">
+                                <button class="btn btn-sm col-auto btn-success product-btn my-auto" @onclick="(() => NavigateProduct(SelectedProducts[index].Id))">
                                     <span class="oi oi-list" aria-hidden="true"></span>
                                 </button>
                                 <button class="btn btn-sm col-auto btn-danger product-btn my-auto" @onclick="(() => Selected(null, index))">
@@ -126,7 +126,7 @@
         </div>
         @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
         {
-            <div class="row justify-content-center benchmark benchmark-@bench.ID">
+            <div class="row justify-content-center benchmark benchmark-@bench.Id">
                 <div class="product col-5 col-md-3 m-0 py-1 card">
                     <div class="row h-100">
                         <div class="col my-auto">
@@ -141,7 +141,7 @@
                     if (SelectedProducts.Length > i && SelectedProducts[i] != default)
                     {
                         var prod = SelectedProducts[i];
-                        var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == bench.ID && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
+                        var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == bench.Id && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
                         var count = entries.Count();
                         var visibleCount = 2;
                         if(entries.Count == 0)
@@ -152,8 +152,8 @@
                         }
 
                         var avg = entries.Average(e => e.Value);
-                        var midpoint = BenchmarkAverages[bench.ID];
-                        var backgroundClass = BenchmarkMaximums[bench.ID].productId == prod.ID ? "bg-success text-light" : "";
+                        var midpoint = BenchmarkAverages[bench.Id];
+                        var backgroundClass = BenchmarkMaximums[bench.Id].productId == prod.Id ? "bg-success text-light" : "";
                         backgroundClass = "";
 
                         <div class="product col m-0 py-1 @backgroundClass @hideSmallClass card">
@@ -188,7 +188,7 @@
 
                                     @if (count > visibleCount)
                                     {
-                                        <div class="collapse" id="bench_@(bench.ID)_collapse">
+                                        <div class="collapse" id="bench_@(bench.Id)_collapse">
                                             @for (int j = visibleCount; j < count; j++)
                                             {
                                                 var entry = entries.ElementAt(j);
@@ -200,7 +200,7 @@
                                             }
                                         </div>
                                         <div>
-                                            <button class="btn btn-sm btn-outline-info w-100 p-0" type="button" data-toggle="collapse" data-target="#bench_@(bench.ID)_collapse" aria-expanded="false" aria-controls="bench_@(bench.ID)_collapse">...</button>
+                                            <button class="btn btn-sm btn-outline-info w-100 p-0" type="button" data-toggle="collapse" data-target="#bench_@(bench.Id)_collapse" aria-expanded="false" aria-controls="bench_@(bench.Id)_collapse">...</button>
                                         </div>
                                     }
                                 </div>
@@ -283,7 +283,7 @@ else
         string[] prodFromQuery = null;
         if (!string.IsNullOrWhiteSpace(prodParam))
         {
-            SelectedProducts = prodParam.Split(',').Select(id => AllProducts.FirstOrDefault(p => p.ID.ToString() == id)).ToArray();
+            SelectedProducts = prodParam.Split(',').Select(id => AllProducts.FirstOrDefault(p => p.Id.ToString() == id)).ToArray();
         }
         else
         {
@@ -376,8 +376,8 @@ else
                 };
                 entry.SourceId = entry.Source.Id;
 
-                var product = products.FirstOrDefault(p => p.ID == entry.ProductId);
-                var benchmark = benchmarks.FirstOrDefault(b => b.ID == entry.BenchmarkId);
+                var product = products.FirstOrDefault(p => p.Id == entry.ProductId);
+                var benchmark = benchmarks.FirstOrDefault(b => b.Id == entry.BenchmarkId);
                 entry.Benchmark = benchmark;
                 product.BenchmarkEntries.Add(entry);
             }
@@ -395,7 +395,7 @@ else
     {
         if(long.TryParse(productId, out long id))
         {
-            var prod = AllProducts.FirstOrDefault(p => p.ID == id);
+            var prod = AllProducts.FirstOrDefault(p => p.Id == id);
             await Selected(prod, index);
         }
         else
@@ -447,7 +447,7 @@ else
         ComputeAverages();
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
-        await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.ID))}");
+        await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.Id))}");
     }
 
     void ComputeAverages()
@@ -475,7 +475,7 @@ else
                     BenchmarkCount[groups.Key] += 1;
                     if(BenchmarkMaximums[groups.Key].value < avg)
                     {
-                        BenchmarkMaximums[groups.Key] = (product.ID, avg);
+                        BenchmarkMaximums[groups.Key] = (product.Id, avg);
                     }
                 }
                 else
@@ -489,7 +489,7 @@ else
 
                     BenchmarkAverages.Add(groups.Key, avg);
                     BenchmarkCount.Add(groups.Key, 1);
-                    BenchmarkMaximums.Add(groups.Key, (product.ID, avg));
+                    BenchmarkMaximums.Add(groups.Key, (product.Id, avg));
                 }
             }
 
@@ -527,7 +527,7 @@ else
     async Task SelectedBenchmark()
     {
         var items = await js.InvokeAsync<List<string>>("GetVal", "#benchmarkFilter");
-        ActiveBenchmarks = items.Select(i => AvailableBenchmarks.FirstOrDefault(b => b.ID == long.Parse(i))).ToList();
+        ActiveBenchmarks = items.Select(i => AvailableBenchmarks.FirstOrDefault(b => b.Id == long.Parse(i))).ToList();
         Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Select(b => b.Name).ToList()));
         StateHasChanged();
         await Task.Delay(1);
