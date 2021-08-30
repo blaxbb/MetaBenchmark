@@ -151,7 +151,7 @@
     {
         Console.WriteLine("SET");
         await Task.Delay(1);
-        var first = product.BenchmarkEntries.FirstOrDefault();
+        var first = product?.BenchmarkEntries.FirstOrDefault();
         if (first?.Benchmark != null)
         {
             CurrentBenchmarkType = first.Benchmark.Type;
