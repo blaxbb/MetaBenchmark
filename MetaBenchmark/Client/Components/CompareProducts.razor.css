@@ -10,3 +10,7 @@
 #benchmarkTypeFilter {
     appearance: auto;
 }
+
+.row:hover .product.card {
+    background: #48525b;
+}
