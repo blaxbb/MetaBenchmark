@@ -21,6 +21,10 @@
                 }
             </InputSelect>
 		</div>
+        @if(Model.Id != -1)
+        {
+            <SpecificationEditor Model="Model" SpecType="Specification.ItemType.Benchmark" OnUpdated="((res) => SpecificationsUpdated(res.model, res.allSpecs))" />
+        }
 		<button @onclick=SubmitModel class="btn btn-primary">Submit</button>
         @if (Model.Id != -1)
         {
@@ -86,13 +90,14 @@ else
         await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkModal");
     }
 
-    async void EditClick(Benchmark product)
+    async void EditClick(Benchmark bench)
     {
         Model = new Benchmark()
         {
-            Id = product.Id,
-            Name = product.Name,
-            Type = product.Type
+            Id = bench.Id,
+            Name = bench.Name,
+            Type = bench.Type,
+            Specs = bench.Specs
         };
 
         await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkModal");
@@ -139,4 +144,11 @@ else
         Model = new Benchmark();
     }
 
+    async void SpecificationsUpdated(ISpecAttachable model, List<Specification> allSpecs)
+    {
+        var bench = Benchmarks.FirstOrDefault(p => p.Id == model.Id);
+        bench.Specs = model.Specs;
+        await cache.SetSpecifications(allSpecs);
+        await cache.SetBenchmarks(Benchmarks);
+    }
 }

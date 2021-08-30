@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <select class="form-control">
-                @foreach(var name in AllSpecifications.GroupBy(s => s.Name).Select(s => s.Key))
+                @foreach(var name in AllSpecifications.Where(s => s.Type == SpecType).GroupBy(s => s.Name).Select(s => s.Key))
                 {
                     <option @onclick="() => {NewSpecName = name; this.StateHasChanged();}">@name</option>
                 }
@@ -16,7 +16,7 @@
         </div>
         <div class="col">
             <select class="form-control">
-                @foreach(var val in AllSpecifications.Where(s => s.Name == NewSpecName).Select(s => s.Value).Distinct())
+                @foreach(var val in AllSpecifications.Where(s => s.Name == NewSpecName && s.Type == SpecType).Select(s => s.Value).Distinct())
                 {
                     <option @onclick="() => NewSpecValue = val">@val</option>
                 }

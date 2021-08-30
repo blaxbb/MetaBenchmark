@@ -24,6 +24,12 @@ namespace MetaBenchmark.Shared.Models
         public List<BenchmarkEntry> Entries { get; set; }
         public ICollection<SpecificationEntry> Specs { get; set; }
 
+        public Benchmark()
+        {
+            Entries = new List<BenchmarkEntry>();
+            Specs = new List<SpecificationEntry>();
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Benchmark benchmark &&
