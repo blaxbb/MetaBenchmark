@@ -92,11 +92,21 @@
                 </div>
                 @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark).OrderBy(g => g.Key.Name))
                 {
+                    var bench = group.Key;
                     var count = group.Count();
                     var visibleCount = 2;
                     <div class="row benchmark py-1">
                         <div class="col-6 col-md-4 my-auto">
-                            <h4>@group.Key.Name</h4>
+                            <h5>@group.Key.Name</h5>
+                            @if (bench.Specs != null && bench.Specs.Count > 0)
+                            {
+                                <div class="benchmark-specs d-flex flex-wrap h5">
+                                    @foreach(var spec in bench.Specs)
+                                    {
+                                        <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                                    }
+                                </div>
+                            }
                         </div>
                         <div class="col-6 col-md-8">
                             @for(int i = 0; i < visibleCount && i < count; i++)

@@ -14,39 +14,3 @@
 .row:hover .product.card {
     background: #48525b;
 }
-
-.benchmark-spec {
-    
-}
-
-.benchmark-spec-RT-Enabled:before {
-    content: 'Ray Tracing';
-}
-
-.benchmark-spec-Quality-Extreme:before {
-    content: 'Extreme';
-}
-
-.benchmark-spec-Quality-High:before {
-    content: 'High';
-}
-
-.benchmark-spec-Quality-Medium:before {
-    content: 'Medium';
-}
-
-.benchmark-spec-Quality-Low:before {
-    content: 'Low';
-}
-
-.benchmark-spec-Resolution-1080p:before {
-    content: '1080p';
-}
-
-.benchmark-spec-Resolution-1440p:before {
-    content: '1440p';
-}
-
-.benchmark-spec-Resolution-4K:before {
-    content: '4K';
-}
