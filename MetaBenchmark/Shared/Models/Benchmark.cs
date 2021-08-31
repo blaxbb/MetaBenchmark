@@ -51,6 +51,19 @@ namespace MetaBenchmark.Shared.Models
         {
             return !(left == right);
         }
+
+        public string Label
+        {
+            get
+            {
+                if (Specs == null)
+                {
+                    return Name;
+                }
+
+                return $"{Name} - [{string.Join(", ", Specs.Select(s => $"{s.Spec.Name}={s.Spec.Value}"))}]";
+            }
+        }
     }
 
     public static class BenchmarkExtensions

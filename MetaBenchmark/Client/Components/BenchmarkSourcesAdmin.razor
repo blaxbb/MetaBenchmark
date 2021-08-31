@@ -35,16 +35,16 @@
         <EditForm Model="BulkBenchmark">
             <div class="form-group">
                 <label for="benchmark">Benchmark</label>
-                <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" @bind-Value=BulkBenchmark.BenchmarkId>
+                <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" data-style="btn-dark" @bind-Value=BulkBenchmark.BenchmarkId>
                     @foreach (var bench in allBenchmarks)
                     {
-                        <option value="@bench.Id">@bench.Name</option>
+                        <option value="@bench.Id">@bench.Label</option>
                     }
                 </InputSelect>
             </div>
             <div class="form-group">
                 <label for="benchmark">Product</label>
-                <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" @bind-Value=BulkBenchmark.ProductId>
+                <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" data-style="btn-dark" @bind-Value=BulkBenchmark.ProductId>
                     @foreach (var prod in allProducts)
                     {
                         <option value="@prod.Id">@prod.Name</option>
@@ -53,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label for="benchmarkValue">Value</label>
-                <InputNumber class="form-control" id="benchmarkValue" placeholder="Value" @bind-Value=BulkBenchmark.Value />
+                <InputNumber class="form-control btn-dark" id="benchmarkValue" placeholder="Value" @bind-Value=BulkBenchmark.Value />
             </div>
             <button @onclick=SubmitBenchmark class="btn btn-primary">Submit</button>
         </EditForm>	

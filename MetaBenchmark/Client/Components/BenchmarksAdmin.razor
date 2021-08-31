@@ -54,7 +54,7 @@ else
             @foreach (var benchmark in Benchmarks)
             {
                 <tr>
-                    <td>@benchmark.Name</td>
+                    <td>@benchmark.Label</td>
                     <td>@benchmark.Type</td>
                     <td>
                         <button class="btn btn-primary btn-sm" @onclick="(() => EditClick(benchmark))">
