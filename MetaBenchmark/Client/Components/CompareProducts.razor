@@ -130,7 +130,16 @@
                 <div class="product col-5 col-md-3 m-0 py-1 card">
                     <div class="row h-100">
                         <div class="col my-auto">
-                            <h5 class="m-0">@bench.Name</h5>
+                            <h5 class="my-3">@bench.Name</h5>
+                            @if (bench.Specs != null && bench.Specs.Count > 0)
+                            {
+                                <div class="benchmark-specs d-flex flex-wrap h5">
+                                    @foreach(var spec in bench.Specs)
+                                    {
+                                        <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                                    }
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
