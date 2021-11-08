@@ -90,9 +90,9 @@ a, .btn-link {
 }
 
 .compare-products > .row > .col {
-    max-width: 500px;
+    /*max-width: 500px;
     padding-right: 1em;
-    padding-left: 1em;
+    padding-left: 1em;*/
 }
 
 .bootstrap-select {

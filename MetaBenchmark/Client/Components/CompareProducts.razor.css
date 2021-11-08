@@ -14,3 +14,25 @@
 .row:hover .product.card {
     background: #48525b;
 }
+
+@media (min-width:768px) {
+    .source-logo-col {
+        max-width: 200px;
+        min-width: 200px;
+    }
+
+    .product-entry-col {
+        max-width: 300px;
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 992px) {
+    #filterCollapseButton {
+        width: 100%;
+    }
+}
+
+.product-header h4 {
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-﻿using IdentityServer4.EntityFramework.Options;
+﻿using Duende.IdentityServer.EntityFramework.Options;
 using MetaBenchmark.Shared;
 using MetaBenchmark.Server.Models;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
