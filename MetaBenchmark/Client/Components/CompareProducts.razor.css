@@ -36,3 +36,11 @@
 .product-header h4 {
     cursor: pointer;
 }
+
+.benchmark-name {
+    z-index: 2;
+}
+
+.compare-products .product {
+    border-top: none;
+}

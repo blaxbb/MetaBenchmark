@@ -130,17 +130,17 @@
         {
             var sourceIds = SelectedProducts.Where(p => p != null).SelectMany(p => p.BenchmarkEntries).Where(b => b.Benchmark == bench).Select(e => e.SourceId).Distinct().ToList();
             <div class="benchmark-wrapper">
-                @for(int j = 0; j < sourceIds.Count; j++)
+                @for(int sourceIndex = 0; sourceIndex < sourceIds.Count; sourceIndex++)
                 {
-                    var id = sourceIds[j];
+                    var id = sourceIds[sourceIndex];
                     var source = AvailableSources.FirstOrDefault(s => s.Id == id);
-                    var hideBenchName = j > 0 ? "d-none" : "";
 
                     <div class="row justify-content-center benchmark benchmark-@bench.Id">
-                        <div class="product col-5 col-md-3 m-0 py-1 card">
-                            <div class="row h-100 @hideBenchName">
-                                <div class="col my-auto">
-                                    <h5 class="my-3">@bench.Name</h5>
+                        <div class="product col-5 col-md-3 m-0 py-1 card benchmark-name-col @(sourceIndex == 0 && sourceIds.Count > 1 ? "border-bottom-0" : "")">
+                            <div class="row h-100 @(sourceIndex > 0 ? "d-none benchmark-name-spacer" : "")">
+
+                                <div class="col my-auto d-flex align-items-center" style="@(sourceIds.Count > 1 ? $"height: {sourceIds.Count}00%;" : "")">
+                                    <h5 class="my-3 benchmark-name">@bench.Name</h5>
                                     @if (bench.Specs != null && bench.Specs.Count > 0)
                                     {
                                         <div class="benchmark-specs d-flex flex-wrap h5">

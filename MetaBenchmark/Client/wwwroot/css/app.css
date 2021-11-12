@@ -64,10 +64,6 @@ a, .btn-link {
     border-bottom: 1px solid #000 !important;
 }
 
-.compare-products .product {
-    /*padding: 1em;*/
-}
-
 .text-danger {
     color: #dc3545 !important;
 }
@@ -150,11 +146,10 @@ a, .btn-link {
     margin-right: .5em;
 }
 
-@media(min-width: 992px) {
-    .benchmark-value {
-        font-size: 1.5rem;
-    }
+.benchmark-value {
+    font-size: 1.5rem;
 }
+
 .landing-option {
     width: 15rem;
     margin: 2rem;
