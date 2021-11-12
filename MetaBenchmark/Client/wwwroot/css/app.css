@@ -194,3 +194,15 @@ a, .btn-link {
 .benchmark-spec-Resolution-4K:before {
     content: '4K';
 }
+
+.dropdown-menu {
+    margin-bottom: 0px;
+}
+
+.dropdown-menu li {
+    border-top: 1px solid rgba(0,0,0,.15);
+}
+
+.bs-actionsbox .actions-btn {
+    border: 1px solid rgba(0,0,0,.15);
+}
