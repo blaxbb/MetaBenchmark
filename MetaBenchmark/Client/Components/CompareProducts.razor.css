@@ -11,7 +11,7 @@
     appearance: auto;
 }
 
-.row:hover .product.card {
+.benchmark-wrapper:hover .product.card {
     background: #48525b;
 }
 
@@ -23,7 +23,7 @@
 
     .product-entry-col {
         max-width: 300px;
-        min-width: 300px;
+        /*min-width: 300px;*/
     }
 }
 
