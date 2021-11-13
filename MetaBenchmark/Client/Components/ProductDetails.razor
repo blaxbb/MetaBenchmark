@@ -96,7 +96,7 @@
                     var count = group.Count();
                     var visibleCount = 2;
                     <div class="row benchmark py-1">
-                        <div class="col-6 col-md-4 my-auto">
+                        <div class="col-6 col-md-4 my-auto cursor-pointer" @onclick="(() => NavigateBenchmark(bench))">
                             <h5>@group.Key.Name</h5>
                             @if (bench.Specs != null && bench.Specs.Count > 0)
                             {
@@ -128,7 +128,7 @@
                                         var textClass = GetTextClass(entry);
                                         <div class="row benchmark-entry">
                                             <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
-                                            <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                            <div class="col-12 col-md-auto benchmark-value text-center @textClass">@entry.ValueLabel()</div>
                                         </div>
                                     }
                                 </div>
@@ -258,5 +258,10 @@
     void Compare(Product other)
     {
         nav.NavigateTo($"compare?pt={product.Type}&bt={CurrentBenchmarkType}&products={product.Id},{other.Id}");
+    }
+
+    void NavigateBenchmark(Benchmark bench)
+    {
+        nav.NavigateTo($"benchmark/{bench.Id}");
     }
 }

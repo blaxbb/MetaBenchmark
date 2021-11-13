@@ -206,3 +206,7 @@ a, .btn-link {
 .bs-actionsbox .actions-btn {
     border: 1px solid rgba(0,0,0,.15);
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

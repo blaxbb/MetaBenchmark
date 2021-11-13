@@ -29,10 +29,6 @@
     display: none;
 }
 
-.product-name {
-    border-bottom: solid 1px gray;
-}
-
 .compare-button {
     border: solid 1px gray;
     border-radius: 3px;

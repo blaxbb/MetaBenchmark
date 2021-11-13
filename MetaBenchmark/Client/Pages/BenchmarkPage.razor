@@ -1,9 +1,11 @@
 ﻿@page "/benchmark/{benchmarkId}"
 @inject DataCache cache;
 @inject IJSRuntime js;
+@inject NavigationManager nav;
 
 @using Newtonsoft.Json;
 @using MetaBenchmark.Shared.Models;
+@using MetaBenchmark.Shared;
 
 @if (Benchmark != null)
 {
@@ -46,14 +48,19 @@
                 </div>
                 @foreach(var entry in Benchmark.Entries)
                 {
+                    var brand = entry.Product?.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                    var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
                     var count = 1;
                     var visibleCount = 2;
                     <div class="row benchmark py-1">
-                        <div class="col-6 col-md-8">
+                        <div class="col-6 col-md-4 d-flex align-items-center">
+                            <h4 class="d-flex product-name my-auto cursor-pointer @brandClass" @onclick="(() => NavigateProduct(entry.ProductId))">@entry.Product?.Name</h4>
+                        </div>
+                        <div class="col-6 col-md-8 d-flex align-items-center">
                             <div class="row benchmark-entry">
-                                <div class="col-12 col-md-3 mr-auto text-center"><h4>@entry.Product?.Name</h4></div>
-                                <div class="col-12 col-md-3 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
-                                <div class="col-12 col-md-auto benchmark-value">@entry.ValueLabel()</div>
+                                <div class="col-12 col-md-6 mx-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                <div class="col-12 col-md-auto benchmark-value text-center my-auto @GetTextClass(entry)">@entry.ValueLabel()</div>
                             </div>
                         </div>
                     </div>
@@ -126,5 +133,29 @@
         //StateHasChanged();
         //await Task.Delay(100);
         //await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    string GetTextClass(BenchmarkEntry entry)
+    {
+        switch(entry.Benchmark.Type)
+        {
+            case Benchmark.BenchmarkType.FPS:
+            case Benchmark.BenchmarkType.FPS_4K:
+            case Benchmark.BenchmarkType.FPS_1440P:
+            case Benchmark.BenchmarkType.FPS_1080P:
+                return entry.Value switch
+                {
+                    > 100 => "text-success",
+                    > 60  => "text-primary",
+                    _     => "text-warning"
+                };
+        }
+
+        return "";
+    }
+
+    void NavigateProduct(long id)
+    {
+        nav.NavigateTo($"/product/{id}");
     }
 }
