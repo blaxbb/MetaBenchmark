@@ -1,10 +1,31 @@
 [
   {
     "Id": 8,
-    "Name": "Borderlands 3 4K Ultra",
+    "Name": "Borderlands 3",
     "Entries": [],
-    "Specs": [],
-    "Label": "Borderlands 3 4K Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9001,
+          "Name": "Resolution",
+          "Value": "4K",
+          "Type": 1
+        },
+        "SpecId": 9001,
+        "ItemId": 8
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 8
+      }
+    ],
+    "Label": "Borderlands 3 - [Resolution=4K, Quality=Ultra]"
   },
   {
     "Id": 10,
@@ -38,8 +59,29 @@
     "Id": 18,
     "Name": "Metro Exodus 4K Ultra",
     "Entries": [],
-    "Specs": [],
-    "Label": "Metro Exodus 4K Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9001,
+          "Name": "Resolution",
+          "Value": "4K",
+          "Type": 1
+        },
+        "SpecId": 9001,
+        "ItemId": 18
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 18
+      }
+    ],
+    "Label": "Metro Exodus 4K Ultra - [Resolution=4K, Quality=Ultra]"
   },
   {
     "Id": 20,

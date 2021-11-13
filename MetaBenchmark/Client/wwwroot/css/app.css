@@ -171,6 +171,10 @@ a, .btn-link {
     content: 'Extreme';
 }
 
+.benchmark-spec-Quality-Ultra:before {
+    content: 'Ultra';
+}
+
 .benchmark-spec-Quality-High:before {
     content: 'High';
 }
