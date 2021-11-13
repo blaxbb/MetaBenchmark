@@ -55,7 +55,17 @@ namespace MetaBenchmark.Client
 
         public async Task<StorageEntry<List<Benchmark>>> Benchmarks()
         {
-            return await Get(NAME_BENCHMARKS, FetchBenchmarks);
+            var specs = await Specifications();
+            if(specs != null)
+            {
+                return await Benchmarks(specs.Value);
+            }
+            return default;
+        }
+
+        public async Task<StorageEntry<List<Benchmark>>> Benchmarks(List<Specification> specs)
+        {
+            return await Get(NAME_BENCHMARKS, async () => await FetchBenchmarks(specs));
         }
 
         public async Task<StorageEntry<List<BenchmarkSource>>> Sources()
@@ -93,8 +103,8 @@ namespace MetaBenchmark.Client
 
         async Task<(List<Product>, bool)> GetAllProducts()
         {
-            var specs = await Specifications(); ;
-            var benchmarks = await Benchmarks();
+            var specs = await Specifications();
+            var benchmarks = await Benchmarks(specs.Value);
             var sources = await Sources();
 
             var products = await Get(NAME_PRODUCTS, () => FetchProducts(specs.Value));
@@ -161,7 +171,7 @@ namespace MetaBenchmark.Client
             return specs;
         }
 
-        async Task<List<Benchmark>> FetchBenchmarks()
+        async Task<List<Benchmark>> FetchBenchmarks(List<Specification> specs)
         {
             var benchmarks = new List<Benchmark>();
             foreach (var benchType in Enum.GetValues(typeof(Benchmark.BenchmarkType)).Cast<Benchmark.BenchmarkType>())
@@ -170,7 +180,10 @@ namespace MetaBenchmark.Client
                 {
                     var url = $"data/benchmarks/{Uri.EscapeDataString(benchType.ToString())}.json";
                     var benchEntries = await Fetch<List<Benchmark>>(url);
-                    benchEntries.ForEach(b => b.Type = benchType);
+                    benchEntries.ForEach(b => {
+                        b.Type = benchType;
+                        b.Specs.ToList().ForEach(entry => entry.Spec = specs.FirstOrDefault(s => s.Id == entry.SpecId));
+                    });
                     benchmarks.AddRange(benchEntries);
                 }
                 catch (Exception e)
