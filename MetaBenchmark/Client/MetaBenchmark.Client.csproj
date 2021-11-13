@@ -20,18 +20,21 @@
     <None Remove="Components\CompareProducts.razor.css" />
     <None Remove="Components\LandingComponent.razor.css" />
     <None Remove="Components\ProductDetails.razor.css" />
+    <None Remove="Pages\BenchmarkPage.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Watch Remove="Components\CompareProducts.razor.css" />
     <Watch Remove="Components\LandingComponent.razor.css" />
     <Watch Remove="Components\ProductDetails.razor.css" />
+    <Watch Remove="Pages\BenchmarkPage.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Components\CompareProducts.razor.css" />
     <Content Include="Components\LandingComponent.razor.css" />
     <Content Include="Components\ProductDetails.razor.css" />
+    <Content Include="Pages\BenchmarkPage.razor.css" />
   </ItemGroup>
 
   <ItemGroup>

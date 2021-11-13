@@ -114,6 +114,8 @@ namespace MetaBenchmark.Client
                     var product = products.Value.FirstOrDefault(p => p.Id == entry.ProductId);
                     var benchmark = benchmarks.Value.FirstOrDefault(b => b.Id == entry.BenchmarkId);
                     entry.Benchmark = benchmark;
+                    entry.BenchmarkId = benchmark.Id;
+                    entry.ProductId = product.Id;
                     product.BenchmarkEntries.Add(entry);
                 }
             }

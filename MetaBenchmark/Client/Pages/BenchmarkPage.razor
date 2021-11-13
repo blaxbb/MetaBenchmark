@@ -1,0 +1,130 @@
+﻿@page "/benchmark/{benchmarkId}"
+@inject DataCache cache;
+@inject IJSRuntime js;
+
+@using Newtonsoft.Json;
+@using MetaBenchmark.Shared.Models;
+
+@if (Benchmark != null)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4 filter-col">
+                <div class="row">
+                    <div class="col product-name d-flex">
+                        <h1 class="my-auto">@Benchmark.Name</h1>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        @foreach(var spec in Benchmark.Specs)
+                        {
+                            <tr>
+                                <td>@spec.Spec.Name</td>
+                                <td>@spec.Spec.Value</td>
+                            </tr>
+                        }      
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="row filter-row">
+                    <div class="col">
+                        <select class="form-control selectpicker form-control-lg"
+                                id="benchmarkSourceFilter"
+                                data-style="btn-secondary"
+                                @onchange="((val) => SelectedSource())"
+                                title="Select Sources"
+                                data-actions-box="true"
+                                multiple>
+                            @foreach(var source in Benchmark.Entries.Select(e => e.Source).Distinct().OrderBy(s => s.Name))
+                            {
+                                <option value=@((int)source.Id)>@source.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                @foreach(var entry in Benchmark.Entries)
+                {
+                    var count = 1;
+                    var visibleCount = 2;
+                    <div class="row benchmark py-1">
+                        <div class="col-6 col-md-8">
+                            <div class="row benchmark-entry">
+                                <div class="col-12 col-md-3 mr-auto text-center"><h4>@entry.Product?.Name</h4></div>
+                                <div class="col-12 col-md-3 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                <div class="col-12 col-md-auto benchmark-value">@entry.ValueLabel()</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@code {
+    [Parameter]
+    public string benchmarkId{  get;  set; }
+    public List<Benchmark> AllBenchmarks { get; set; }
+    public Benchmark Benchmark { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await InitializeData();
+        await Task.Delay(100);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    private async Task InitializeData()
+    {
+        var benches = await cache.Benchmarks();
+        if(benches != null)
+        {
+            AllBenchmarks = benches.Value;
+        }
+        else
+        {
+            AllBenchmarks = new List<Benchmark>();
+            return;
+        }
+
+        if(long.TryParse(benchmarkId, out long id))
+        {
+            Benchmark = AllBenchmarks.FirstOrDefault(b => b.Id == id);
+            if(Benchmark != default)
+            {
+                var all = await cache.All();
+
+                Benchmark.Entries.AddRange(all?.Value.SelectMany(p => p.BenchmarkEntries).Where(e => e.BenchmarkId == Benchmark.Id));
+                Benchmark.Entries.ForEach(e => e.Product = all?.Value.FirstOrDefault(p => p.Id == e.ProductId));
+                Benchmark.Entries.OrderBy(e => e.ProductId);
+            }
+        }
+
+                StateHasChanged();
+        await Task.Delay(100);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    async Task SelectedSource()
+    {
+        //var vals = await js.InvokeAsync<string[]>("GetVal", "#benchmarkSourceFilter");
+        //CurrentSource.Clear();
+        //foreach(var val in vals)
+        //{
+        //    if(long.TryParse(val, out long id))
+        //    {
+        //        var source = product.BenchmarkEntries.Select(b => b.Source).FirstOrDefault(s => s.Id == id);
+        //        CurrentSource.Add(source);
+        //    }
+        //}
+        //StateHasChanged();
+        //await Task.Delay(100);
+        //await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+}
