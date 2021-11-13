@@ -97,6 +97,7 @@
                     var visibleCount = 2;
                     <div class="row benchmark py-1">
                         <div class="col-6 col-md-4 my-auto cursor-pointer" @onclick="(() => NavigateBenchmark(bench))">
+                            <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
                             <h5>@group.Key.Name</h5>
                             @if (bench.Specs != null && bench.Specs.Count > 0)
                             {
