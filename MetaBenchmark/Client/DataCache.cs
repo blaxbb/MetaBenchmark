@@ -158,7 +158,10 @@ namespace MetaBenchmark.Client
                     {
                         var url = $"data/specifications/{itemType}/{Uri.EscapeDataString(specName)}.json";
                         var specValues = await Fetch<List<Specification>>(url);
-                        specValues.ForEach(s => s.Name = specName);
+                        specValues.ForEach(s => {
+                            s.Name = specName;
+                            s.Type = itemType;
+                        });
                         specs.AddRange(specValues);
                     }
                     catch (Exception e)
