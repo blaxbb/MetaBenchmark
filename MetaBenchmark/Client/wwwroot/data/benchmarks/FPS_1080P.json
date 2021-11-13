@@ -1,26 +1,75 @@
 [
   {
-    "ID": 32,
-    "Name": "Forza Horizon 4 1080p Ultra"
+    "Id": 32,
+    "Name": "Forza Horizon 4 1080p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Forza Horizon 4 1080p Ultra - []"
   },
   {
-    "ID": 33,
-    "Name": "Assassin's Creed Valhalla 1080p Ultra"
+    "Id": 33,
+    "Name": "Assassin's Creed Valhalla 1080p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Assassin's Creed Valhalla 1080p Ultra - []"
   },
   {
-    "ID": 34,
-    "Name": "Final Fantasy XIV 1080p Maximum"
+    "Id": 34,
+    "Name": "Final Fantasy XIV 1080p Maximum",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Final Fantasy XIV 1080p Maximum - []"
   },
   {
-    "ID": 35,
-    "Name": "F1 2021 1080p Ultra"
+    "Id": 35,
+    "Name": "F1 2021 1080p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "F1 2021 1080p Ultra - []"
   },
   {
-    "ID": 36,
-    "Name": "F1 2021 1080p Ultra RT Medium"
+    "Id": 36,
+    "Name": "F1 2021 1080p Ultra RT Medium",
+    "Entries": [],
+    "Specs": [],
+    "Label": "F1 2021 1080p Ultra RT Medium - []"
   },
   {
-    "ID": 37,
-    "Name": "Metro: Exodus Enhanced Edition 1080p Extreme RT Normal"
+    "Id": 37,
+    "Name": "Metro: Exodus Enhanced Edition",
+    "Entries": [],
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 7000,
+          "Name": "RT",
+          "Value": "Enabled",
+          "Type": 1
+        },
+        "SpecId": 7000,
+        "ItemId": 37
+      },
+      {
+        "Spec": {
+          "Id": 8000,
+          "Name": "Quality",
+          "Value": "Extreme",
+          "Type": 1
+        },
+        "SpecId": 8000,
+        "ItemId": 37
+      },
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 37
+      }
+    ],
+    "Label": "Metro: Exodus Enhanced Edition - [RT=Enabled, Quality=Extreme, Resolution=1080p]"
   }
 ]

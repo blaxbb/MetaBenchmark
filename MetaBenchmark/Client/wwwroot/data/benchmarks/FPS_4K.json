@@ -1,50 +1,86 @@
 [
   {
-    "ID": 8,
-    "Name": "Borderlands 3 4K Ultra"
+    "Id": 8,
+    "Name": "Borderlands 3 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Borderlands 3 4K Ultra - []"
   },
   {
-    "ID": 10,
-    "Name": "The Division 2 4K Ultra"
+    "Id": 10,
+    "Name": "The Division 2 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "The Division 2 4K Ultra - []"
   },
   {
-    "ID": 12,
-    "Name": "Far Cry 5 4K Ultra"
+    "Id": 12,
+    "Name": "Far Cry 5 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Far Cry 5 4K Ultra - []"
   },
   {
-    "ID": 14,
-    "Name": "Final Fantasy XIV: Shadowbringers 4K Ultra"
+    "Id": 14,
+    "Name": "Final Fantasy XIV: Shadowbringers 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Final Fantasy XIV: Shadowbringers 4K Ultra - []"
   },
   {
-    "ID": 16,
-    "Name": "Forza Horizon 4 4K Ultra"
+    "Id": 16,
+    "Name": "Forza Horizon 4 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Forza Horizon 4 4K Ultra - []"
   },
   {
-    "ID": 18,
-    "Name": "Metro Exodus 4K Ultra"
+    "Id": 18,
+    "Name": "Metro Exodus 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Metro Exodus 4K Ultra - []"
   },
   {
-    "ID": 20,
-    "Name": "Red Dead Redemption 2 4K Ultra"
+    "Id": 20,
+    "Name": "Red Dead Redemption 2 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Red Dead Redemption 2 4K Ultra - []"
   },
   {
-    "ID": 22,
-    "Name": "Shadow of the Tomb Raider 4K Ultra"
+    "Id": 22,
+    "Name": "Shadow of the Tomb Raider 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Shadow of the Tomb Raider 4K Ultra - []"
   },
   {
-    "ID": 25,
-    "Name": "Assassin's Creed Valhalla 4K Ultra"
+    "Id": 25,
+    "Name": "Assassin's Creed Valhalla 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Assassin's Creed Valhalla 4K Ultra - []"
   },
   {
-    "ID": 29,
-    "Name": "Dirt 5 4K Ultra"
+    "Id": 29,
+    "Name": "Dirt 5 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Dirt 5 4K Ultra - []"
   },
   {
-    "ID": 30,
-    "Name": "Horizon Zero Dawn 4K Ultimate"
+    "Id": 30,
+    "Name": "Horizon Zero Dawn 4K Ultimate",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Horizon Zero Dawn 4K Ultimate - []"
   },
   {
-    "ID": 31,
-    "Name": "Watch Dogs Legion 4K Ultra"
+    "Id": 31,
+    "Name": "Watch Dogs Legion 4K Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Watch Dogs Legion 4K Ultra - []"
   }
 ]

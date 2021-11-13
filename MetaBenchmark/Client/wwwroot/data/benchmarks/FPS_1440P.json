@@ -1,50 +1,86 @@
 [
   {
-    "ID": 9,
-    "Name": "Borderlands 3 1440p Ultra"
+    "Id": 9,
+    "Name": "Borderlands 3 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Borderlands 3 1440p Ultra - []"
   },
   {
-    "ID": 11,
-    "Name": "The Division 2 1440p Ultra"
+    "Id": 11,
+    "Name": "The Division 2 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "The Division 2 1440p Ultra - []"
   },
   {
-    "ID": 13,
-    "Name": "Far Cry 5 1440p Ultra"
+    "Id": 13,
+    "Name": "Far Cry 5 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Far Cry 5 1440p Ultra - []"
   },
   {
-    "ID": 15,
-    "Name": "Final Fantasy XIV: Shadowbringers 1440p Ultra"
+    "Id": 15,
+    "Name": "Final Fantasy XIV: Shadowbringers 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Final Fantasy XIV: Shadowbringers 1440p Ultra - []"
   },
   {
-    "ID": 17,
-    "Name": "Forza Horizon 4 1440p Ultra"
+    "Id": 17,
+    "Name": "Forza Horizon 4 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Forza Horizon 4 1440p Ultra - []"
   },
   {
-    "ID": 19,
-    "Name": "Metro Exodus 1440p Ultra"
+    "Id": 19,
+    "Name": "Metro Exodus 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Metro Exodus 1440p Ultra - []"
   },
   {
-    "ID": 21,
-    "Name": "Red Dead Redemption 2 1440p Ultra"
+    "Id": 21,
+    "Name": "Red Dead Redemption 2 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Red Dead Redemption 2 1440p Ultra - []"
   },
   {
-    "ID": 23,
-    "Name": "Shadow of the Tomb Raider 1440p Ultra"
+    "Id": 23,
+    "Name": "Shadow of the Tomb Raider 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Shadow of the Tomb Raider 1440p Ultra - []"
   },
   {
-    "ID": 24,
-    "Name": "Assassin's Creed Valhalla 1440p Ultra"
+    "Id": 24,
+    "Name": "Assassin's Creed Valhalla 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Assassin's Creed Valhalla 1440p Ultra - []"
   },
   {
-    "ID": 26,
-    "Name": "Dirt 5 1440p Ultra"
+    "Id": 26,
+    "Name": "Dirt 5 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Dirt 5 1440p Ultra - []"
   },
   {
-    "ID": 27,
-    "Name": "Horizon Zero Dawn 1440p Ultimate"
+    "Id": 27,
+    "Name": "Horizon Zero Dawn 1440p Ultimate",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Horizon Zero Dawn 1440p Ultimate - []"
   },
   {
-    "ID": 28,
-    "Name": "Watch Dogs Legion 1440p Ultra"
+    "Id": 28,
+    "Name": "Watch Dogs Legion 1440p Ultra",
+    "Entries": [],
+    "Specs": [],
+    "Label": "Watch Dogs Legion 1440p Ultra - []"
   }
 ]
