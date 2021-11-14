@@ -184,6 +184,10 @@ a, .btn-link {
     content: 'Ultimate';
 }
 
+.benchmark-spec-Quality-Ultimate:before {
+    content: 'Maximum';
+}
+
 .benchmark-spec-Quality-High:before {
     content: 'High';
 }
