@@ -34,6 +34,7 @@ namespace MetaBenchmark.Shared.Models
         {
             return obj is Benchmark benchmark &&
                    Name == benchmark.Name &&
+                   Id == benchmark.Id &&
                    Type == benchmark.Type;
         }
 

@@ -108,6 +108,43 @@
     ]
   },
   {
+    "Id": 36,
+    "Name": "F1 2021",
+    "Entries": [],
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 36
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 36
+      },
+      {
+        "Spec": {
+          "Id": 7002,
+          "Name": "RT",
+          "Value": "Medium",
+          "Type": 1
+        },
+        "SpecId": 7002,
+        "ItemId": 36
+      }	  
+    ]
+  },  
+  {
     "Id": 37,
     "Name": "Metro: Exodus Enhanced Edition",
     "Entries": [],

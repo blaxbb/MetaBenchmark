@@ -108,10 +108,21 @@ namespace MetaBenchmark.Client
             var sources = await Sources();
 
             var products = await Get(NAME_PRODUCTS, () => FetchProducts(specs.Value));
+
             foreach (var source in sources.Value)
             {
+                if(source == null)
+                {
+                    continue;
+                }
+
                 foreach (var entry in source.BenchmarkEntries)
                 {
+                    if(entry == null)
+                    {
+                        continue;
+                    }
+
                     entry.Source = new BenchmarkSource()
                     {
                         Id = source.Id,
@@ -123,6 +134,12 @@ namespace MetaBenchmark.Client
 
                     var product = products.Value.FirstOrDefault(p => p.Id == entry.ProductId);
                     var benchmark = benchmarks.Value.FirstOrDefault(b => b.Id == entry.BenchmarkId);
+
+                    if(product == null || benchmark == null)
+                    {
+                        continue;
+                    }
+
                     entry.Benchmark = benchmark;
                     entry.BenchmarkId = benchmark.Id;
                     entry.ProductId = product.Id;
