@@ -52,7 +52,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-8 products-grid">
                 <div class="row filter-row">
                     <div class="col">
                         <select class="form-control selectpicker form-control-lg"
@@ -69,24 +69,38 @@
                         </select>
                     </div>
                 </div>
-                @foreach(var entry in Benchmark.Entries)
-                {
-                    var brand = entry.Product?.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
-                    var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+                @{
+                    bool odd = true;
+                }
 
-                    var count = 1;
-                    var visibleCount = 2;
-                    <div class="row benchmark py-1">
-                        <div class="col-6 col-md-4 d-flex align-items-center">
-                            <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
-                            <h4 class="d-flex product-name my-auto cursor-pointer @brandClass" @onclick="(() => NavigateProduct(entry.ProductId))">@entry.Product?.Name</h4>
-                        </div>
-                        <div class="col-6 col-md-8 d-flex align-items-center">
-                            <div class="row benchmark-entry">
-                                <div class="col-12 col-md-6 mx-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
-                                <div class="col-12 col-md-auto benchmark-value text-center my-auto @GetTextClass(entry)">@entry.ValueLabel()</div>
+                @foreach(var g in Benchmark.Entries.GroupBy(e => e.ProductId).OrderByDescending(g => g.Average(e => e.Value)))
+                {
+                    odd = !odd;
+                    var group = g.ToList();
+                    <div class="product-group @(odd ? "odd" : "even")">
+                        @for(int i = 0; i < group.Count; i++)
+                        {
+                            var entry = group[i];
+
+                            var brand = entry.Product?.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                            var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
+                            <div class="row benchmark py-1">
+                                <div class="col-6 col-md-4">
+                                    <div class="d-flex align-items-center @(i > 0 ? "d-none" : "")" style="height: @(group.Count > 1 ? $"{group.Count}00%" : "100%");">
+                                        <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
+                                        <h4 class="d-flex product-name my-auto cursor-pointer @brandClass" @onclick="(() => NavigateProduct(entry.ProductId))">@entry.Product?.Name</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-8 d-flex align-items-center">
+                                    <div class="row benchmark-entry">
+                                        <div class="col-12 col-md-6 mx-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                        <div class="col-12 col-md-auto benchmark-value text-center my-auto @GetTextClass(entry)">@entry.ValueLabel()</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+                        }
                     </div>
                 }
             </div>
