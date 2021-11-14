@@ -4,6 +4,14 @@
     "Value": "Ultra"
   },
   {
+    "Id": 8002,
+    "Value": "Ultimate"
+  },
+  {
+    "Id": 8003,
+    "Value": "Maximum"
+  },
+  {
     "Id": 8000,
     "Value": "Extreme"
   }

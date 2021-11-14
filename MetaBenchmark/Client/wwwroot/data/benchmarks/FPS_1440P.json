@@ -24,84 +24,313 @@
         "SpecId": 8001,
         "ItemId": 9
       }
-    ],
-    "Label": "Borderlands 3 - [Resolution=1440p, Quality=Ultra]"
+    ]
   },
   {
     "Id": 11,
-    "Name": "The Division 2 1440p Ultra",
+    "Name": "The Division 2",
     "Entries": [],
-    "Specs": [],
-    "Label": "The Division 2 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 11
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 11
+      }
+    ]
   },
   {
     "Id": 13,
-    "Name": "Far Cry 5 1440p Ultra",
+    "Name": "Far Cry 5",
     "Entries": [],
-    "Specs": [],
-    "Label": "Far Cry 5 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 13
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 13
+      }
+    ]
   },
   {
     "Id": 15,
-    "Name": "Final Fantasy XIV: Shadowbringers 1440p Ultra",
+    "Name": "Final Fantasy XIV: Shadowbringers",
     "Entries": [],
-    "Specs": [],
-    "Label": "Final Fantasy XIV: Shadowbringers 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 15
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 15
+      }
+    ]
   },
   {
     "Id": 17,
-    "Name": "Forza Horizon 4 1440p Ultra",
+    "Name": "Forza Horizon 4",
     "Entries": [],
-    "Specs": [],
-    "Label": "Forza Horizon 4 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 17
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 17
+      }
+    ]
   },
   {
     "Id": 19,
-    "Name": "Metro Exodus 1440p Ultra",
+    "Name": "Metro Exodus",
     "Entries": [],
-    "Specs": [],
-    "Label": "Metro Exodus 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 19
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 19
+      },
+      {
+        "Spec": {
+          "Id": 7001,
+          "Name": "RT",
+          "Value": "Disabled",
+          "Type": 1
+        },
+        "SpecId": 7001,
+        "ItemId": 19
+      }
+    ]
   },
   {
     "Id": 21,
-    "Name": "Red Dead Redemption 2 1440p Ultra",
+    "Name": "Red Dead Redemption 2",
     "Entries": [],
-    "Specs": [],
-    "Label": "Red Dead Redemption 2 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 21
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 21
+      }
+    ]
   },
   {
     "Id": 23,
-    "Name": "Shadow of the Tomb Raider 1440p Ultra",
+    "Name": "Shadow of the Tomb Raider",
     "Entries": [],
-    "Specs": [],
-    "Label": "Shadow of the Tomb Raider 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 23
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 23
+      }
+    ]
   },
   {
     "Id": 24,
-    "Name": "Assassin's Creed Valhalla 1440p Ultra",
+    "Name": "Assassin's Creed Valhalla",
     "Entries": [],
-    "Specs": [],
-    "Label": "Assassin's Creed Valhalla 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 24
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 24
+      }
+    ]
   },
   {
     "Id": 26,
-    "Name": "Dirt 5 1440p Ultra",
+    "Name": "Dirt 5",
     "Entries": [],
-    "Specs": [],
-    "Label": "Dirt 5 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 26
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 26
+      }
+    ]
   },
   {
     "Id": 27,
-    "Name": "Horizon Zero Dawn 1440p Ultimate",
+    "Name": "Horizon Zero Dawn",
     "Entries": [],
-    "Specs": [],
-    "Label": "Horizon Zero Dawn 1440p Ultimate - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 27
+      },
+      {
+        "Spec": {
+          "Id": 8002,
+          "Name": "Quality",
+          "Value": "Ultimate",
+          "Type": 1
+        },
+        "SpecId": 8002,
+        "ItemId": 27
+      }
+    ]
   },
   {
     "Id": 28,
-    "Name": "Watch Dogs Legion 1440p Ultra",
+    "Name": "Watch Dogs Legion",
     "Entries": [],
-    "Specs": [],
-    "Label": "Watch Dogs Legion 1440p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9002,
+          "Name": "Resolution",
+          "Value": "1440p",
+          "Type": 1
+        },
+        "SpecId": 9002,
+        "ItemId": 28
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 28
+      }
+    ]
   }
 ]

@@ -161,9 +161,14 @@ a, .btn-link {
 }
 
 .benchmark-spec {
+    z-index: 2;
 }
 
 .benchmark-spec-RT-Enabled:before {
+    content: 'Ray Tracing';
+}
+
+.benchmark-spec-RT-Medium:before {
     content: 'Ray Tracing';
 }
 
@@ -173,6 +178,10 @@ a, .btn-link {
 
 .benchmark-spec-Quality-Ultra:before {
     content: 'Ultra';
+}
+
+.benchmark-spec-Quality-Ultimate:before {
+    content: 'Ultimate';
 }
 
 .benchmark-spec-Quality-High:before {

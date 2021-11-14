@@ -1,5 +1,13 @@
 [
   {
+    "Id": 7001,
+    "Value": "Disabled"
+  },
+  {
+    "Id": 7002,
+    "Value": "Medium"
+  },
+  {
     "Id": 7000,
     "Value": "Enabled"
   }

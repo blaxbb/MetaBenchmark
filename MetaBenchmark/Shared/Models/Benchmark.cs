@@ -52,6 +52,7 @@ namespace MetaBenchmark.Shared.Models
             return !(left == right);
         }
 
+        [JsonIgnore]
         public string Label
         {
             get

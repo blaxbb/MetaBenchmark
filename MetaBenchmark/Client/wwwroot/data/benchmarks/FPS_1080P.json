@@ -1,38 +1,111 @@
 [
   {
     "Id": 32,
-    "Name": "Forza Horizon 4 1080p Ultra",
+    "Name": "Forza Horizon 4",
     "Entries": [],
-    "Specs": [],
-    "Label": "Forza Horizon 4 1080p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 32
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 32
+      }
+    ]
   },
   {
     "Id": 33,
-    "Name": "Assassin's Creed Valhalla 1080p Ultra",
+    "Name": "Assassin's Creed Valhalla",
     "Entries": [],
-    "Specs": [],
-    "Label": "Assassin's Creed Valhalla 1080p Ultra - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 33
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 33
+      }
+    ]
   },
   {
     "Id": 34,
-    "Name": "Final Fantasy XIV 1080p Maximum",
+    "Name": "Final Fantasy XIV",
     "Entries": [],
-    "Specs": [],
-    "Label": "Final Fantasy XIV 1080p Maximum - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 34
+      },
+      {
+        "Spec": {
+          "Id": 8003,
+          "Name": "Quality",
+          "Value": "Maximum",
+          "Type": 1
+        },
+        "SpecId": 8003,
+        "ItemId": 34
+      }
+    ]
   },
   {
     "Id": 35,
-    "Name": "F1 2021 1080p Ultra",
+    "Name": "F1 2021",
     "Entries": [],
-    "Specs": [],
-    "Label": "F1 2021 1080p Ultra - []"
-  },
-  {
-    "Id": 36,
-    "Name": "F1 2021 1080p Ultra RT Medium",
-    "Entries": [],
-    "Specs": [],
-    "Label": "F1 2021 1080p Ultra RT Medium - []"
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 35
+      },
+      {
+        "Spec": {
+          "Id": 8001,
+          "Name": "Quality",
+          "Value": "Ultra",
+          "Type": 1
+        },
+        "SpecId": 8001,
+        "ItemId": 35
+      }
+    ]
   },
   {
     "Id": 37,
@@ -69,7 +142,6 @@
         "SpecId": 9000,
         "ItemId": 37
       }
-    ],
-    "Label": "Metro: Exodus Enhanced Edition - [RT=Enabled, Quality=Extreme, Resolution=1080p]"
+    ]
   }
 ]
