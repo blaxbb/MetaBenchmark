@@ -172,6 +172,10 @@ a, .btn-link {
     content: 'Ray Tracing';
 }
 
+.d-block.benchmark-spec-RT-Disabled {
+    display: none !important;
+}
+
 .benchmark-spec-Quality-Extreme:before {
     content: 'Extreme';
 }
@@ -238,4 +242,14 @@ a, .btn-link {
 
 div:hover > .product-click-hint {
     opacity: 1;
+}
+
+.ct-chart .ct-line {
+    stroke: white !important;
+    stroke-width: 2px !important;
+}
+
+.ct-chart .ct-point {
+    stroke: #17a2b8 !important;
+    stroke-width: 10px !important;
 }

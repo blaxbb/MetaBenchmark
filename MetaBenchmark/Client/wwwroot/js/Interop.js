@@ -86,3 +86,97 @@ window.DownloadFile = function (zipName, filenames, texts) {
         });
 
 }
+
+window.SetupChart2 = function (id, labels, values) {
+    console.log(id);
+    var data = values.map((value, index) => { return { value: value, meta: labels[index] } })
+    console.log(data);
+    var data = {
+        labels: labels,
+        series: [
+            values.map((value, index) => { return { meta: labels[index], value: value } })
+        ]
+    };
+
+    var options = {
+        height: 200
+    };
+
+    var responsiveOptions = {
+        plugins: [
+            Chartist.plugins.tooltip()
+        ]
+    }
+
+    new Chartist.Line('.ct-chart', data, options, responsiveOptions);
+
+}
+
+var chart = null;
+window.SetupChart = function (id, labels, values, maxVal) {
+    console.log(id);
+
+    function getColor(val) {
+        if (val > 100) {
+            return "#28a745";
+        }
+        if (val > 60) {
+            return "#4c9be8";
+        }
+        return "#ffc107";
+    }
+
+    const ctx = document.getElementById(id);
+    if (ctx == null) {
+        return;
+    }
+
+    if (chart != null) {
+        chart.destroy();
+    }
+
+    Chart.defaults.color = "#fff";
+    chart = new Chart(ctx, {
+        type: 'line',
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: maxVal,
+                    ticks: {
+                        stepSize: 50
+                    }
+                },
+                x: {
+                    display: false
+                }
+            },
+            elements: {
+                point: {
+                    radius: 6,
+                    hoverRadius: 9,
+                    hitRadius: 3
+                },
+                line: {
+                    borderColor: "#fff"
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    chart.data = {
+        labels: labels,
+        datasets: [{
+            data: values,
+            backgroundColor: values.map((val) => { return getColor(val); }),
+            borderWidth: 2
+        }]
+    };
+    chart.update();
+}

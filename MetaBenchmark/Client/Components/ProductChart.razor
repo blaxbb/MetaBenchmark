@@ -1,0 +1,37 @@
+﻿@inject IJSRuntime js;
+
+<div class="ct-chart"></div>
+
+<div>
+  <canvas id="myChart" height="150"></canvas>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Id { get;  set; }
+
+    [Parameter]
+    public List<string> Labels{ get;  set; }
+
+    [Parameter]
+    public List<double> Values{  get;  set; }
+
+    [Parameter]
+    public double MaxVal{ get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(Id))
+        {
+            await Task.Delay(100);
+            await js.InvokeVoidAsync("SetupChart", "myChart", Labels, Values, MaxVal );
+        }
+    }
+
+    bool ParametersSet() => !string.IsNullOrWhiteSpace(Id) &&
+                            Labels != null &&
+                            Values != null &&
+                            Labels.Count != 0 &&
+                            Labels.Count == Values.Count;
+}
