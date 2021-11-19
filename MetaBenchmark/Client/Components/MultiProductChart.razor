@@ -18,12 +18,15 @@
     [Parameter]
     public double MaxVal{ get; set; }
 
+    [Parameter]
+    public List<string> DatasetNames { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(Id))
         {
             await Task.Delay(100);
-            await js.InvokeVoidAsync("SetupMultiChart", "myChart", Labels, Values, MaxVal );
+            await js.InvokeVoidAsync("SetupMultiChart", "myChart", Labels, Values, MaxVal, DatasetNames);
         }
     }
 

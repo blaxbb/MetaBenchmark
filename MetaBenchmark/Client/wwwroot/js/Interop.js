@@ -114,12 +114,15 @@ window.SetupChart2 = function (id, labels, values) {
 
 var chart = null;
 window.SetupChart = function (id, labels, values, maxVal) {
-    SetupMultiChart(id, labels, [values], maxVal);
+    SetupMultiChart(id, labels, [values], maxVal, null);
 }
 
-window.SetupMultiChart = function (id, labels, values, maxVal) {
+window.SetupMultiChart = function (id, labels, values, maxVal, datasetNames) {
     console.log(id);
     console.log(values);
+    if(datasetNames == null){
+        datasetNames = [""];
+    }
 
     function getColor(val) {
         if (val > 100) {
@@ -152,7 +155,7 @@ window.SetupMultiChart = function (id, labels, values, maxVal) {
                     suggestedMin: 50,
                     ticks: {
                         stepSize: 50
-                    }
+                    },
                 },
                 x: {
                     display: false
@@ -168,23 +171,65 @@ window.SetupMultiChart = function (id, labels, values, maxVal) {
                     borderColor: "#fff"
                 }
             },
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
             plugins: {
                 legend: {
                     display: false
-                }
+                },
+                tooltip: {
+                    padding: 20,
+                    displayColors: false,
+                    titleFont : {
+                      size: 16
+                    },
+                    bodyFont : {
+                      size: 16
+                    }
+                },
             }
         }
     });
 
     chart.data = {
         labels: labels,
-        datasets: values.map(v => {
+        datasets: values.map((v, index) => {
             return {
                 data: v,
+                label: datasetNames[index],
                 backgroundColor: v.map((val) => { return getColor(val); }),
-                borderWidth: 2
+                borderColor: namedColor(index),
+                borderWidth: 1
             };
         })
     };
     chart.update();
 }
+
+//begin https://github.com/chartjs/Chart.js/blob/master/docs/scripts/utils.js
+var CHART_COLORS = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+};
+  
+var NAMED_COLORS = [
+    CHART_COLORS.red,
+    CHART_COLORS.orange,
+    CHART_COLORS.yellow,
+    CHART_COLORS.green,
+    CHART_COLORS.blue,
+    CHART_COLORS.purple,
+    CHART_COLORS.grey,
+];
+  
+function namedColor(index) {
+    return NAMED_COLORS[index % NAMED_COLORS.length];
+}
+//end https://github.com/chartjs/Chart.js/blob/master/docs/scripts/utils.js
