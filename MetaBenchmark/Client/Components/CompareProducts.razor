@@ -22,15 +22,24 @@
     }
     @if (SelectedProducts.Any(p => p != null))
     {
-        <div class="compare-products container mb-3">
-            <div class="row justify-content-center">
-                <div class="card">
-                    <div class="card-body">
-                        <MultiProductChart Id="myChart"
+        <div class="compare-products container mb-3 card">
+            <div class="row justify-content-center card-body">
+                <div class="col-md-3 p-0">
+                    <div class="list-group btn-group-toggle benchmark-type-buttons" data-toggle="buttons">
+                        @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
+                        {
+                            bool act = CurrentBenchmarkType == type;
+                            <label class="btn btn-secondary @(act ? "active" : "")">
+                                <input type="radio" name="options" id="option@((int)type)" autocomplete="off" @onclick="(() => SelectedBenchmarkType(type))"> @type.DisplayName()
+                            </label>
+                        }
+                    </div>
+                </div>                   
+                <div class="col p-0">
+                    <MultiProductChart Id="myChart"
                         Labels="@ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name).Select(b => b.Name).ToList()"
                         Values="@SelectedProducts.Where(p => p != null).Select(p => p.BenchmarkEntries).Select(l => l.Where(b => ActiveBenchmarks.Contains(b.Benchmark) && CurrentBenchmarkType == b.Benchmark.Type).OrderBy(b => b.Benchmark.Name).GroupBy(e => e.BenchmarkId).Select(g => g.Average(b => b.Value)).ToList()).ToList()"
                         MaxVal="@SelectedProducts.First(p => p != null).BenchmarkEntries.Max(e => e.Value)"/>
-                    </div>
                 </div>
             </div>
         </div>
@@ -39,40 +48,20 @@
         <div class="row justify-content-center sticky-top">
             <div class="col-5 col-md-3 card p-0 p-lg-x-2">
                 <div class="card-body p-0 p-lg-3">
-                    <div class="row">
-                        <div class="col-lg">
-                            <select class="form-control form-control-lg bg-secondary border-info border text-white"
-                                id="benchmarkTypeFilter"
-                                data-style="btn-secondary"
-                                @onchange="((val) => SelectedBenchmarkType())">
-                                @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
-                                {
-                                    <option value=@((int)type)>@type.DisplayName()</option>
-                                }
-                            </select>
-                            <div id="filterCollapse" class="collapse">
-                                <select class="form-control selectpicker form-control-lg bg-secondary border-info border text-white"
-                                        id="benchmarkFilter"
-                                        title="Benchmarks"
-                                        data-live-search="true"
-                                        data-actions-box="true"
-                                        data-selected-text-format="static"
-                                        data-style="btn-secondary"
-                                        multiple
-                                        @onchange="((val) => SelectedBenchmark())">
-                                    @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
-                                    {
-                                        <option selected value=@bench.Id>@bench.Name</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-auto my-auto">
-                            <button id="filterCollapseButton" class="btn btn-primary h-100 my-auto" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
-                               <span class="oi oi-expand-down" aria-hidden="true"></span> 
-                            </button>
-                        </div>
-                    </div>
+                    <select class="form-control selectpicker form-control-lg bg-secondary border-info border text-white"
+                            id="benchmarkFilter"
+                            title="Benchmarks"
+                            data-live-search="true"
+                            data-actions-box="true"
+                            data-selected-text-format="static"
+                            data-style="btn-secondary"
+                            multiple
+                            @onchange="((val) => SelectedBenchmark())">
+                        @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
+                        {
+                            <option selected value=@bench.Id>@bench.Name</option>
+                        }
+                    </select>
                 </div>
             </div>
             <div class="col card source-logo-col d-none d-md-block">
@@ -234,85 +223,6 @@
                                 </div>
                             }
                         }
-                        @*@for(int i = 0; i < SelectedProducts.Length; i++)
-                        {
-                            var hideSmallClass = i > 1 ? "d-none d-sm-block" : "";
-
-                            if (SelectedProducts.Length > i && SelectedProducts[i] != default)
-                            {
-                                var prod = SelectedProducts[i];
-                                var entries = prod.BenchmarkEntries.Where(e => e.BenchmarkId == bench.Id && ActiveSources.Any(s => s.Id == e.SourceId)).ToList();
-                                var count = entries.Count();
-                                var visibleCount = 2;
-                                if(entries.Count == 0)
-                                {
-                                    <div class="col">
-                                    </div>
-                                    continue;
-                                }
-
-                                var avg = entries.Average(e => e.Value);
-                                var midpoint = BenchmarkAverages[bench.Id];
-                                var backgroundClass = BenchmarkMaximums[bench.Id].productId == prod.Id ? "bg-success text-light" : "";
-                                backgroundClass = "";
-
-                                <div class="product col m-0 py-1 @backgroundClass @hideSmallClass card">
-                                    <div class="row h-100">
-                                        <div class="col-auto text-center my-auto d-none d-lg-block">
-                                            @if(avg > midpoint)
-                                            {
-                                                <i class="fas fa-angle-double-up fa-2x text-success"></i>
-                                            }
-                                            else if(avg < midpoint)
-                                            {
-                                                <i class="fas fa-angle-double-down fa-2x text-danger"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="fas fa-ellipsis-h fa-2x"></i>
-                                            }
-                                        </div>
-                                        <div class="col text-right">
-
-
-
-                                            @for(int j = 0; j < visibleCount && j < count; j++)
-                                            {
-                                                var entry = entries.ElementAt(j);
-                                                var textClass = GetTextClass(entry);
-                                                <div class="row benchmark-entry">
-                                                    <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
-                                                    <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
-                                                </div>
-                                            }
-
-                                            @if (count > visibleCount)
-                                            {
-                                                <div class="collapse" id="bench_@(bench.Id)_collapse">
-                                                    @for (int j = visibleCount; j < count; j++)
-                                                    {
-                                                        var entry = entries.ElementAt(j);
-                                                        var textClass = GetTextClass(entry);
-                                                        <div class="row benchmark-entry">
-                                                            <div class="col-12 col-md-6 mr-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
-                                                            <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
-                                                        </div>
-                                                    }
-                                                </div>
-                                                <div>
-                                                    <button class="btn btn-sm btn-outline-info w-100 p-0" type="button" data-toggle="collapse" data-target="#bench_@(bench.Id)_collapse" aria-expanded="false" aria-controls="bench_@(bench.Id)_collapse">...</button>
-                                                </div>
-                                            }
-                                        </div>
-                                        </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col @hideSmallClass">
-                                </div>
-                            }
-                        }*@
                     </div>
                 }
             </div>
@@ -665,8 +575,12 @@ else
     async Task SelectedBenchmarkType()
     {
         var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
-        CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
-        Console.WriteLine($"SELECTED {CurrentBenchmarkType}");
+        await SelectedBenchmarkType((Benchmark.BenchmarkType)(int.Parse(val)));
+    }
+
+    async Task SelectedBenchmarkType(Benchmark.BenchmarkType type)
+    {
+        CurrentBenchmarkType = type;
         ActiveBenchmarks = AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).ToList();
         StateHasChanged();
         await Task.Delay(1);

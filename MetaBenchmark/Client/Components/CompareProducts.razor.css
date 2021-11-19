@@ -57,3 +57,7 @@
 .product-header .btn-remove {
     display: none;
 }
+
+.benchmark-type-buttons .btn:not(.active) {
+    color: #ffffff7F;
+}
