@@ -114,7 +114,12 @@ window.SetupChart2 = function (id, labels, values) {
 
 var chart = null;
 window.SetupChart = function (id, labels, values, maxVal) {
+    SetupMultiChart(id, labels, [values], maxVal);
+}
+
+window.SetupMultiChart = function (id, labels, values, maxVal) {
     console.log(id);
+    console.log(values);
 
     function getColor(val) {
         if (val > 100) {
@@ -143,7 +148,8 @@ window.SetupChart = function (id, labels, values, maxVal) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    suggestedMax: maxVal,
+                    suggestedMax: 150,
+                    suggestedMin: 50,
                     ticks: {
                         stepSize: 50
                     }
@@ -172,11 +178,13 @@ window.SetupChart = function (id, labels, values, maxVal) {
 
     chart.data = {
         labels: labels,
-        datasets: [{
-            data: values,
-            backgroundColor: values.map((val) => { return getColor(val); }),
-            borderWidth: 2
-        }]
+        datasets: values.map(v => {
+            return {
+                data: v,
+                backgroundColor: v.map((val) => { return getColor(val); }),
+                borderWidth: 2
+            };
+        })
     };
     chart.update();
 }
