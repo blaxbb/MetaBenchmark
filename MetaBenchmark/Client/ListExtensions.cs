@@ -16,7 +16,12 @@ namespace MetaBenchmark.Client
 
         public static T RandomItem<T>(this List<T> list)
         {
-            var index = rand.Next(list.Count);
+            return list.RandomItem(rand);
+        }
+
+        public static T RandomItem<T>(this List<T> list, Random random)
+        {
+            var index = random.Next(list.Count);
             return list[index];
         }
     }

@@ -1,12 +1,58 @@
-﻿@using MetaBenchmark.Shared.Models
+﻿@using FuzzySharp
+@using MetaBenchmark.Shared.Models
 @using MetaBenchmark.Shared
 
 @inject DataCache cache;
 @inject NavigationManager nav;
+@inject IJSRuntime js;
 
-@if(AllProducts != null)
+@if(AllProducts != null && AllProducts.Count > 0)
 {
+    rand = new Random(1241245142);
     <div class="container">
+        <div class="row">
+            <div class="p-0 card">
+                <form @onsubmit="SearchSubmit">
+                    <input type="text" class="form-control form-control-lg" placeholder="Search" @bind-value="SearchText" @bind-value:event="oninput" @onfocusin="SearchFocused" @onfocusout="SearchUnfocused" @onkeydown="SearchKeyDown" href="#searchCollapse"/>
+                </form>
+                @if(!string.IsNullOrEmpty(SearchText))
+                {
+                    <ul class="list-group list-group-flush collapse show" id="searchCollapse">
+                    @foreach(var entry in SearchResults)
+                    {
+                        <div class="card search-result">
+                            <div class="product-click-hint d-flex mx-3">
+                                <span class="oi oi-external-link my-auto" aria-hidden="true"></span>
+                            </div>
+                            @if(entry.Item is Product product)
+                            {
+                                var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                                var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+                                <li class="list-group-item cursor-pointer" @onclick="(() => Selected(product))">
+                                    <h4 class="mb-3 d-flex product-name @brandClass">@product.Name</h4>
+                                </li>
+                            }
+                            else if(entry.Item is Benchmark benchmark)
+                            {
+                                <li class="list-group-item cursor-pointer" @onclick="(() => Selected(benchmark))">
+                                    @benchmark.Name
+                                    @if (benchmark.Specs != null && benchmark.Specs.Count > 0)
+                                    {
+                                        <div class="benchmark-specs d-flex flex-wrap h5">
+                                            @foreach(var spec in benchmark.Specs)
+                                            {
+                                                <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                                            }
+                                        </div>
+                                    }
+                                </li>
+                            }
+                        </div>
+                    }
+                    </ul>
+                }
+            </div>
+        </div>
         <div class="row">
             @foreach(var prod in AllProducts)
             {
@@ -15,7 +61,7 @@
 
                 var benches = prod.BenchmarkEntries.GroupBy(b => b.Benchmark.Type).OrderBy(g => g.Key);
                 <div class="col-12 col-md-4 col-lg-3 my-3">
-                    <div class="card product h-100 p-3" @onclick="(() => SelectedProduct(prod))">
+                    <div class="card product h-100 p-3" @onclick="(() => Selected(prod))">
                         <div class="product-click-hint">
                             <span class="oi oi-external-link" aria-hidden="true"></span>
                         </div>
@@ -23,7 +69,7 @@
                         <div class="my-auto">
                             @foreach(var group in benches)
                             {
-                                var bench = group.ToList().RandomItem();
+                                var bench = group.ToList().RandomItem(rand);
                                 var benchClass = GetTextClass(bench);
                                 <div class="row pb-3 benchmark-entry">
                                     <div class="col my-auto">@bench.Benchmark.Name</div>
@@ -45,16 +91,49 @@
 @code {
 
     List<Product> AllProducts = new List<Product>();
+    List<Benchmark> AllBenchmarks = new List<Benchmark>();
+
+    //
+    // Use the same seed every time so the selected benchmarks aren't changed as the UI refreshes.
+    // This should probably be initialized to a different random seed on first load ¯\_(ツ)_/¯
+    //
+    Random rand = new Random(1241245142);
+
+    private string? searchText;
+    public string? SearchText { get => searchText; set { searchText = value; OnSearchTextUpdated();} }
+
+    public record FuzzyEntry {
+        public string Name;
+        public object Item;
+
+        public FuzzyEntry(string name, object item)
+        {
+            Name = name;
+            Item = item;
+        }
+
+        public FuzzyEntry(string name)
+        {
+            Name = name;
+        }
+    }
+    public List<FuzzyEntry> SearchResults { get; set; } = new List<FuzzyEntry>();
 
     protected override async Task OnInitializedAsync()
     {
         var all = await cache.All();
         AllProducts = all.Value;
+        AllBenchmarks = AllProducts.SelectMany(p => p.BenchmarkEntries.Select(b => b.Benchmark)).DistinctBy(b => b.Id).ToList();
     }
 
-    void SelectedProduct(Product prod)
+    void Selected(Product prod)
     {
         nav.NavigateTo($"product/{prod.Id}");
+    }
+
+    void Selected(Benchmark bench)
+    {
+        nav.NavigateTo($"benchmark/{bench.Id}");
     }
 
     string GetTextClass(BenchmarkEntry entry)
@@ -74,5 +153,57 @@
         }
 
         return "";
+    }
+
+    private void OnSearchTextUpdated()
+    {
+        SearchResults = Process.ExtractSorted<FuzzyEntry>(
+                new FuzzyEntry(SearchText),
+                AllProducts.Select(p => new FuzzyEntry(p.Name, p))
+                    .Concat(AllBenchmarks.Select(b => new FuzzyEntry(b.Name, b))),
+                (prod) => prod.Name.ToLower(),
+                scorer: FuzzySharp.SimilarityRatio.ScorerCache.Get<FuzzySharp.SimilarityRatio.Scorer.Composite.WeightedRatioScorer>(),
+                cutoff: 50)
+            .Take(5)
+            .Select(res => res.Value)
+            .ToList();
+
+        StateHasChanged();
+    }
+
+    public void SearchSubmit()
+    {
+        Console.WriteLine(SearchText);
+    }
+
+    public async void SearchFocused()
+    {
+        await js.InvokeVoidAsync("ShowCollapse", "#searchCollapse");
+    }
+
+    public async void SearchUnfocused()
+    {
+        await js.InvokeVoidAsync("HideCollapse", "#searchCollapse");
+    }
+
+    public async void SearchKeyDown(KeyboardEventArgs args)
+    {
+        if( SearchResults == null || SearchResults.Count == 0)
+        {
+            return;
+        }
+
+        if(args.Code == "Enter" || args.Code == "NumpadEnter")
+        {
+            var res = SearchResults.FirstOrDefault();
+            if(res.Item is Product prod)
+            {
+                Selected(prod);
+            }
+            else if(res.Item is Benchmark bench)
+            {
+                Selected(bench);
+            }
+        }
     }
 }

@@ -233,3 +233,11 @@ function namedColor(index) {
     return NAMED_COLORS[index % NAMED_COLORS.length];
 }
 //end https://github.com/chartjs/Chart.js/blob/master/docs/scripts/utils.js
+
+function ShowCollapse(selector) {
+    $(selector).collapse("show");
+}
+
+function HideCollapse(selector) {
+    $(selector).collapse("hide");
+}

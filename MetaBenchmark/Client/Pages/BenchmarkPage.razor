@@ -33,7 +33,7 @@
                     <ul class="list-group list-group-flush">
                         @foreach(var bench in AllBenchmarks.Where(b => b != Benchmark && b.Name == Benchmark.Name))
                         {
-                            <li class="list-group-item">
+                            <li class="list-group-item cursor-pointer">
                                 <div class="d-flex flex-column curor-pointer position-relative" @onclick="(() => NavigateBenchmark(bench.Id))">
                                     <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
                                     <h5>@bench.Name</h5>
