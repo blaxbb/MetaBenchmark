@@ -118,8 +118,6 @@ window.SetupChart = function (id, labels, values, maxVal) {
 }
 
 window.SetupMultiChart = function (id, labels, values, maxVal, datasetNames) {
-    console.log(id);
-    console.log(values);
     if(datasetNames == null){
         datasetNames = [""];
     }

@@ -13,7 +13,7 @@
     [Parameter]
     public string productId { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var all = await cache.All();
         if (all.Value != null && long.TryParse(productId, out long id))
