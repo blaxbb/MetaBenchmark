@@ -14,9 +14,12 @@
     {
         <div class="position-relative">
             <ul class="list-group list-group-flush search-results collapse show" id="searchCollapse">
-            @foreach(var entry in SearchResults)
+            @for(int i = 0; i < SearchResults.Count; i++)
             {
-                <div class="card search-result cursor-pointer" @onmousedown="(() => Selected(entry))">
+                var index = i;
+                var entry = SearchResults[index];
+
+                <div class="card search-result cursor-pointer @(index == HighlightedIndex ? "bg-primary" : "") " @onmousedown="(() => Selected(entry))" @onmouseover="(() => HighlightedIndex = index)">
                     <div class="product-click-hint d-flex mx-3">
                         <span class="oi oi-external-link my-auto" aria-hidden="true"></span>
                     </div>
@@ -57,6 +60,8 @@
 
     List<Product> AllProducts = new List<Product>();
     List<Benchmark> AllBenchmarks = new List<Benchmark>();    
+
+    public int HighlightedIndex { get; set; }
 
     public record FuzzyEntry {
         public string Name;
@@ -148,17 +153,34 @@
             return;
         }
 
-        if(args.Code == "Enter" || args.Code == "NumpadEnter")
+        switch(args.Code)
         {
-            var res = SearchResults.FirstOrDefault();
-            if(res.Item is Product prod)
-            {
-                Selected(prod);
-            }
-            else if(res.Item is Benchmark bench)
-            {
-                Selected(bench);
-            }
+            case "Enter":
+            case "NumpadEnter":
+                var res = SearchResults[HighlightedIndex];
+                if(res.Item is Product prod)
+                {
+                    Selected(prod);
+                }
+                else if(res.Item is Benchmark bench)
+                {
+                    Selected(bench);
+                }
+            break;
+            case "ArrowUp":
+                if(HighlightedIndex > 0)
+                {
+                    HighlightedIndex--;
+                }
+                Console.WriteLine(HighlightedIndex);
+            break;
+            case "ArrowDown":
+                if(HighlightedIndex < SearchResults.Count - 1)
+                {
+                    HighlightedIndex++;
+                }
+                Console.WriteLine(HighlightedIndex);
+            break;
         }
-    }    
+    }
 }

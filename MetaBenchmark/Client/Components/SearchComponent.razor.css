@@ -11,7 +11,7 @@
     background-color: rgba(0,0,0,.05);
 }
 
-.list-group .search-result li:hover {
+.list-group .search-result.highlight li {
     background-color: rgba(255,255,255,.05);
 }
 
