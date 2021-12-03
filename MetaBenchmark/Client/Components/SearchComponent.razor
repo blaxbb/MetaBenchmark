@@ -7,7 +7,7 @@
 @inject IJSRuntime js;
 
 <div class="p-0 card">
-    <form @onsubmit="SearchSubmit">
+    <form @onsubmit="(() => {})">
         <input type="text" class="form-control form-control-lg" placeholder="Search" @bind-value="SearchText" @bind-value:event="oninput" @onfocusin="SearchFocused" @onfocusout="SearchUnfocused" @onkeydown="SearchKeyDown" href="#searchCollapse"/>
     </form>
     @if(!string.IsNullOrEmpty(SearchText))
@@ -89,8 +89,7 @@
 
     void Selected(FuzzyEntry entry)
     {
-        Console.WriteLine("SELECTED");
-        Console.WriteLine(entry.Name);
+        HighlightedIndex = 0;
         switch(entry.Item){
             case Product p:
                 Selected(p);
@@ -131,11 +130,6 @@
         StateHasChanged();
     }
 
-    public void SearchSubmit()
-    {
-        Console.WriteLine(SearchText);
-    }
-
     public async void SearchFocused()
     {
         await js.InvokeVoidAsync("ShowCollapse", "#searchCollapse");
@@ -143,6 +137,8 @@
 
     public async void SearchUnfocused()
     {
+        HighlightedIndex = 0;
+        StateHasChanged();
         await js.InvokeVoidAsync("HideCollapse", "#searchCollapse");
     }
 
@@ -158,28 +154,19 @@
             case "Enter":
             case "NumpadEnter":
                 var res = SearchResults[HighlightedIndex];
-                if(res.Item is Product prod)
-                {
-                    Selected(prod);
-                }
-                else if(res.Item is Benchmark bench)
-                {
-                    Selected(bench);
-                }
+                Selected(res);
             break;
             case "ArrowUp":
                 if(HighlightedIndex > 0)
                 {
                     HighlightedIndex--;
                 }
-                Console.WriteLine(HighlightedIndex);
             break;
             case "ArrowDown":
                 if(HighlightedIndex < SearchResults.Count - 1)
                 {
                     HighlightedIndex++;
                 }
-                Console.WriteLine(HighlightedIndex);
             break;
         }
     }
