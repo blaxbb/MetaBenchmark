@@ -10,6 +10,19 @@
 {
     rand = new Random(1241245142);
     <div class="container">
+        @{
+            var p = AllProducts[0];
+            var br = p.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+            var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
+        }
+        <div class="row">
+            <div class="col-6">
+                <LandingItem product="p"/>
+            </div>
+            <div class="col-6">
+                <LandingItem product="AllProducts[1]"/>
+            </div>
+        </div>
         <div class="row">
             @foreach(var prod in AllProducts)
             {

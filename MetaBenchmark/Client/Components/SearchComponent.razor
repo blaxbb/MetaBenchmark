@@ -20,7 +20,7 @@
                 var entry = SearchResults[index];
 
                 <div class="card search-result cursor-pointer @(index == HighlightedIndex ? "bg-primary" : "") " @onmousedown="(() => Selected(entry))" @onmouseover="(() => HighlightedIndex = index)">
-                    <div class="product-click-hint d-flex mx-3">
+                    <div class="product-click-hint d-flex mx-3 d-none">
                         <span class="oi oi-external-link my-auto" aria-hidden="true"></span>
                     </div>
                     @if(entry.Item is Product product)

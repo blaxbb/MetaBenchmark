@@ -239,3 +239,13 @@ function ShowCollapse(selector) {
 function HideCollapse(selector) {
     $(selector).collapse("hide");
 }
+
+function FadeOut(selector) {
+    $(selector).removeClass("fade-in");
+    $(selector).addClass("fade-out");
+}
+
+function FadeIn(selector) {
+    $(selector).removeClass("fade-out");
+    $(selector).addClass("fade-in");
+}
