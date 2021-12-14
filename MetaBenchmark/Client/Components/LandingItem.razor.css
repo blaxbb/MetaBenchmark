@@ -69,3 +69,8 @@
     margin: 0;
     text-align: center;
 }
+
+.product-click-hint {
+    padding-top: .5em;
+    padding-right: .5em;
+}

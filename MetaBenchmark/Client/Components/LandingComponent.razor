@@ -10,49 +10,31 @@
 {
     rand = new Random(1241245142);
     <div class="container">
-        @{
-            var p = AllProducts[0];
-            var br = p.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
-            var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
-        }
         <div class="row">
             <div class="col-6">
-                <LandingItem product="p"/>
-            </div>
-            <div class="col-6">
-                <LandingItem product="AllProducts[1]"/>
-            </div>
-        </div>
-        <div class="row">
-            @foreach(var prod in AllProducts)
-            {
-                var brand = prod.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
-                var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
-
-                var benches = prod.BenchmarkEntries.GroupBy(b => b.Benchmark.Type).OrderBy(g => g.Key);
-                <div class="col-12 col-md-4 col-lg-3 my-3">
-                    <div class="card product h-100 p-3" @onclick="(() => Selected(prod))">
-                        <div class="product-click-hint">
-                            <span class="oi oi-external-link" aria-hidden="true"></span>
-                        </div>
-                        <h4 class="mb-3 d-flex product-name @brandClass">@prod.Name</h4>
-                        <div class="my-auto">
-                            @foreach(var group in benches)
-                            {
-                                var bench = group.ToList().RandomItem(rand);
-                                var benchClass = GetTextClass(bench);
-                                <div class="row pb-3 benchmark-entry">
-                                    <div class="col my-auto">@bench.Benchmark.Name</div>
-                                    <div class="col my-auto">
-                                        <div class="benchmark-value text-right @benchClass">@bench.ValueLabel()</div>
-                                        <div><img class="justify-content-end source-img" src="@bench.Source.LogoUrl" alt="@bench.Source.Name" title="@bench.Source.Name" /></div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        MetaBenchmark
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </div>
                 </div>
-            }
+                <div class="card">
+                    <div class="card-header">
+                        Contributing
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                @for(int i = 0; i < 5; i++)
+                {
+                    <LandingItem AllProducts="AllProducts"/>
+                }
+            </div>
         </div>
     </div>
 }
