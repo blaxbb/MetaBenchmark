@@ -4,30 +4,30 @@
 @inject IJSRuntime js
 @inject NavigationManager nav
 
-@if(product != null)
+@if(Product != null)
 {
-    <div class="card p-3 mb-3 landing-item" @onclick="(() =>{ Selected(product); })">
+    <div class="card p-1 mb-3 landing-item" @onclick="(() =>{ Selected(Product); })">
         <div class="product-click-hint">
             <span class="oi oi-external-link" aria-hidden="true"></span>
         </div>
-        <div class="row">
+        <div class="row m-0">
             @{
-                var b = product.BenchmarkEntries.ToList().RandomItem();
-                var br = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                var b = Product.BenchmarkEntries.ToList().RandomItem();
+                var br = Product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
                 var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
             }
-            <div class="col-3 my-auto pl-0 fade-in" @ref="prodDiv">
-                <h4 class="d-flex product-name @bc">@product.Name</h4>
+            <div class="col-3 my-auto pl-0 fade-in text-center" @ref="prodDiv">
+                <h5>@Product.Name</h5>
             </div>
             <div class="col my-auto fade-in" @ref="nameDiv">
                 <div class="benchmark-name">
-                    <h4>
+                    <div>
                         @b.Benchmark.Name
-                    </h4>
+                    </div>
                 </div>
                 @if (b.Benchmark.Specs != null && b.Benchmark.Specs.Count > 0)
                 {
-                    <div class="benchmark-specs d-flex flex-wrap h5 justify-content-evenly">
+                    <div class="benchmark-specs d-flex flex-wrap h6 justify-content-evenly">
                         @foreach(var spec in b.Benchmark.Specs)
                         {
                             <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
@@ -45,10 +45,8 @@
 
 @code
 {
-    public Product product { get; set; }
-
     [Parameter]
-    public List<Product> AllProducts { get; set; }
+    public Product Product { get; set; }
 
     ElementReference prodDiv;
     ElementReference nameDiv;
@@ -56,33 +54,20 @@
 
     protected override void OnInitialized()
     {
-        if(AllProducts != null)
-        {
-            product = AllProducts.RandomItem(Random.Shared);
-        }
         Task.Run(Timer);
     }
 
     private async Task Timer()
     {
         await Task.Delay(Random.Shared.Next(6000, 12000));
-        bool switchProd = Random.Shared.Next(0,10) > 6;
         await js.InvokeVoidAsync("FadeOut", nameDiv);
         await js.InvokeVoidAsync("FadeOut", benchDiv);
-        if(switchProd)
-        {
-            await js.InvokeVoidAsync("FadeOut", prodDiv);
-            product = AllProducts.RandomItem(Random.Shared);
-        }
+
         await Task.Delay(250);
         StateHasChanged();
         await js.InvokeVoidAsync("FadeIn", nameDiv);
         await js.InvokeVoidAsync("FadeIn", benchDiv);
 
-        if(switchProd)
-        {
-            await js.InvokeVoidAsync("FadeIn", prodDiv);
-        }
         Task.Run(Timer);
     }
 

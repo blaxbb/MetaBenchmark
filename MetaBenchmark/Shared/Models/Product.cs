@@ -20,6 +20,8 @@ namespace MetaBenchmark.Shared
         public ICollection<BenchmarkEntry> BenchmarkEntries { get; set; }
         public ICollection<SpecificationEntry> Specs { get; set; }
 
+        public string Brand => Specs.FirstOrDefault(s => s.Spec.Name == "brand")?.Spec.Value;
+
         public Product()
         {
             BenchmarkEntries = new List<BenchmarkEntry>();
