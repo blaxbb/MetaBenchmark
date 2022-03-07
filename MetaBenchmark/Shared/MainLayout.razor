@@ -1,0 +1,42 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime js
+
+<div class="page">
+    @*<div class="sidebar">
+        <NavMenu />
+    </div>*@
+
+    <div class="main">
+        <div class="px-4 navbar navbar-dark">
+            <a class="navbar-brand mr-auto" href="">MetaBenchmark</a>
+            <MetaBenchmark.Components.SearchComponent/>
+            <div id="filterContainer" class="d-flex"></div>
+            <NavLink class="nav-link" href="compare">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Compare
+            </NavLink>
+            @if (EditEnabled)
+            {
+                <NavLink class="nav-link" href="admin">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Admin
+                </NavLink>
+            }
+            <NavLink class="nav-link" href="settings">
+                <span class="oi oi-cog" aria-hidden="true"></span> Settings
+            </NavLink>
+            @*<LoginDisplay />*@
+        </div>
+
+        <div class="content px-sm-4">
+            @Body
+        </div>
+    </div>
+</div>
+
+@code {
+    bool EditEnabled = false;
+    protected override async Task OnInitializedAsync()
+    {
+        var settings = await Settings.Load(js);
+        EditEnabled = settings.EditModeEnabled;
+    }
+}

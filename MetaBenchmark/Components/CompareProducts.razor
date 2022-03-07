@@ -1,0 +1,611 @@
+﻿@using MetaBenchmark
+@using MetaBenchmark.Models
+@using Newtonsoft.Json
+@using System.Web
+@inject HttpClient Http;
+@inject IJSRuntime js;
+@inject NavigationManager nav;
+@inject DataCache cache;
+
+@if(AllProducts != null)
+{
+    @if (UserModified)
+    {
+        <div class="row justify-content-center mx-3">
+            <div class="col col-auto alert alert-secondary alert-dismissible fade show" role="alert">
+                <strong>User Modified Data</strong> Current data has been modified from server.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    }
+    @if (SelectedProducts.Any(p => p != null))
+    {
+        <div class="compare-products container mb-3 card">
+            <div class="row justify-content-center card-body">
+                <div class="col-md-3 p-0">
+                    <div class="list-group btn-group-toggle benchmark-type-buttons" data-toggle="buttons">
+                        @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
+                        {
+                            bool act = CurrentBenchmarkType == type;
+                            <label class="btn btn-secondary @(act ? "active" : "")">
+                                <input type="radio" name="options" id="option@((int)type)" autocomplete="off" @onclick="(() => SelectedBenchmarkType(type))"> @type.DisplayName()
+                            </label>
+                        }
+                    </div>
+                </div>                   
+                <div class="col p-0">
+                    <MultiProductChart Id="myChart"
+                        Labels="@ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name).Select(b => b.Name).ToList()"
+                        Values="@SelectedProducts.Where(p => p != null).Select(p => p.BenchmarkEntries).Select(l => l.Where(b => ActiveBenchmarks.Contains(b.Benchmark) && CurrentBenchmarkType == b.Benchmark.Type).OrderBy(b => b.Benchmark.Name).GroupBy(e => e.BenchmarkId).Select(g => g.Average(b => b.Value)).ToList()).ToList()"
+                        MaxVal="@SelectedProducts.First(p => p != null).BenchmarkEntries.Max(e => e.Value)"
+                        DatasetNames="@SelectedProducts.Where(p => p != null).Select(p => p.Name).ToList()"/>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="compare-products container-fluid">
+        <div class="row justify-content-center sticky-top">
+            <div class="col-5 col-md-3 card p-0 p-lg-x-2">
+                <div class="card-body p-0 p-lg-3">
+                    <select class="form-control selectpicker form-control-lg bg-secondary border-info border text-white"
+                            id="benchmarkFilter"
+                            title="Benchmarks"
+                            data-live-search="true"
+                            data-actions-box="true"
+                            data-selected-text-format="static"
+                            data-style="btn-secondary"
+                            multiple
+                            @onchange="((val) => SelectedBenchmark())">
+                        @foreach(var bench in AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
+                        {
+                            <option selected value=@bench.Id>@bench.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col card source-logo-col d-none d-md-block">
+                @*Empty Cell for source image*@
+                <div class="card-body p-0 p-lg-3 h-100 d-flex align-items-center justify-items-center">
+                    <select class="form-control selectpicker form-control-lg bg-secondary border-info border text-white"
+                            id="sourceFilter"
+                            title="Sources"
+                            data-live-search="true"
+                            data-actions-box="true"
+                            data-selected-text-format="static"
+                            data-style="btn-secondary"
+                            multiple
+                            @onchange="((val) => SelectedSource())">
+                        @foreach(var source in AvailableSources.OrderBy(s => s.Name))
+                        {
+                            <option selected value=@source.Id>@source.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            @for(int i = 0; i < SelectedProducts.Length; i++)
+            {
+                var index = i;
+                var hideSmallClass = i > 1 ? "d-none d-sm-block" : "";
+                var hideAddButtonClass = i > 0 ? "d-none d-sm-block" : "";
+                var hideMdClass = i > 1 ? "d-none d-md-block" : "";
+                <div class="col card @hideMdClass product-entry-col">
+                    @if (SelectedProducts[i] == null)
+                    {
+                        <form class="row card-body">
+                            <select data-live-search="true"
+                                    data-style="btn-secondary"
+                                    class="selectpicker form-control form-control-lg col" 
+                                    title="Select a product"
+                                    @onchange="((val) => SelectedId((string)val.Value, index))">
+                                @foreach (var product in AllProducts.Where(p => p.Type == CurrentProductType).OrderByDescending(p => p.Name))
+                                {
+                                    var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                                    var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
+                                    <option class="@brandClass" value=@product.Id>@product.Name</option>
+                                }
+                            </select>
+                        </form>
+                    }
+                    else
+                    {
+                        var brand = SelectedProducts[i].Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                        var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+
+                        <div class="row card-body product-header w-100 h-100 pr-0 py-0 pl-3 @brandClass">
+                            <h4 class="col-md my-auto product-title @brandClass" @onclick="(() => NavigateProduct(SelectedProducts[index].Id))">@SelectedProducts[i].Name</h4>
+                            <div class="col-md-auto row px-0 mx-auto">
+                                <button class="btn btn-sm col-auto btn-danger btn-remove product-btn my-auto" @onclick="(() => Selected(null, index))">
+                                    <span class="oi oi-x" aria-hidden="true"></span>
+                                </button>
+                                @if(i == SelectedProducts.Length - 1)
+                                {
+                                    <button class="btn btn-sm col-auto btn-success product-btn my-auto @hideAddButtonClass" @onclick="AddProduct">
+                                        <span class="oi oi-plus" aria-hidden="true"></span>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+                        
+                </div>
+            }
+        </div>
+        @foreach(var bench in ActiveBenchmarks.Where(b => CurrentBenchmarkType == b.Type).OrderBy(b => b.Name))
+        {
+            var sourceIds = SelectedProducts.Where(p => p != null).SelectMany(p => p.BenchmarkEntries).Where(b => b.Benchmark == bench).Select(e => e.SourceId).Distinct().ToList();
+            <div class="benchmark-wrapper">
+                @for(int sourceIndex = 0; sourceIndex < sourceIds.Count; sourceIndex++)
+                {
+                    var id = sourceIds[sourceIndex];
+                    var source = AvailableSources.FirstOrDefault(s => s.Id == id);
+
+                    <div class="row justify-content-center benchmark benchmark-@bench.Id">
+                        <div class="product col-5 col-md-3 m-0 py-1 card benchmark-name-col @(sourceIndex == 0 && sourceIds.Count > 1 ? "border-bottom-0" : "")">
+                            <div class="row h-100 @(sourceIndex > 0 ? "d-none benchmark-name-spacer" : "")">
+
+                                <div class="col my-auto d-flex align-items-center cursor-pointer" style="@(sourceIds.Count > 1 ? $"height: {sourceIds.Count}00%;" : "")" @onclick="() => NavigateBenchmark(bench.Id)">
+                                    <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
+                                    <h5 class="my-3 benchmark-name">@bench.Name</h5>
+                                    @if (bench.Specs != null && bench.Specs.Count > 0)
+                                    {
+                                        <div class="benchmark-specs d-flex flex-wrap h5 m-0">
+                                            @foreach(var spec in bench.Specs)
+                                            {
+                                                <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @*Source Logo Cell*@
+                        <div class="product col-7 col-md m-0 py-1 card source-logo-col">
+                            <div class="row benchmark-entry my-auto">
+                                <div class="mr-auto text-center">
+                                    <a href="@source.Url">
+                                        <img src="@source.LogoUrl" alt="@source.Name" title="@source.Name" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5 d-md-none card product">
+                            @*Spacer cell for small display, offsets benchmark values past the benchmark name*@
+                        </div>
+
+                        @*Each Benchmark Entry Cell*@
+                        @for(int i = 0; i < SelectedProducts.Length; i++)
+                        {
+                            var hideMdClass = i > 1 ? "d-none d-md-block" : "";
+                            var prod = SelectedProducts[i];
+                            if(prod == null)
+                            {
+                                <div class="product col m-0 py-1 card product-entry-col @hideMdClass">
+                                </div>
+                                continue;
+                            }
+
+                            var entries = prod.BenchmarkEntries.Where(e => e.Benchmark == bench && e.SourceId == id).ToList();
+                            var entry = entries.FirstOrDefault();
+
+                            var avg = entries.Count > 0 ? entries.Average(e => e.Value) : 0;
+                            var midpoint = BenchmarkAverages[bench.Id];
+
+                            if (entry != null)
+                            {
+                                <div class="product col m-0 py-1 card product-entry-col @hideMdClass">
+                                    @{
+                                        var textClass = GetTextClass(entry);
+                                    }
+                                    <div class="row justify-content-center my-auto">
+                                        <div class="col-auto text-center my-auto d-none d-lg-block">
+                                            @if(avg > midpoint)
+                                            {
+                                                <i class="fas fa-angle-double-up fa-2x text-success"></i>
+                                            }
+                                            else if(avg < midpoint)
+                                            {
+                                                <i class="fas fa-angle-double-down fa-2x text-danger"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-ellipsis-h fa-2x"></i>
+                                            }
+                                        </div>
+                                        <h5 class="col-auto text-center my-3 benchmark-value @textClass">@entry.ValueLabel()</h5>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="product col m-0 py-1 card product-entry-col @hideMdClass">
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>Loading...</div>
+}
+
+
+@code {
+    List<Product> AllProducts;
+    Product[] SelectedProducts;
+    Dictionary<long, double> BenchmarkAverages = new Dictionary<long, double>();
+
+    //key = benchmarkID, value = productID and benchmark value
+    Dictionary<long, (long productId, double value)> BenchmarkMaximums = new Dictionary<long, (long productId, double value)>();
+    Dictionary<long, int> BenchmarkCount = new Dictionary<long, int>();
+
+    List<Benchmark> AvailableBenchmarks = new List<Benchmark>();
+    List<Benchmark> ActiveBenchmarks = new List<Benchmark>();
+
+    List<BenchmarkSource> AvailableSources = new List<BenchmarkSource>();
+    List<BenchmarkSource> ActiveSources = new List<BenchmarkSource>();
+
+    Product.ProductType CurrentProductType;
+    Benchmark.BenchmarkType CurrentBenchmarkType;
+    bool UserModified;
+
+    bool HasInit = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var query = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query);
+        var prodTypeQuery = query.Get("pt");
+        var benchTypeQuery = query.Get("bt");
+
+        UserModified = false;
+
+        if (!string.IsNullOrWhiteSpace(prodTypeQuery) && Enum.TryParse<Product.ProductType>(prodTypeQuery, out var prodType))
+        {
+            CurrentProductType = prodType;
+        }
+        else
+        {
+            CurrentProductType = Product.ProductType.GPU;
+        }
+
+        if (!string.IsNullOrWhiteSpace(benchTypeQuery) && Enum.TryParse<Benchmark.BenchmarkType>(benchTypeQuery, out var benchType))
+        {
+            CurrentBenchmarkType = benchType;
+        }
+        else
+        {
+            CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+        }
+
+        var all = await cache.All();
+        AllProducts = all.Value;
+        UserModified = all.UserModified;
+
+
+        Console.WriteLine(nav.Uri);
+
+        var prodParam = query.Get("products");
+        Console.WriteLine(prodParam);
+
+        string[] prodFromQuery = null;
+        if (!string.IsNullOrWhiteSpace(prodParam))
+        {
+            SelectedProducts = prodParam.Split(',').Select(id => AllProducts.FirstOrDefault(p => p.Id.ToString() == id)).ToArray();
+        }
+        else
+        {
+            SelectedProducts = new Product[2];
+        }
+
+
+        ComputeAverages();
+
+        StateHasChanged();
+        await js.InvokeVoidAsync("SelectValue", "#benchmarkTypeFilter", (int)CurrentBenchmarkType);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+        await js.InvokeVoidAsync("MoveFilterToNav");
+    }
+
+    async Task<List<Product>> GetAllProducts()
+    {
+        var products = await Http.GetFromJsonAsync<List<Product>>("data/products.json");
+
+        var specIndex = await Http.GetFromJsonAsync<List<string>>("data/specifications/index.json");
+        var specs = new List<Specification>();
+        foreach(var specName in specIndex)
+        {
+            try
+            {
+                var url = $"data/specifications/{Uri.EscapeDataString(specName)}.json";
+                var specValues = await Http.GetFromJsonAsync<List<Specification>>(url);
+                specValues.ForEach(s => s.Name = specName);
+                specs.AddRange(specValues);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Loading data/specifications/{specName}.json failed!");
+            }
+        }
+
+        var benchmarks = new List<Benchmark>();
+        foreach(var benchType in Enum.GetValues(typeof(Benchmark.BenchmarkType)).Cast<Benchmark.BenchmarkType>())
+        {
+            try
+            {
+                var url = $"data/benchmarks/{Uri.EscapeDataString(benchType.ToString())}.json";
+                var benchEntries = await Http.GetFromJsonAsync<List<Benchmark>>(url);
+                benchEntries.ForEach(b => b.Type = benchType);
+                benchmarks.AddRange(benchEntries);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Loading data/benchmarks/{benchType}.json failed!");
+            }
+        }
+
+        var sources = new List<BenchmarkSource>();
+        var sourceIndex = await Http.GetFromJsonAsync<List<string>>("data/sources/index.json");
+        foreach(var sourceName in sourceIndex)
+        {
+            try
+            {
+                var url = $"data/sources/{Uri.EscapeDataString(sourceName)}.json";
+                var source = await Http.GetFromJsonAsync<BenchmarkSource>(url);
+                sources.Add(source);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Loading data/sources/{sourceName}.json failed!");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        foreach(var product in products)
+        {
+            product.BenchmarkEntries = new List<BenchmarkEntry>();
+            foreach(var spec in product.Specs)
+            {
+                var s = specs.FirstOrDefault(s => s.Id == spec.SpecId);
+                spec.Spec = s;
+            }
+        }
+
+        foreach(var source in sources)
+        {
+            foreach(var entry in source.BenchmarkEntries)
+            {
+                entry.Source = new BenchmarkSource()
+                {
+                    Id = source.Id,
+                    LogoUrl = source.LogoUrl,
+                    Name = source.Name,
+                    Url = source.Url
+                };
+                entry.SourceId = entry.Source.Id;
+
+                var product = products.FirstOrDefault(p => p.Id == entry.ProductId);
+                var benchmark = benchmarks.FirstOrDefault(b => b.Id == entry.BenchmarkId);
+                entry.Benchmark = benchmark;
+                product.BenchmarkEntries.Add(entry);
+            }
+        }
+
+        Console.WriteLine(JsonConvert.SerializeObject(products[4], new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        }));
+
+        return products;
+    }
+
+    async Task SelectedId(string productId, int index)
+    {
+        if(long.TryParse(productId, out long id))
+        {
+            var prod = AllProducts.FirstOrDefault(p => p.Id == id);
+            await Selected(prod, index);
+        }
+        else
+        {
+            await Selected(null, index);
+        }
+    }
+
+    async Task Selected(Product p, int index)
+    {
+        int nullIndex = 0;
+        for(int i = 0; i < SelectedProducts.Length; i++)
+        {
+            if(i == index)
+            {
+                break;
+            }
+            if(SelectedProducts[i] == null)
+            {
+                nullIndex++;
+            }
+        }
+
+        if (p == null && SelectedProducts.Length > 1)
+        {
+            if (SelectedProducts.Length > 1)
+            {
+                var newArr = new Product[SelectedProducts.Length - 1];
+                //0 1 2 3
+                if (index > 0)
+                {
+                    SelectedProducts.Take(index).ToArray().CopyTo(newArr, 0);
+                }
+                if (index < SelectedProducts.Length)
+                {
+                    SelectedProducts.Skip(index + 1).ToArray().CopyTo(newArr, index);
+                }
+                SelectedProducts = newArr;
+            }
+            else
+            {
+                SelectedProducts = new Product[1];
+            }
+        }
+        else
+        {
+            SelectedProducts[index] = p;
+        }
+        ComputeAverages();
+        StateHasChanged();
+        await js.InvokeVoidAsync("ShowSelectPicker");
+        await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.Id))}");
+    }
+
+    void ComputeAverages()
+    {
+        BenchmarkAverages.Clear();
+        BenchmarkMaximums.Clear();
+        AvailableBenchmarks.Clear();
+        BenchmarkCount.Clear();
+        AvailableSources.Clear();
+        ActiveBenchmarks.Clear();
+
+        foreach(var product in SelectedProducts)
+        {
+            if(product == null)
+            {
+                continue;
+            }
+
+            foreach(var groups in product.BenchmarkEntries.GroupBy(e => e.BenchmarkId))
+            {
+                var avg = groups.Average(g => g.Value);
+                if(BenchmarkAverages.ContainsKey(groups.Key))
+                {
+                    BenchmarkAverages[groups.Key] += avg;
+                    BenchmarkCount[groups.Key] += 1;
+                    if(BenchmarkMaximums[groups.Key].value < avg)
+                    {
+                        BenchmarkMaximums[groups.Key] = (product.Id, avg);
+                    }
+                }
+                else
+                {
+                    var bench = groups.FirstOrDefault();
+                    if (bench?.Benchmark != null)
+                    {
+                        AvailableBenchmarks.Add(bench.Benchmark);
+                        ActiveBenchmarks.Add(bench.Benchmark);
+                    }
+
+                    BenchmarkAverages.Add(groups.Key, avg);
+                    BenchmarkCount.Add(groups.Key, 1);
+                    BenchmarkMaximums.Add(groups.Key, (product.Id, avg));
+                }
+            }
+
+            foreach(var source in product.BenchmarkEntries.GroupBy(e => e.Source))
+            {
+                if (!AvailableSources.Contains(source.Key))
+                {
+                    AvailableSources.Add(source.Key);
+                    ActiveSources.Add(source.Key);
+                }
+            }
+        }
+
+        foreach(var key in BenchmarkAverages.Keys)
+        {
+            BenchmarkAverages[key] /= BenchmarkCount[key];
+        }
+    }
+
+    async Task AddProduct()
+    {
+        var newArr = new Product[SelectedProducts.Length + 1];
+        SelectedProducts.CopyTo(newArr, 0);
+        SelectedProducts = newArr;
+        StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    void NavigateProduct(long id)
+    {
+        nav.NavigateTo($"/product/{id}");
+    }
+
+    void NavigateBenchmark(long id)
+    {
+        nav.NavigateTo($"/benchmark/{id}");
+    }
+
+    async Task SelectedBenchmark()
+    {
+        var items = await js.InvokeAsync<List<string>>("GetVal", "#benchmarkFilter");
+        ActiveBenchmarks = items.Select(i => AvailableBenchmarks.FirstOrDefault(b => b.Id == long.Parse(i))).ToList();
+        Console.WriteLine(JsonConvert.SerializeObject(ActiveBenchmarks.Select(b => b.Name).ToList()));
+        StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    async Task SelectedSource()
+    {
+        var items = await js.InvokeAsync<List<string>>("GetVal", "#sourceFilter");
+        ActiveSources = items.Select(i => AvailableSources.FirstOrDefault(b => b.Id == long.Parse(i))).ToList();
+        Console.WriteLine(JsonConvert.SerializeObject(ActiveSources.Select(b => b.Name).ToList()));
+        StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    async Task SelectedProductType(object val)
+    {
+
+        var type = (Product.ProductType)Enum.Parse(typeof(Product.ProductType), (string)val);
+        CurrentProductType = type;
+        StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+        Console.WriteLine($"SELECTEED {type}");
+    }
+
+    async Task SelectedBenchmarkType()
+    {
+        var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
+        await SelectedBenchmarkType((Benchmark.BenchmarkType)(int.Parse(val)));
+    }
+
+    async Task SelectedBenchmarkType(Benchmark.BenchmarkType type)
+    {
+        CurrentBenchmarkType = type;
+        ActiveBenchmarks = AvailableBenchmarks.Where(b => CurrentBenchmarkType == b.Type).ToList();
+        StateHasChanged();
+        await Task.Delay(1);
+        await js.InvokeVoidAsync("SelectPickerAll", "#benchmarkFilter");
+        await js.InvokeVoidAsync("SelectPickerAll", "#sourceFilter");
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    string GetTextClass(BenchmarkEntry entry)
+    {
+        switch(entry.Benchmark.Type)
+        {
+            case Benchmark.BenchmarkType.FPS:
+            case Benchmark.BenchmarkType.FPS_4K:
+            case Benchmark.BenchmarkType.FPS_1440P:
+            case Benchmark.BenchmarkType.FPS_1080P:
+                return entry.Value switch
+                {
+                    > 100 => "text-success",
+                    > 60  => "text-primary",
+                    _     => "text-warning"
+                };
+        }
+
+        return "";
+    }
+}

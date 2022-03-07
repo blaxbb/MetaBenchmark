@@ -1,0 +1,80 @@
+﻿.product {
+    cursor: pointer;
+}
+
+.product-name.brand-Nvidia::before {
+    background: url(/logos/nvidia.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.product-name.brand-AMD::before {
+    background: url(/logos/amd.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    width: 50px;
+}
+
+.product-name::before {
+    content: '';
+    flex: 0 0 auto;
+    margin-right: .5em;
+    margin-left: .5em;
+}
+
+.source-img {
+    max-height: 20px;
+}
+
+.benchmark-entry {
+    border-bottom: solid 1px gray;
+}
+
+.benchmark-entry:last-child {
+    border-bottom: 0;
+}
+
+.product .product-click-hint {
+    padding-top: 1em;
+    padding-right: 1em;
+}
+
+.fade-out { 
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 250ms, opacity 250ms;
+}
+
+.fade-in {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 250ms;
+}
+
+.landing-item .benchmark-name {
+    font-size: 1rem;
+    height: 2.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.landing-item .benchmark-name h4 {
+    line-clamp: 2;
+    margin: 0;
+    text-align: center;
+}
+
+.landing-item:hover {
+    border: 1px solid #ffffff2e;
+}
+
+.product-click-hint {
+    padding-top: .5em;
+    padding-right: .5em;
+}

@@ -1,0 +1,173 @@
+@using FuzzySharp
+@using MetaBenchmark
+@using MetaBenchmark.Models
+
+@inject DataCache cache;
+@inject NavigationManager nav;
+@inject IJSRuntime js;
+
+<div class="p-0 card">
+    <form @onsubmit="(() => {})">
+        <input type="text" class="form-control form-control-lg" placeholder="Search" @bind-value="SearchText" @bind-value:event="oninput" @onfocusin="SearchFocused" @onfocusout="SearchUnfocused" @onkeydown="SearchKeyDown" href="#searchCollapse"/>
+    </form>
+    @if(!string.IsNullOrEmpty(SearchText))
+    {
+        <div class="position-relative">
+            <ul class="list-group list-group-flush search-results collapse show" id="searchCollapse">
+            @for(int i = 0; i < SearchResults.Count; i++)
+            {
+                var index = i;
+                var entry = SearchResults[index];
+
+                <div class="card search-result cursor-pointer @(index == HighlightedIndex ? "bg-primary" : "") " @onmousedown="(() => Selected(entry))" @onmouseover="(() => HighlightedIndex = index)">
+                    <div class="product-click-hint d-flex mx-3 d-none">
+                        <span class="oi oi-external-link my-auto" aria-hidden="true"></span>
+                    </div>
+                    @if(entry.Item is Product product)
+                    {
+                        var brand = product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
+                        var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
+                        <li class="list-group-item">
+                            <h4 class="mb-3 d-flex product-name @brandClass">@product.Name</h4>
+                        </li>
+                    }
+                    else if(entry.Item is Benchmark benchmark)
+                    {
+                        <li class="list-group-item">
+                            <h4>@benchmark.Name</h4>
+                            @if (benchmark.Specs != null && benchmark.Specs.Count > 0)
+                            {
+                                <div class="benchmark-specs d-flex flex-wrap h5">
+                                    @foreach(var spec in benchmark.Specs)
+                                    {
+                                        <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                                    }
+                                </div>
+                            }
+                        </li>
+                    }
+                </div>
+            }
+            </ul>
+        </div>
+    }
+</div>
+
+@code
+{
+    private string? searchText;
+    public string? SearchText { get => searchText; set { searchText = value; OnSearchTextUpdated();} }
+
+    List<Product> AllProducts = new List<Product>();
+    List<Benchmark> AllBenchmarks = new List<Benchmark>();    
+
+    public int HighlightedIndex { get; set; }
+
+    public record FuzzyEntry {
+        public string Name;
+        public object Item;
+
+        public FuzzyEntry(string name, object item)
+        {
+            Name = name;
+            Item = item;
+        }
+
+        public FuzzyEntry(string name)
+        {
+            Name = name;
+        }
+    }
+    public List<FuzzyEntry> SearchResults { get; set; } = new List<FuzzyEntry>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var all = await cache.All();
+        AllProducts = all.Value;
+        AllBenchmarks = AllProducts.SelectMany(p => p.BenchmarkEntries.Select(b => b.Benchmark)).DistinctBy(b => b.Id).ToList();
+    }        
+
+    void Selected(FuzzyEntry entry)
+    {
+        HighlightedIndex = 0;
+        switch(entry.Item){
+            case Product p:
+                Selected(p);
+            break;
+            case Benchmark b:
+                Selected(b);
+            break;
+        }
+    }
+
+    void Selected(Product prod)
+    {
+        SearchText = "";
+        nav.NavigateTo($"product/{prod.Id}");
+        StateHasChanged();
+    }
+
+    void Selected(Benchmark bench)
+    {
+        SearchText = "";
+        nav.NavigateTo($"benchmark/{bench.Id}");
+        StateHasChanged();
+    }
+
+    private void OnSearchTextUpdated()
+    {
+        SearchResults = Process.ExtractSorted<FuzzyEntry>(
+                new FuzzyEntry(SearchText),
+                AllProducts.Select(p => new FuzzyEntry(p.Name, p))
+                    .Concat(AllBenchmarks.Select(b => new FuzzyEntry(b.Name, b))),
+                (prod) => prod.Name.ToLower(),
+                scorer: FuzzySharp.SimilarityRatio.ScorerCache.Get<FuzzySharp.SimilarityRatio.Scorer.Composite.WeightedRatioScorer>(),
+                cutoff: 50)
+            .Take(5)
+            .Select(res => res.Value)
+            .ToList();
+
+        StateHasChanged();
+    }
+
+    public async void SearchFocused()
+    {
+        await js.InvokeVoidAsync("ShowCollapse", "#searchCollapse");
+    }
+
+    public async void SearchUnfocused()
+    {
+        HighlightedIndex = 0;
+        StateHasChanged();
+        await js.InvokeVoidAsync("HideCollapse", "#searchCollapse");
+    }
+
+    public void SearchKeyDown(KeyboardEventArgs args)
+    {
+        if( SearchResults == null || SearchResults.Count == 0)
+        {
+            return;
+        }
+
+        switch(args.Code)
+        {
+            case "Enter":
+            case "NumpadEnter":
+                var res = SearchResults[HighlightedIndex];
+                Selected(res);
+            break;
+            case "ArrowUp":
+                if(HighlightedIndex > 0)
+                {
+                    HighlightedIndex--;
+                }
+            break;
+            case "ArrowDown":
+                if(HighlightedIndex < SearchResults.Count - 1)
+                {
+                    HighlightedIndex++;
+                }
+            break;
+        }
+    }
+}
