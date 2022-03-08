@@ -31,6 +31,10 @@
         "webfonts/fa-solid-900.woff",
         "webfonts/fa-solid-900.woff2"
       ]
+    },
+    {
+      "library": "Chart.js@3.7.1",
+      "destination": "wwwroot/js/chartjs/"
     }
   ]
 }

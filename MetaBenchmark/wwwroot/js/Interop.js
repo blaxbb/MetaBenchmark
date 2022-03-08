@@ -185,7 +185,8 @@ window.SetupMultiChart = function (id, labels, values, maxVal, datasetNames) {
                     },
                     bodyFont : {
                       size: 16
-                    }
+                    },
+                    caretSize: 0
                 },
             }
         }
@@ -203,6 +204,27 @@ window.SetupMultiChart = function (id, labels, values, maxVal, datasetNames) {
             };
         })
     };
+
+    if (Chart.Tooltip.positioners.custom == null) {
+        Chart.Tooltip.positioners.custom = function (items) {
+            const pos = Chart.Tooltip.positioners.average(items);
+
+            // Happens when nothing is found
+            if (pos === false) {
+                return false;
+            }
+            let right = pos.x > (chart.chartArea.width / 2);
+
+            return {
+                x: pos.x + (right ? -50 : 50),
+                y: (chart.chartArea.bottom + chart.chartArea.top) / 2,
+                xAlign: right ? 'right' : 'left',
+                yAlign: 'center',
+            };
+        };
+    }
+
+    chart.options.plugins.tooltip.position = 'custom';
     chart.update();
 }
 
