@@ -40,6 +40,10 @@ else
 			    <label for="benchmarkValue">Value</label>
 			    <InputNumber class="form-control" id="benchmarkValue" placeholder="Value" @bind-Value=Model.Value />
 		    </div>
+            <div class="form-group">
+                <label for="benchmarkSpecifcations"></label>
+                <SpecificationEditor Model="Model" SpecType="Specification.ItemType.BenchmarkEntry" OnUpdated="((res) => SpecificationsUpdated(res.model, res.allSpecs))"/>
+            </div>
 		    <button @onclick=SubmitModel class="btn btn-primary">Submit</button>
             @if (Model.Id != -1)
             {
@@ -83,28 +87,28 @@ else
 
 @code {
     [Parameter]
-	public string ID { get; set; }
-	Product product;
+    public string ID { get; set; }
+    Product product;
     List<Benchmark> allBenchmarks;
     List<BenchmarkSource> allSources;
     BenchmarkEntry editing;
 
-	BenchmarkEntry Model;
-	protected override async Task OnInitializedAsync()
-	{
+    BenchmarkEntry Model;
+    protected override async Task OnInitializedAsync()
+    {
         await Refresh();
         allBenchmarks = (await cache.Benchmarks()).Value;
         allSources = (await cache.Sources()).Value;
-	}
+    }
 
-	async Task Refresh()
-	{
-		Model = new BenchmarkEntry();
+    async Task Refresh()
+    {
+        Model = new BenchmarkEntry();
         Model.Id = -1;
         var products = (await cache.All()).Value;
         product = products.FirstOrDefault(p => p.Id.ToString() == ID);
         this.StateHasChanged();
-	}
+    }
 
     async void AddClick()
     {
@@ -127,14 +131,15 @@ else
             Benchmark = entry.Benchmark,
             Product = entry.Product,
             Source = entry.Source,
-            SourceId = entry.SourceId
+            SourceId = entry.SourceId,
+            Specs = entry.Specs,
         };
 
         await js.InvokeVoidAsync("ShowModal", "#AddBenchmarkEntryModal");
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
-	async void SubmitModel()
+    async void SubmitModel()
     {
         await js.InvokeVoidAsync("HideModal", "#AddBenchmarkEntryModal");
         var source = allSources.FirstOrDefault(s => s.Id == Model.SourceId);
@@ -183,5 +188,23 @@ else
         }
 
         await Refresh();
+    }
+
+    async void SpecificationsUpdated(ISpecAttachable model, List<Specification> allSpecs)
+    {
+        if(model is BenchmarkEntry entry)
+        {
+            var source = allSources.FirstOrDefault(s => s.Id == entry.SourceId);
+            if(source != null)
+            {
+                var existingEntry = source.BenchmarkEntries.FirstOrDefault(b => b.Id == entry.Id);
+                if (existingEntry != null)
+                {
+                    existingEntry.Specs = model.Specs;
+                    await cache.SetSources(allSources);
+                    await cache.SetSpecifications(allSpecs);
+                }
+            }
+        }
     }
 }

@@ -4,10 +4,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col">
-            <select class="form-control">
+            <select class="form-control" @onchange="(e => SpecificationNameChanged((string)e.Value))">
                 @foreach(var name in AllSpecifications.Where(s => s.Type == SpecType).GroupBy(s => s.Name).Select(s => s.Key))
                 {
-                    <option @onclick="() => {NewSpecName = name; this.StateHasChanged();}">@name</option>
+                    <option>@name</option>
                 }
             </select>
         </div>
@@ -15,10 +15,10 @@
             <input type="text" class="form-control" id="addSpecName" placeholder="Name" @bind=NewSpecName />
         </div>
         <div class="col">
-            <select class="form-control">
+            <select class="form-control" @onchange="(e => SpecificationValueChanged((string)e.Value))">
                 @foreach(var val in AllSpecifications.Where(s => s.Name == NewSpecName && s.Type == SpecType).Select(s => s.Value).Distinct())
                 {
-                    <option @onclick="() => NewSpecValue = val">@val</option>
+                    <option>@val</option>
                 }
             </select>
         </div>
@@ -73,6 +73,23 @@
     protected override async Task OnInitializedAsync()
     {
         AllSpecifications = (await cache.Specifications()).Value;
+        var defaultName = AllSpecifications.Where(s => s.Type == SpecType).FirstOrDefault();
+        if(defaultName != null)
+        {
+            SpecificationNameChanged(defaultName.Name);
+        }
+    }
+
+    void SpecificationNameChanged(string name)
+    {
+        NewSpecName = name;
+        this.StateHasChanged();
+    }
+
+    void SpecificationValueChanged(string value)
+    {
+        NewSpecValue = value;
+        this.StateHasChanged();
     }
 
     async void AddSpecClicked()
@@ -110,21 +127,29 @@
             await cache.SetSpecifications(AllSpecifications);
         }
 
-        var entry = new SpecificationEntry()
-        {
-            Spec = spec,
-            SpecId = spec.Id,
-            ItemId = this.Model.Id,
-        };
-
         if(Model.Specs == null)
         {
             Model.Specs = new List<SpecificationEntry>();
         }
-        Model.Specs.Add(entry);
+        var existingEntry = Model.Specs.FirstOrDefault(s => s.Spec.Type == spec.Type && s.Spec.Name == spec.Name);
 
-        NewSpecName = "";
-        NewSpecValue = "";
+        if(existingEntry != null)
+        {
+            existingEntry.Spec = spec;
+            existingEntry.SpecId = spec.Id;
+        }
+        else
+        {
+            var entry = new SpecificationEntry()
+            {
+                Spec = spec,
+                SpecId = spec.Id,
+                ItemId = this.Model.Id,
+            };
+
+            Model.Specs.Add(entry);
+        }
+
         await OnUpdated.InvokeAsync((Model, AllSpecifications));
         this.StateHasChanged();
     }

@@ -17,7 +17,8 @@ namespace MetaBenchmark.Models
         public enum ItemType
         {
             Product,
-            Benchmark
+            Benchmark,
+            BenchmarkEntry
         }
 
         public override bool Equals(object obj)
