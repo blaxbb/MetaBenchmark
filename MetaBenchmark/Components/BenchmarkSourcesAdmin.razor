@@ -43,6 +43,10 @@
                 </InputSelect>
             </div>
             <div class="form-group">
+                <label for="benchmarkUrl">Source Url</label>
+                <InputText class="form-control btn-dark" id="benchmarkUrl" placeholder="Url" @bind-Value=BulkBenchmark.Url />
+            </div>
+            <div class="form-group">
                 <label for="benchmark">Product</label>
                 <InputSelect class="form-control selectpicker" id="benchmark" data-live-search="true" data-style="btn-dark" @bind-Value=BulkBenchmark.ProductId>
                     @foreach (var prod in allProducts)
@@ -55,10 +59,10 @@
                 <label for="benchmarkValue">Value</label>
                 <InputNumber class="form-control btn-dark" id="benchmarkValue" placeholder="Value" @bind-Value=BulkBenchmark.Value />
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                 <label for="benchmarkValue">Value</label>
                 <SpecificationEditor Model="BulkBenchmark" SpecType="Specification.ItemType.BenchmarkEntry"/>
-            </div>*@
+            </div>
             <button @onclick=SubmitBenchmark class="btn btn-primary">Submit</button>
         </EditForm>	
     </Modal>
@@ -195,29 +199,35 @@ else
 
     async void SubmitBenchmark()
     {
-        Console.WriteLine($"{BulkBenchmark.ProductId} - {BulkBenchmark.BenchmarkId} - {BulkBenchmark.SourceId}");
         if (BulkBenchmark.ProductId != 0 && BulkBenchmark.BenchmarkId != 0 && BulkBenchmark.SourceId != 0)
         {
             var source = Sources.FirstOrDefault(s => s.Id== BulkBenchmark.SourceId);
-            var newEntry = new BenchmarkEntry()
+            if (source != null)
             {
-                BenchmarkId = BulkBenchmark.BenchmarkId,
-                ProductId = BulkBenchmark.ProductId,
-                SourceId = BulkBenchmark.SourceId,
-                Value = BulkBenchmark.Value,
-                Specs = new List<SpecificationEntry>()
-            };
-            foreach(var spec in BulkBenchmark.Specs)
-            {
-                newEntry.Specs.Add(new SpecificationEntry()
+                var newEntry = new BenchmarkEntry()
                 {
-                    Item = newEntry,
-                    Spec = spec.Spec
-                });
+                    BenchmarkId = BulkBenchmark.BenchmarkId,
+                    ProductId = BulkBenchmark.ProductId,
+                    SourceId = BulkBenchmark.SourceId,
+                    Value = BulkBenchmark.Value,
+                    Url = BulkBenchmark.Url,
+                    Specs = new List<SpecificationEntry>()
+                };
+
+                if (BulkBenchmark.Specs != null)
+                {
+                    foreach (var spec in BulkBenchmark.Specs)
+                    {
+                        newEntry.Specs.Add(new SpecificationEntry()
+                        {
+                            Spec = spec.Spec
+                        });
+                    }
+                }
+                source.BenchmarkEntries.Add(newEntry);
+                await cache.SetSources(Sources);
+                this.StateHasChanged();
             }
-            source.BenchmarkEntries.Add(newEntry);
-            cache.SetSources(Sources);
-            this.StateHasChanged();
         }
     }
 }

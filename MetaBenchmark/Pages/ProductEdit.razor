@@ -36,6 +36,10 @@ else
                     }
                 </InputSelect>
 		    </div>
+            <div class="form-group">
+                <label for="benchmarkUrl">Source Url</label>
+                <InputText class="form-control btn-dark" id="benchmarkUrl" placeholder="Url" @bind-Value=Model.Url />
+            </div>
 		    <div class="form-group">
 			    <label for="benchmarkValue">Value</label>
 			    <InputNumber class="form-control" id="benchmarkValue" placeholder="Value" @bind-Value=Model.Value />
@@ -133,6 +137,7 @@ else
             Source = entry.Source,
             SourceId = entry.SourceId,
             Specs = entry.Specs,
+            Url = entry.Url
         };
 
         await js.InvokeVoidAsync("ShowModal", "#AddBenchmarkEntryModal");

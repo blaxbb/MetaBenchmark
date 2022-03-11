@@ -16,6 +16,7 @@ namespace MetaBenchmark
         public Product Product { get; set; }
         public long ProductId { get; set; }
         public double Value { get; set; }
+        public string Url { get; set; }
 
         public BenchmarkSource Source { get; set; }
         public long SourceId { get; set; }
@@ -27,6 +28,7 @@ namespace MetaBenchmark
                    BenchmarkId == entry.BenchmarkId &&
                    ProductId == entry.ProductId &&
                    Value == entry.Value &&
+                   Url == entry.Url &&
                    SourceId == entry.SourceId;
         }
 

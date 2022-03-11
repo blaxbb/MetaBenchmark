@@ -92,8 +92,8 @@
                 </div>
                 <div class="row m-3">
                     <ProductChart Id="myChart"
-                                    Labels="@product.BenchmarkEntries.Where(FilterBenchmark).DistinctBy(e => e.BenchmarkId).Select(e => e.Benchmark.Name).ToList()"
-                                    Values="@product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(e => e.BenchmarkId).Select(g => g.Average(b => b.Value)).ToList()"
+                                    Labels="@product.BenchmarkEntries.Where(FilterBenchmark).DistinctBy(e => e.Benchmark).OrderBy(g => g.Benchmark.Name).Select(e => e.Benchmark.Name).ToList()"
+                                    Values="@product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(e => e.Benchmark).OrderBy(g => g.Key.Name).Select(g => g.Average(b => b.Value)).ToList()"
                                     MaxVal="@product.BenchmarkEntries.Max(e => e.Value)"/>
                 </div>
                 @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark).OrderBy(g => g.Key.Name))
