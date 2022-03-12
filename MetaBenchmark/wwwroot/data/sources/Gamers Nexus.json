@@ -7,7 +7,18 @@
     {
       "BenchmarkId": 22,
       "ProductId": 4,
-      "Value": 104.4
+      "Value": 104.4,
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 10000,
+            "Name": "CPU",
+            "Value": "5800x",
+            "Type": 2
+          },
+          "SpecId": 10000
+        }
+      ]
     },
     {
       "BenchmarkId": 23,

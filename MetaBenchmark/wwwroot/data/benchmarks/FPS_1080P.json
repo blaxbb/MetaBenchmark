@@ -23,6 +23,16 @@
         },
         "SpecId": 8001,
         "ItemId": 32
+      },
+      {
+        "Spec": {
+          "Id": 11004,
+          "Name": "AppId",
+          "Value": "1293830",
+          "Type": 1
+        },
+        "SpecId": 11004,
+        "ItemId": 32
       }
     ]
   },
@@ -77,6 +87,16 @@
         },
         "SpecId": 8003,
         "ItemId": 34
+      },
+      {
+        "Spec": {
+          "Id": 11003,
+          "Name": "AppId",
+          "Value": "39210",
+          "Type": 1
+        },
+        "SpecId": 11003,
+        "ItemId": 34
       }
     ]
   },
@@ -103,6 +123,16 @@
           "Type": 1
         },
         "SpecId": 8001,
+        "ItemId": 35
+      },
+      {
+        "Spec": {
+          "Id": 11010,
+          "Name": "AppId",
+          "Value": "1134570",
+          "Type": 1
+        },
+        "SpecId": 11010,
         "ItemId": 35
       }
     ]
@@ -141,9 +171,19 @@
         },
         "SpecId": 7002,
         "ItemId": 36
-      }	  
+      },
+      {
+        "Spec": {
+          "Id": 11010,
+          "Name": "AppId",
+          "Value": "1134570",
+          "Type": 1
+        },
+        "SpecId": 11010,
+        "ItemId": 36
+      }
     ]
-  },  
+  },
   {
     "Id": 37,
     "Name": "Metro: Exodus Enhanced Edition",
@@ -177,6 +217,16 @@
           "Type": 1
         },
         "SpecId": 9000,
+        "ItemId": 37
+      },
+      {
+        "Spec": {
+          "Id": 11005,
+          "Name": "AppId",
+          "Value": "412020",
+          "Type": 1
+        },
+        "SpecId": 11005,
         "ItemId": 37
       }
     ]
