@@ -16,29 +16,34 @@
                 var br = Product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
                 var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
             }
-            <div class="col-3 my-auto pl-0 fade-in text-center" @ref="prodDiv">
+            <div class="col-xl-4 my-auto pl-0 fade-in text-center" @ref="prodDiv">
                 <h5>@Product.Name</h5>
+                <div class="benchmark-value text-center @GetTextClass(b)">@b.ValueLabel()</div>
             </div>
-            <div class="col my-auto fade-in" @ref="nameDiv">
-                <div class="benchmark-name">
-                    <div>
+            <div class="col-xl my-auto fade-in" @ref="nameDiv">
+                <div class="row benchmark-name my-3">
+                    <h4>
                         @b.Benchmark.Name
+                    </h4>
+                </div>                         
+                <div class="row mb-1" @ref="benchDiv">
+                    <div class="col d-flex justify-content-center">
+                        <img class="source-img" src="@b.Source.LogoUrl" alt="@b.Source.Name" title="@b.Source.Name" />
                     </div>
                 </div>
                 @if (b.Benchmark.Specs != null && b.Benchmark.Specs.Count > 0)
                 {
-                    <div class="benchmark-specs d-flex flex-wrap h6 justify-content-evenly">
-                        @foreach(var spec in b.Benchmark.Specs)
+                    <div class="benchmark-specs d-flex flex-wrap h6 justify-content-center">
+                        @for(int i = 0; i < b.Benchmark.Specs.Count && i < 3; i++)
                         {
+                            var spec = b.Benchmark.Specs.ElementAt(i);
                             <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
                         }
                     </div>
-                }                            
+                }   
             </div>
-            <div class="col-auto my-auto" @ref="benchDiv">
-                <div class="benchmark-value justify-content-end text-right @GetTextClass(b)">@b.ValueLabel()</div>
-                <img class="justify-content-end source-img" src="@b.Source.LogoUrl" alt="@b.Source.Name" title="@b.Source.Name" />
-            </div>
+        </div>
+        <div class="filter-row m-0">
         </div>
     </div>
 }

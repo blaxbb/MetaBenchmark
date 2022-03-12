@@ -11,7 +11,7 @@
     rand = new Random(1241245142);
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4 order-last order-md-first">
                 <div class="card">
                     <div class="card-header">
                         MetaBenchmark
@@ -31,7 +31,7 @@
             </div>
             @foreach(var brand in AllProducts.Select(p => p.Brand).Distinct())
             {
-                <div class="col">
+                <div class="col-md">
                     @for(int i = 0; i < AllProducts.Count; i++)
                     {
                         if (AllProducts[i].Brand == brand)
