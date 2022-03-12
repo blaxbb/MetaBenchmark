@@ -39,7 +39,7 @@
                         @for(int i = 0; i < b.Benchmark.Specs.Count && i < 3; i++)
                         {
                             var spec = b.Benchmark.Specs.ElementAt(i);
-                            <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                            <div class="mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
                         }
                     </div>
                 }   

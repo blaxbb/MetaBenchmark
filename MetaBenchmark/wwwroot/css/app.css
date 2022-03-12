@@ -166,7 +166,12 @@ a, .btn-link {
 }
 
 .benchmark-spec {
+    display: block !important;
     z-index: 2;
+}
+
+.benchmark-spec-AppId {
+    display: none !important;
 }
 
 .benchmark-spec-RT-Enabled:before {
