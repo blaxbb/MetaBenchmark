@@ -27,7 +27,18 @@
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <div class="d-flex align-items-center justify-content-center" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
+            <div>
+                <div class="navbar-brand mb-5">MetaBenchmark Loading</div>
+                <div class="d-flex justify-content-center">
+                    <div role="status" class="mx-auto spinner-border text-primary" style="width: 6rem; height: 6rem;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
