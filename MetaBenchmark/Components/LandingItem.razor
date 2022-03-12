@@ -6,16 +6,18 @@
 
 @if(Product != null)
 {
-    <div class="card p-1 mb-3 landing-item cursor-pointer" @onclick="(() =>{ Selected(Product); })">
+    var b = Product.BenchmarkEntries?.ToList()?.RandomItem();
+    var br = Product.Specs.FirstOrDefault(s => s?.Spec?.Name == "brand");
+    var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
+        
+    var appid = b?.Benchmark?.Specs?.FirstOrDefault(s => s?.Spec?.Name == "AppId");
+    var style = appid?.Spec?.Value != null ? $"background-image: linear-gradient( rgb(82 82 82 / 60%), rgb(60 60 60) ),url(https://cdn.cloudflare.steamstatic.com/steam/apps/{appid.Spec.Value}/header.jpg); background-size: cover; background-repeat: no-repeat;" : "";
+
+    <div class="card p-0 mb-3 landing-item cursor-pointer" @onclick="(() =>{ Selected(Product); })">
         <div class="product-click-hint">
             <span class="oi oi-external-link" aria-hidden="true"></span>
         </div>
-        <div class="row m-0">
-            @{
-                var b = Product.BenchmarkEntries.ToList().RandomItem();
-                var br = Product.Specs.FirstOrDefault(s => s.Spec?.Name == "brand");
-                var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
-            }
+        <div class="row m-0" style="@style">
             <div class="col-xl-4 my-auto pl-0 fade-in text-center" @ref="prodDiv">
                 <h5>@Product.Name</h5>
                 <div class="benchmark-value text-center @GetTextClass(b)">@b.ValueLabel()</div>
