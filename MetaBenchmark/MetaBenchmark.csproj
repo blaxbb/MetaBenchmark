@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -18,5 +18,13 @@
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
+	<Target Name="SetDescription" BeforeTargets="InitializeSourceControlInformation">
+		<Exec
+		  Command="git describe --long --always --dirty --exclude=* --abbrev=8"
+		  ConsoleToMSBuild="True"
+		  IgnoreExitCode="False">
+			<Output PropertyName="Description" TaskParameter="ConsoleOutput"/>
+		</Exec>
+	</Target>
 
 </Project>

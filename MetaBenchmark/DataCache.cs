@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace MetaBenchmark
 {
@@ -26,6 +27,10 @@ namespace MetaBenchmark
         public const string NAME_SOURCES = "Sources";
         public const string NAME_SETTINGS = "Settings";
 
+        Settings settings;
+
+        string version;
+
         public DataCache(IJSRuntime js, HttpClient client)
         {
             Console.WriteLine($"INIT CACHE {(js == null ? "NULL" : "HAVE JS")}");
@@ -39,9 +44,13 @@ namespace MetaBenchmark
             {
                 return;
             }
-            Initialized = true;
-            var settings = await Settings.Load(js);
+
+
+            settings = await Settings.Load(js);
+            version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
             CACHE_ENABLED = settings.CacheEnabled;
+
+            Initialized = true;
         }
 
         public async Task<StorageEntry<List<Product>>> All()
@@ -84,7 +93,7 @@ namespace MetaBenchmark
             await Initialize();
 
             var existing = await StorageEntry<T>.GetValue(js, name);
-            if (existing != null && (existing.UserModified || (DateTime.Now - existing.Created).Minutes < 15 && CACHE_ENABLED))
+            if (existing != null && CACHE_ENABLED && (settings?.LastVersion?.ContainsKey(name) ?? false) && version == settings.LastVersion[name])
             {
                 Console.WriteLine("CACHED");
                 return existing;
@@ -93,7 +102,9 @@ namespace MetaBenchmark
             {
                 Console.WriteLine("CACHE MISS");
                 var fetched = await fetchTask();
-                return await StorageEntry<T>.SetValue(js, name, fetched.userModified, fetched.Value);
+                var retVal = await StorageEntry<T>.SetValue(js, name, fetched.userModified, fetched.Value);
+                await settings.SetVersion(name, js);
+                return retVal;
             }
         }
 
@@ -162,7 +173,7 @@ namespace MetaBenchmark
                 List<string> specIndex;
                 try
                 {
-                    specIndex = await Fetch<List<string>>($"data/specifications/{itemType}/index.json");
+                    specIndex = await Fetch<List<string>>($"data/specifications/{itemType}/index.json?version={version}");
                 }
                 catch(Exception e)
                 {
@@ -174,7 +185,7 @@ namespace MetaBenchmark
                 {
                     try
                     {
-                        var url = $"data/specifications/{itemType}/{Uri.EscapeDataString(specName)}.json";
+                        var url = $"data/specifications/{itemType}/{Uri.EscapeDataString(specName)}.json?version={version}";
                         var specValues = await Fetch<List<Specification>>(url);
                         specValues.ForEach(s => {
                             s.Name = specName;
@@ -199,7 +210,7 @@ namespace MetaBenchmark
             {
                 try
                 {
-                    var url = $"data/benchmarks/{Uri.EscapeDataString(benchType.ToString())}.json";
+                    var url = $"data/benchmarks/{Uri.EscapeDataString(benchType.ToString())}.json?version={version}";
                     var benchEntries = await Fetch<List<Benchmark>>(url);
                     benchEntries.ForEach(b => {
                         b.Type = benchType;
@@ -219,12 +230,12 @@ namespace MetaBenchmark
         async Task<List<BenchmarkSource>> FetchSources()
         {
             var sources = new List<BenchmarkSource>();
-            var sourceIndex = await Fetch<List<string>>("data/sources/index.json");
+            var sourceIndex = await Fetch<List<string>>("data/sources/index.json?version={version}");
             foreach (var sourceName in sourceIndex)
             {
                 try
                 {
-                    var url = $"data/sources/{Uri.EscapeDataString(sourceName)}.json";
+                    var url = $"data/sources/{Uri.EscapeDataString(sourceName)}.json?version={version}";
                     var source = await Fetch<BenchmarkSource>(url);
                     sources.Add(source);
                 }
@@ -240,7 +251,7 @@ namespace MetaBenchmark
 
         async Task<List<Product>> FetchProducts(List<Specification> specs)
         {
-            var products = await Fetch<List<Product>>("data/products.json");
+            var products = await Fetch<List<Product>>("data/products.json?version={version}");
             foreach (var product in products)
             {
                 product.BenchmarkEntries = new List<BenchmarkEntry>();

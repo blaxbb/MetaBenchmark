@@ -68,3 +68,11 @@
         padding-right: 1.5rem !important;
     }
 }
+
+.debugFooter {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    color: darkslategray;
+    padding: 1em;
+}

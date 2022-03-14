@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Reflection
+@inherits LayoutComponentBase
 @inject IJSRuntime js
 
 <div class="page">
@@ -30,14 +31,20 @@
             @Body
         </div>
     </div>
+    <div class="debugFooter">
+        @version
+    </div>
 </div>
 
 @code {
     bool EditEnabled = false;
+    string version;
     protected override async Task OnInitializedAsync()
     {
         await js.InvokeVoidAsync("setupDb");
         var settings = await Settings.Load(js);
         EditEnabled = settings.EditModeEnabled;
+        Settings.SettingsUpdated += (settings) => { EditEnabled = settings.EditModeEnabled; this.StateHasChanged(); };
+        version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
     }
 }
