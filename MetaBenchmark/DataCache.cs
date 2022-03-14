@@ -19,11 +19,12 @@ namespace MetaBenchmark
         IJSRuntime js;
         HttpClient client;
 
-        const string NAME_ALL = "mb.AllProducts";
-        const string NAME_PRODUCTS = "mb.Products";
-        const string NAME_BENCHMARKS = "mb.Benchmarks";
-        const string NAME_SPECIFICATIONS = "mb.Specifications";
-        const string NAME_SOURCES = "mb.Sources";
+        public const string NAME_ALL = "AllProducts";
+        public const string NAME_PRODUCTS = "Products";
+        public const string NAME_BENCHMARKS = "Benchmarks";
+        public const string NAME_SPECIFICATIONS = "Specifications";
+        public const string NAME_SOURCES = "Sources";
+        public const string NAME_SETTINGS = "Settings";
 
         public DataCache(IJSRuntime js, HttpClient client)
         {
@@ -296,6 +297,17 @@ namespace MetaBenchmark
         public async Task Clear()
         {
             await js.InvokeVoidAsync("ClearStorage");
+            var tables = new string[] {
+                NAME_ALL,
+                NAME_BENCHMARKS,
+                NAME_PRODUCTS,
+                NAME_SPECIFICATIONS,
+                NAME_SOURCES
+            };
+            foreach (var t in tables)
+            {
+                await js.InvokeVoidAsync("dbclear", t);
+            }
         }
     }
 }

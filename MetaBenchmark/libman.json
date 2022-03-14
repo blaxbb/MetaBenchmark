@@ -35,6 +35,11 @@
     {
       "library": "Chart.js@3.7.1",
       "destination": "wwwroot/js/chartjs/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "idb@7.0.0",
+      "destination": "wwwroot/js/idb/"
     }
   ]
 }

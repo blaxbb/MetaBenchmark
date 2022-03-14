@@ -36,6 +36,7 @@
     bool EditEnabled = false;
     protected override async Task OnInitializedAsync()
     {
+        await js.InvokeVoidAsync("setupDb");
         var settings = await Settings.Load(js);
         EditEnabled = settings.EditModeEnabled;
     }

@@ -271,3 +271,58 @@ function FadeIn(selector) {
     $(selector).removeClass("fade-out");
     $(selector).addClass("fade-in");
 }
+
+window.dbPromise = null;
+function setupDb() {
+    dbPromise = idb.openDB('mbtest', 1, {
+        upgrade(db) {
+            db.createObjectStore("Benchmarks", {
+                keyPath: 'id'
+            });
+            db.createObjectStore("Sources", {
+                keyPath: 'id'
+            });
+            db.createObjectStore("Products", {
+                keyPath: 'id'
+            });
+            db.createObjectStore("Specifications", {
+                keyPath: 'id'
+            });
+            db.createObjectStore("AllProducts", {
+                keyPath: 'id'
+            });
+            db.createObjectStore("Settings");
+        }
+    });
+}
+
+async function dbget(table, key) {
+    return (await dbPromise).get(table, key);
+};
+async function dbgetall(table) {
+    return (await dbPromise).getAll(table);
+};
+
+async function dbset(table, val) {
+    return (await dbPromise).put(table, val);
+};
+
+async function DBSetKeyVal(table, key, val) {
+    return (await dbPromise).put(table, val, key);
+};
+
+async function DBSetAll(table, values) {
+    await dbclear(table);
+    console.log(values);
+    let transaction = (await dbPromise).transaction(table, "readwrite");
+    await Promise.all(values.map(v => transaction.store.put(v)));
+};
+async function dbdel(table, key) {
+    return (await dbPromise).delete(table, key);
+};
+async function dbclear(table) {
+    return (await dbPromise).clear(table);
+};
+async function dbkeys(table) {
+    return (await dbPromise).getAllKeys(table);
+};
