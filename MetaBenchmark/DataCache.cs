@@ -306,7 +306,7 @@ namespace MetaBenchmark
             };
             foreach (var t in tables)
             {
-                await js.InvokeVoidAsync("dbclear", t);
+                await js.InvokeVoidAsync("DBClear", t);
             }
         }
     }

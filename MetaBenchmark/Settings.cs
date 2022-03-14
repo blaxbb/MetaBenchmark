@@ -13,7 +13,7 @@ namespace MetaBenchmark
 
         public static async Task<Settings> Load(IJSRuntime js)
         {
-            var settingsEntry = await StorageEntry<Settings>.GetValue(js, "mb.settings");
+            var settingsEntry = await StorageEntry<Settings>.GetValue(js, "Settings");
             var settings = settingsEntry?.Value;
             if (settings == null)
             {
@@ -25,7 +25,7 @@ namespace MetaBenchmark
 
         public async Task Save(IJSRuntime js)
         {
-            await StorageEntry<Settings>.SetValue(js, "mb.settings", false, this);
+            await StorageEntry<Settings>.SetValue(js, "Settings", false, this);
         }
     }
 }

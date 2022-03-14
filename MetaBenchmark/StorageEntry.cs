@@ -30,18 +30,13 @@ namespace MetaBenchmark
 
         public static async Task<StorageEntry<T>?> SetValue(IJSRuntime js, string name, bool userModified, T value)
         {
-            switch (name)
+            if (typeof(T).IsAssignableTo(typeof(IList)))
             {
-                case DataCache.NAME_ALL:
-                case DataCache.NAME_BENCHMARKS:
-                case DataCache.NAME_PRODUCTS:
-                case DataCache.NAME_SPECIFICATIONS:
-                case DataCache.NAME_SOURCES:
-                    await js.InvokeVoidAsync("DBSetAll", name, value);
-                    break;
-                case "mb.settings":
-                    await js.InvokeVoidAsync("DBSetKeyVal", "Settings", "Settings", value);
-                    break;
+                await js.InvokeVoidAsync("DBSetAll", name, value);
+            }
+            else
+            {
+                await js.InvokeVoidAsync("DBSetKeyVal", name, name, value);
             }
 
             var ret = new StorageEntry<T>(name, userModified, value);
@@ -50,44 +45,31 @@ namespace MetaBenchmark
 
         public static async Task Clear(IJSRuntime js, string name)
         {
-            switch (name)
-            {
-                case DataCache.NAME_ALL:
-                case DataCache.NAME_BENCHMARKS:
-                case DataCache.NAME_PRODUCTS:
-                case DataCache.NAME_SPECIFICATIONS:
-                case DataCache.NAME_SOURCES:
-                case "Settings":
-                    await js.InvokeVoidAsync("dbclear", name);
-                    break;
-            }
+            await js.InvokeVoidAsync("DBClear", name);
         }
 
         public static async Task<StorageEntry<T>?> GetValue(IJSRuntime js, string name)
         {
-            switch (name)
+            T val;
+            if(typeof(T).IsAssignableTo(typeof(IList)))
             {
-                case DataCache.NAME_ALL:
-                case DataCache.NAME_BENCHMARKS:
-                case DataCache.NAME_PRODUCTS:
-                case DataCache.NAME_SPECIFICATIONS:
-                case DataCache.NAME_SOURCES:
-                    var val = await js.InvokeAsync<T>("dbgetall", name);
-                    if(val is IList l && l.Count == 0)
-                    {
-                        return default;
-                    }
-                    return new StorageEntry<T>(name, false, val);
-                case "mb.settings":
-                    var settings = await js.InvokeAsync<T>("dbget", "Settings", "Settings");
-                    if(settings != null)
-                    {
-                        return new StorageEntry<T>(name, false, settings);
-                    }
+                val = await js.InvokeAsync<T>("DBGetAll", name);
+                if (val is IList l && l.Count == 0)
+                {
                     return default;
+                }
+            }
+            else
+            {
+                val = await js.InvokeAsync<T>("DBGet", name, name);
             }
 
-            return default;
+            if (val == null)
+            {
+                return default;
+            }
+
+            return new StorageEntry<T>(name, false, val);
         }
     }
 }

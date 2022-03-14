@@ -296,14 +296,14 @@ function setupDb() {
     });
 }
 
-async function dbget(table, key) {
+async function DBGet(table, key) {
     return (await dbPromise).get(table, key);
 };
-async function dbgetall(table) {
+async function DBGetAll(table) {
     return (await dbPromise).getAll(table);
 };
 
-async function dbset(table, val) {
+async function DBSet(table, val) {
     return (await dbPromise).put(table, val);
 };
 
@@ -312,17 +312,16 @@ async function DBSetKeyVal(table, key, val) {
 };
 
 async function DBSetAll(table, values) {
-    await dbclear(table);
-    console.log(values);
+    await DBClear(table);
     let transaction = (await dbPromise).transaction(table, "readwrite");
     await Promise.all(values.map(v => transaction.store.put(v)));
 };
-async function dbdel(table, key) {
+async function DBDel(table, key) {
     return (await dbPromise).delete(table, key);
 };
-async function dbclear(table) {
+async function DBClear(table) {
     return (await dbPromise).clear(table);
 };
-async function dbkeys(table) {
+async function DBKeys(table) {
     return (await dbPromise).getAllKeys(table);
 };
