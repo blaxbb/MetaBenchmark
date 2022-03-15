@@ -23,20 +23,27 @@
         var query = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query);
         var benchTypeQuery = query.Get("bt");
 
-        if(Enum.TryParse<Benchmark.BenchmarkType>(benchTypeQuery, out var type))
-        {
-            benchmarkType = type;
-        }
-        else
-        {
-            benchmarkType = Benchmark.BenchmarkType.FPS_1440P;
-        }
 
         var all = await cache.All();
         if (all.Value != null && long.TryParse(productId, out long id))
         {
             allProducts = all.Value;
             product = all.Value.FirstOrDefault(p => p.Id == id);
+            if(Enum.TryParse<Benchmark.BenchmarkType>(benchTypeQuery, out var type))
+            {
+                benchmarkType = type;
+            }
+            else
+            {
+                if(product.BenchmarkEntries.Any(b => b.Benchmark.Type == Benchmark.BenchmarkType.FPS_1440P))
+                {
+                    benchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+                }
+                else
+                {
+                    benchmarkType = product?.BenchmarkEntries?.FirstOrDefault()?.Benchmark?.Type ?? Benchmark.BenchmarkType.FPS_1440P;
+                }
+            }
         }
     }
 
