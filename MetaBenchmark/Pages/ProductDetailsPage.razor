@@ -1,10 +1,13 @@
 ﻿@page "/product/{productId}"
 @inject DataCache cache;
+@inject NavigationManager nav;
 
 @using MetaBenchmark.Components
 @using MetaBenchmark
+@using System.Web
+@using MetaBenchmark.Models
 
-<ProductDetails product="product" allProducts="allProducts"/>
+<ProductDetails product="product" allProducts="allProducts" CurrentBenchmarkType="benchmarkType"/>
 
 @code {
     Product product;
@@ -13,8 +16,22 @@
     [Parameter]
     public string productId { get; set; }
 
+    Benchmark.BenchmarkType benchmarkType;
+
     protected override async Task OnParametersSetAsync()
     {
+        var query = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query);
+        var benchTypeQuery = query.Get("bt");
+
+        if(Enum.TryParse<Benchmark.BenchmarkType>(benchTypeQuery, out var type))
+        {
+            benchmarkType = type;
+        }
+        else
+        {
+            benchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+        }
+
         var all = await cache.All();
         if (all.Value != null && long.TryParse(productId, out long id))
         {

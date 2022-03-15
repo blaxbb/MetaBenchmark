@@ -159,22 +159,19 @@
     [Parameter]
     public List<Product> allProducts { get; set; }
 
-    Benchmark.BenchmarkType CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
+    [Parameter]
+    public Benchmark.BenchmarkType CurrentBenchmarkType { get; set; }
     List<BenchmarkSource> CurrentSource = new List<BenchmarkSource>();
     List<Benchmark> CurrentBenchmarks = new List<Benchmark>();
     List<Benchmark> AvailableBenchmarks = new List<Benchmark>();
 
     protected override async Task OnParametersSetAsync()
     {
-        Console.WriteLine("SET");
         await Task.Delay(1);
         var first = product?.BenchmarkEntries.FirstOrDefault();
-        if (first?.Benchmark != null)
-        {
-            CurrentBenchmarkType = first.Benchmark.Type;
-        }
         SetAvailableBenchmarks();
         await js.InvokeVoidAsync("ShowSelectPicker");
+        this.StateHasChanged();
     }
 
     void SetAvailableBenchmarks()
@@ -202,6 +199,9 @@
         SetAvailableBenchmarks();
 
         StateHasChanged();
+        
+        await js.InvokeVoidAsync("SetUrl", $"{nav.Uri}?bt={CurrentBenchmarkType}");
+
         await Task.Delay(1);
         await js.InvokeVoidAsync("SelectPickerNone", "#benchmarkFilter");
         await js.InvokeVoidAsync("SelectPickerNone", "#benchmarkSourceFilter");

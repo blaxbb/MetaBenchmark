@@ -312,6 +312,15 @@ else
         await js.InvokeVoidAsync("MoveFilterToNav");
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (nav != null && SelectedProducts != null && SelectedProducts.Count() > 0)
+        {
+            await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.Id))}");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     async Task<List<Product>> GetAllProducts()
     {
         var products = await Http.GetFromJsonAsync<List<Product>>("data/products.json");
@@ -460,7 +469,6 @@ else
         ComputeAverages();
         StateHasChanged();
         await js.InvokeVoidAsync("ShowSelectPicker");
-        await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.Id))}");
     }
 
     void ComputeAverages()
