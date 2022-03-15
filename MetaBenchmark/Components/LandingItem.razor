@@ -11,32 +11,30 @@
     var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
         
     var appid = b?.Benchmark?.Specs?.FirstOrDefault(s => s?.Spec?.Name == "AppId");
-    var style = appid?.Spec?.Value != null ? $"background-image: linear-gradient( rgb(82 82 82 / 60%), rgb(60 60 60) ),url(https://cdn.cloudflare.steamstatic.com/steam/apps/{appid.Spec.Value}/header.jpg); background-size: cover; background-repeat: no-repeat;" : "";
+    const string COLOR_1 = "rgb(80 80 80 / 60%)";
+    const string COLOR_2 = "rgb(20 20 20)";
+
+    var style = appid?.Spec?.Value != null ? $"background-image: linear-gradient( {COLOR_1}, {COLOR_2} ),url(https://cdn.cloudflare.steamstatic.com/steam/apps/{appid.Spec.Value}/header.jpg);" : "";
 
     <div class="card p-0 mb-3 landing-item cursor-pointer" @onclick="(() =>{ Selected(Product); })">
         <div class="product-click-hint">
             <span class="oi oi-external-link" aria-hidden="true"></span>
         </div>
-        <div class="row m-0" style="@style">
-            <div class="col-xl-4 my-auto pl-0 fade-in text-center" @ref="prodDiv">
+        <div class="row m-0 benchmark-image" style="@style">
+            <div class="col-xl my-auto pl-0 fade-in text-center" style="padding-top: 2.25rem; padding-bottom: 2.25rem; " @ref="prodDiv">
                 <h5>@Product.Name</h5>
                 <div class="benchmark-value text-center @GetTextClass(b)">@b.ValueLabel()</div>
             </div>
             <div class="col-xl my-auto fade-in" @ref="nameDiv">
-                <div class="row benchmark-name my-3">
-                    <h4>
-                        @b.Benchmark.Name
-                    </h4>
-                </div>                         
                 <div class="row mb-1" @ref="benchDiv">
                     <div class="col d-flex justify-content-center">
                         <img class="source-img" src="@b.Source.LogoUrl" alt="@b.Source.Name" title="@b.Source.Name" />
                     </div>
                 </div>
-                @if (b.Benchmark.Specs != null && b.Benchmark.Specs.Count > 0)
+                @if (b.Benchmark.Specs != null)
                 {
                     <div class="benchmark-specs d-flex flex-wrap h6 justify-content-center">
-                        @for(int i = 0; i < b.Benchmark.Specs.Count && i < 3; i++)
+                        @for(int i = 0; i < b.Benchmark.Specs.Count && i < 4; i++)
                         {
                             var spec = b.Benchmark.Specs.ElementAt(i);
                             <div class="mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>

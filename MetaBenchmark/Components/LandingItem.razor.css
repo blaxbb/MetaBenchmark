@@ -83,3 +83,8 @@
 .benchmark-value {
     font-size: 1.25em;
 }
+
+.benchmark-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
