@@ -2,7 +2,8 @@
 
 Site for aggregating PC component benchmark values.
 
-![screenshot](https://raw.githubusercontent.com/blaxbb/MetaBenchmark/master/screenshots/screenshot.png)
+![image](https://user-images.githubusercontent.com/287759/158352153-82255e4b-ccfb-4c96-9808-13855d23fbf8.png)
+
 
 Uses Blazor WebAssembly.
 
