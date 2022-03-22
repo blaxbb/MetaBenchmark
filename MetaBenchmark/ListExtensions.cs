@@ -16,11 +16,21 @@ namespace MetaBenchmark
 
         public static T RandomItem<T>(this List<T> list)
         {
+            if(list == default || list.Count == 0)
+            {
+                return default(T);
+            }
+
             return list.RandomItem(rand);
         }
 
         public static T RandomItem<T>(this List<T> list, Random random)
         {
+            if (list == default || random == null || list.Count == 0)
+            {
+                return default(T);
+            }
+
             var index = random.Next(list.Count);
             return list[index];
         }

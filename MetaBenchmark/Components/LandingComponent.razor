@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            @foreach(var brand in AllProducts.Select(p => p.Brand).Distinct())
+            @foreach(var brand in AllProducts.Where(p => !string.IsNullOrWhiteSpace(p.Brand)).Select(p => p.Brand).Distinct())
             {
                 <div class="col-md">
                     @for(int i = 0; i < AllProducts.Count; i++)
