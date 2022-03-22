@@ -86,6 +86,54 @@
       "Value": 116.7
     },
     {
+      "BenchmarkId": 38,
+      "ProductId": 8,
+      "Value": 171.9,
+      "Url": "https://www.youtube.com/watch?v=r2NNegA77uA",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 8,
+      "Value": 128.0,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 40,
+      "ProductId": 8,
+      "Value": 139.6,
+      "Url": "https://youtu.be/r2NNegA77uA?t=639",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
       "BenchmarkId": 20,
       "ProductId": 9,
       "Value": 57.3
@@ -106,6 +154,54 @@
       "Value": 104.8
     },
     {
+      "BenchmarkId": 38,
+      "ProductId": 9,
+      "Value": 159.3,
+      "Url": "https://www.youtube.com/watch?v=r2NNegA77uA",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 9,
+      "Value": 117.5,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 40,
+      "ProductId": 9,
+      "Value": 136.1,
+      "Url": "https://youtu.be/r2NNegA77uA?t=639",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
       "BenchmarkId": 20,
       "ProductId": 10,
       "Value": 43.7
@@ -118,7 +214,71 @@
     {
       "BenchmarkId": 23,
       "ProductId": 10,
+      "Value": 84.6,
+      "Url": "https://youtu.be/r2NNegA77uA?t=356",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 10,
       "Value": 84.9
+    },
+    {
+      "BenchmarkId": 38,
+      "ProductId": 10,
+      "Value": 122.6,
+      "Url": "https://www.youtube.com/watch?v=r2NNegA77uA",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 10,
+      "Value": 90.5,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 40,
+      "ProductId": 10,
+      "Value": 112.4,
+      "Url": "https://youtu.be/r2NNegA77uA?t=639",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
     },
     {
       "BenchmarkId": 20,
@@ -199,6 +359,310 @@
       "BenchmarkId": 23,
       "ProductId": 14,
       "Value": 123.6
+    },
+    {
+      "BenchmarkId": 38,
+      "ProductId": 14,
+      "Value": 164.7,
+      "Url": "https://www.youtube.com/watch?v=r2NNegA77uA",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 14,
+      "Value": 136.1,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 15,
+      "Value": 77.0,
+      "Url": "https://youtu.be/r2NNegA77uA?t=546",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 38,
+      "ProductId": 15,
+      "Value": 135.2,
+      "Url": "https://www.youtube.com/watch?v=r2NNegA77uA",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 15,
+      "Value": 105.2,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 40,
+      "ProductId": 15,
+      "Value": 113.5,
+      "Url": "https://youtu.be/r2NNegA77uA?t=639",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 16,
+      "Value": 54.1,
+      "Url": "https://youtu.be/r2NNegA77uA?t=546",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 38,
+      "ProductId": 16,
+      "Value": 93.0,
+      "Url": "https://youtu.be/r2NNegA77uA?t=283",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 16,
+      "Value": 70.1,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 40,
+      "ProductId": 16,
+      "Value": 81.7,
+      "Url": "https://youtu.be/r2NNegA77uA?t=639",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 17,
+      "Value": 79.8,
+      "Url": "https://youtu.be/r2NNegA77uA?t=356",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 38,
+      "ProductId": 17,
+      "Value": 119.2,
+      "Url": "https://youtu.be/r2NNegA77uA?t=283",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 17,
+      "Value": 90.7,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 40,
+      "ProductId": 17,
+      "Value": 99.0,
+      "Url": "https://youtu.be/r2NNegA77uA?t=639",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 21,
+      "ProductId": 18,
+      "Value": 36.3,
+      "Url": "https://youtu.be/r2NNegA77uA?t=546",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 23,
+      "ProductId": 18,
+      "Value": 41.9,
+      "Url": "https://youtu.be/r2NNegA77uA?t=356",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 38,
+      "ProductId": 18,
+      "Value": 71.9,
+      "Url": "https://youtu.be/r2NNegA77uA?t=283",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 39,
+      "ProductId": 18,
+      "Value": 53.1,
+      "Url": "https://youtu.be/r2NNegA77uA?t=484",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
+    },
+    {
+      "BenchmarkId": 40,
+      "ProductId": 18,
+      "Value": 61.1,
+      "Url": "https://youtu.be/r2NNegA77uA?t=639",
+      "Specs": [
+        {
+          "Spec": {
+            "Id": 12000,
+            "Name": "CPU",
+            "Value": "10700K",
+            "Type": 2
+          }
+        }
+      ]
     }
   ]
 }

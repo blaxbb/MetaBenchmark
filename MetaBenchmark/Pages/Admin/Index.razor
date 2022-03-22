@@ -84,6 +84,10 @@
 		{
 			yield return data;	
 		}
+		foreach(var data in ExportBenchmarkEntrySpecifications(all))
+		{
+			yield return data;
+		}
 	}
 
 	IEnumerable<(string, string)> ExportProductSpecifications(IEnumerable<Product> all)
@@ -125,6 +129,27 @@
 			});
 			var json = JsonConvert.SerializeObject(group.ToList(), Settings);
 			yield return ($"specifications/Benchmark/{name}.json", json);
+		}
+	}
+
+	IEnumerable<(string, string)> ExportBenchmarkEntrySpecifications(IEnumerable<Product> all)
+	{
+		var specGroups = all.SelectMany(p => p.BenchmarkEntries).Select(b => b.Benchmark).Where(b => b.Specs != null).SelectMany(b => b.Entries).SelectMany(b => b.Specs).Select(s => s.Spec).Distinct().GroupBy(s => s.Name);
+
+		var indexJson = JsonConvert.SerializeObject(specGroups.Select(g => g.Key).ToList(), Settings);
+		yield return ("specifications/BenchmarkEntry/index.json", indexJson);
+
+		foreach(var group in specGroups)
+		{
+			var name = group.Key;
+			var items = group.ToList();
+			items.ForEach(s =>
+			{
+				s.Name = default;
+				s.Type = default;
+			});
+			var json = JsonConvert.SerializeObject(group.ToList(), Settings);
+			yield return ($"specifications/BenchmarkEntry/{name}.json", json);
 		}
 	}
 

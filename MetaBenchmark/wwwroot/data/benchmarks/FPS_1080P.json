@@ -230,5 +230,106 @@
         "ItemId": 37
       }
     ]
+  },
+  {
+    "Id": 38,
+    "Name": "Shadow of the Tomb Raider",
+    "Entries": [],
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 8004,
+          "Name": "Quality",
+          "Value": "High",
+          "Type": 1
+        },
+        "SpecId": 8004,
+        "ItemId": 38
+      },
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 38
+      },
+      {
+        "Spec": {
+          "Id": 11007,
+          "Name": "AppId",
+          "Value": "750920",
+          "Type": 1
+        },
+        "SpecId": 11007,
+        "ItemId": 38
+      }
+    ]
+  },
+  {
+    "Id": 39,
+    "Name": "Red Dead Redemption 2",
+    "Entries": [],
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 8004,
+          "Name": "Quality",
+          "Value": "High",
+          "Type": 1
+        },
+        "SpecId": 8004,
+        "ItemId": 39
+      },
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 39
+      },
+      {
+        "Spec": {
+          "Id": 11006,
+          "Name": "AppId",
+          "Value": "1174180",
+          "Type": 1
+        },
+        "SpecId": 11006,
+        "ItemId": 39
+      }
+    ]
+  },
+  {
+    "Id": 40,
+    "Name": "Horizon Zero Dawn",
+    "Entries": [],
+    "Specs": [
+      {
+        "Spec": {
+          "Id": 9000,
+          "Name": "Resolution",
+          "Value": "1080p",
+          "Type": 1
+        },
+        "SpecId": 9000,
+        "ItemId": 40
+      },
+      {
+        "Spec": {
+          "Id": 11009,
+          "Name": "AppId",
+          "Value": "1151640",
+          "Type": 1
+        },
+        "SpecId": 11009,
+        "ItemId": 40
+      }
+    ]
   }
 ]

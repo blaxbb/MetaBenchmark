@@ -226,6 +226,10 @@ else
                 }
                 source.BenchmarkEntries.Add(newEntry);
                 await cache.SetSources(Sources);
+
+                BulkBenchmark.Value = 0;
+                BulkBenchmark.Product = default;
+                BulkBenchmark.ProductId = 0;
                 this.StateHasChanged();
             }
         }

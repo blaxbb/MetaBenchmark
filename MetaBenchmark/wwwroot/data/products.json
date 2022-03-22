@@ -121,5 +121,35 @@
         "SpecId": 5001
       }
     ]
+  },
+  {
+    "Id": 16,
+    "Name": "RTX 3050",
+    "Type": 2,
+    "Specs": [
+      {
+        "SpecId": 5000
+      }
+    ]
+  },
+  {
+    "Id": 17,
+    "Name": "RX 6600",
+    "Type": 2,
+    "Specs": [
+      {
+        "SpecId": 5001
+      }
+    ]
+  },
+  {
+    "Id": 18,
+    "Name": "RX 6500 XT",
+    "Type": 2,
+    "Specs": [
+      {
+        "SpecId": 5001
+      }
+    ]
   }
 ]
