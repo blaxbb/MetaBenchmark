@@ -156,7 +156,7 @@
 		if (!string.IsNullOrEmpty(githubResponseCode))
 		{
 			var csrf = query.Get("state");
-			var expectedCsrf = await js.InvokeAsync<string>("GetSession", "GithubCSRF");
+			var expectedCsrf = await js.InvokeAsync<string>("GetStorage", "GithubCSRF");
 			if(csrf == expectedCsrf)
 			{
 				accessToken = await github.GetAccessToken(githubResponseCode);
@@ -209,7 +209,7 @@
 		if(!await github.IsAuthenticated())
 		{
 			var csrf = Guid.NewGuid().ToString("N")[..24];
-			await js.InvokeVoidAsync("SetSession", "GithubCSRF", csrf);
+			await js.InvokeVoidAsync("SetStorage", "GithubCSRF", csrf);
 			FlowUrl = github.GetLoginUrl(csrf);
 			StateHasChanged();
 		}
