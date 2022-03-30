@@ -60,13 +60,12 @@
 			<div class="row">
 				<div class="col">
 					<div class="card h-100">
-						<div class="card-header">
+						<div class="card-header my-auto">
 							Authorize Github
 						</div>
-						<ul class="list-group">
+						<ul class="list-group my-auto">
 							@if (github.CurrentUser == null)
 							{
-								<li class="list-group-item">Use this code to authorize MetaBenchmark to interact with Github.</li>
 								<li class="list-group-item">
 									<a href="@FlowUrl" target="_blank" class="btn btn-primary">
 										Login with Github
@@ -75,7 +74,7 @@
 							}
 							else
 							{
-								<li class="list-group-item">Logged in as @github.CurrentUser.Login</li>
+								<li class="list-group-item text-center">Logged in as @github.CurrentUser.Login</li>
 								<li class="list-group-item">
 									<button class="btn btn-danger w-100" @onclick=DoLogout>Log out</button>
 								</li>
@@ -88,17 +87,17 @@
                 </div>
                 <div class="col">
                     <div class="card h-100">
-                        <div class="card-header">
+                        <div class="card-header my-auto">
                             Fork MetaBenchmark Repo
                         </div>
-                        <ul class="list-group">
+                        <ul class="list-group my-auto">
                             <li class="list-group-item">If repo has already been forked, files will updated with a new commit on the main branch.</li>
                             <li class="list-group-item">This step will occur automatically</li>
                             <li class="list-group-item">https://github.com/blaxbb/metabenchmark</li>
 							@if (github.CurrentUser != null)
 							{
 								<li class="list-group-item">
-									<button class="btn btn-primary" @onclick="async () => await DoGithub()">
+									<button class="btn btn-primary w-100" @onclick="async () => await DoGithub()">
 										Export
 									</button>
 								</li>
@@ -108,11 +107,11 @@
                 </div>
                 <div class="col">
                     <div class="card h-100">
-                        <div class="card-header">
+                        <div class="card-header text-center">
                             Create Pull Request
                         </div>
-                        <ul class="list-group">
-							<li class="list-group-item">Submit Pull Request</li>
+                        <ul class="list-group my-auto">
+							<li class="list-group-item my-auto">Submit Pull Request</li>
 							@if (!string.IsNullOrWhiteSpace(@CommitUrl))
 							{
 								<li class="list-group-item"><a class="btn btn-primary w-100" href="@CommitUrl" taget="blank">Your repository</a></li>
