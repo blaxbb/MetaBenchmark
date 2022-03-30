@@ -5,6 +5,12 @@
   "LogoUrl": "/logos/gamersnexus.png",
   "BenchmarkEntries": [
     {
+      "BenchmarkId": 8,
+      "ProductId": 4,
+      "Value": 999.99,
+      "Specs": []
+    },
+    {
       "BenchmarkId": 22,
       "ProductId": 4,
       "Value": 104.4,
