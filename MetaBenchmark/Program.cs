@@ -1,4 +1,5 @@
 using MetaBenchmark;
+using MetaBenchmark.Github;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -8,5 +9,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<DataCache>();
+builder.Services.AddScoped<GithubHelper>();
 
 await builder.Build().RunAsync();

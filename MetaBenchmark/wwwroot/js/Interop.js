@@ -61,8 +61,17 @@ window.SetStorage = function (name, value) {
 window.GetStorage = function (name) {
     return localStorage.getItem(name);
 }
+
 window.ClearStorage = function () {
     localStorage.clear();
+}
+
+window.SetSession = function (name, value) {
+    sessionStorage.setItem(name, value);
+}
+
+window.GetSession = function (name) {
+    return sessionStorage.getItem(name);
 }
 
 window.DownloadFile = function (zipName, filenames, texts) {

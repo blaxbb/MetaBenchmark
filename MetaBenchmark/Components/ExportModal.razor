@@ -1,0 +1,239 @@
+﻿@using MetaBenchmark.Components
+@using MetaBenchmark
+@using MetaBenchmark.Models
+@using Newtonsoft.Json;
+@using Octokit
+@using System.Web
+@using static MetaBenchmark.Github.GithubHelper
+
+@inject DataCache cache;
+@inject IJSRuntime js;
+@inject Github.GithubHelper github;
+@inject NavigationManager nav;
+
+<Modal Name="Export Data" Id="ExportModal">
+    @switch (state)
+    {
+        case ExportState.Choice:
+            <div class="row">
+                <button class="col btn btn-primary p-3 m-3" @onclick="async () => await SetState(ExportState.Github)">
+                    Github
+                </button>
+                <button class="col btn btn-primary p-3 m-3" @onclick="async () => await SetState(ExportState.Archive)">
+                    Download Archive
+                </button>
+            </div>
+
+            break;
+
+        case ExportState.Archive:
+
+            <div class="row">
+                <div class="col">
+                    <ul>
+                        <li>
+                            Download zip
+                        </li>
+                        <li>
+                            Replace contents of /MetaBenchmark/wwwroot/data
+                        </li>
+                        <li>
+                            Commit changes
+                        </li>
+                        <li>
+                            Submit Pull Request
+                        </li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" @onclick="async () => await DoArchive()">
+                        Download
+                    </button>
+                    <button class="btn btn-secondary" @onclick="async () => await SetState(ExportState.Choice)">
+                        Cancel
+                    </button>
+                </div>
+			</div>
+
+			break;
+		case ExportState.Github:
+			<div class="row">
+				<div class="col">
+					<div class="card h-100">
+						<div class="card-header">
+							Authorize Github
+						</div>
+						<ul class="list-group">
+							@if (github.CurrentUser == null)
+							{
+								<li class="list-group-item">Use this code to authorize MetaBenchmark to interact with Github.</li>
+								<li class="list-group-item">
+									<a href="@FlowUrl" target="_blank" class="btn btn-primary">
+										Login with Github
+									</a>
+								</li>
+							}
+							else
+							{
+								<li class="list-group-item">Logged in as @github.CurrentUser.Login</li>
+								<li class="list-group-item">
+									<button class="btn btn-danger w-100" @onclick=DoLogout>Log out</button>
+								</li>
+								<li class="list-group-item">
+									<a href="@github.AppUrl" target="blank" class="btn btn-danger w-100">Revoke Access</a>
+								</li>
+							}
+						</ul>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Fork MetaBenchmark Repo
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">If repo has already been forked, files will updated with a new commit on the main branch.</li>
+                            <li class="list-group-item">This step will occur automatically</li>
+                            <li class="list-group-item">https://github.com/blaxbb/metabenchmark</li>
+							@if (github.CurrentUser != null)
+							{
+								<li class="list-group-item">
+									<button class="btn btn-primary" @onclick="async () => await DoGithub()">
+										Export
+									</button>
+								</li>
+							}
+						</ul>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Create Pull Request
+                        </div>
+                        <ul class="list-group">
+							<li class="list-group-item">Submit Pull Request</li>
+							@if (!string.IsNullOrWhiteSpace(@CommitUrl))
+							{
+								<li class="list-group-item"><a class="btn btn-primary w-100" href="@CommitUrl" taget="blank">Your repository</a></li>
+							}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+				<div class="col">
+					<button class="btn btn-secondary" @onclick="async () => await SetState(ExportState.Choice)">
+						Cancel
+					</button>
+				</div>
+            </div>
+            break;
+
+    }
+</Modal>
+
+@code {
+	ExportState state;
+	enum ExportState
+	{
+		Choice,
+		Github,
+		Archive
+	}
+
+	public string? FlowUrl{ get; set; }
+	public string? GithubUrl { get; set; }
+	public string? CommitUrl { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		state = ExportState.Choice;
+
+		var query = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query);
+		var githubResponseCode = query.Get("code");
+		string? accessToken = null;
+		if (!string.IsNullOrEmpty(githubResponseCode))
+		{
+			var csrf = query.Get("state");
+			var expectedCsrf = await js.InvokeAsync<string>("GetSession", "GithubCSRF");
+			if(csrf == expectedCsrf)
+			{
+				accessToken = await github.GetAccessToken(githubResponseCode);
+				if (!string.IsNullOrWhiteSpace(accessToken))
+				{
+					await js.InvokeVoidAsync("SetStorage", "GithubAccessToken", accessToken);
+				}
+			}
+			else
+			{
+				Console.WriteLine("Github CSRF mismatch!");
+			}
+		}
+		else
+		{
+			accessToken = await js.InvokeAsync<string>("GetStorage", "GithubAccessToken");
+		}
+
+		if (!string.IsNullOrWhiteSpace(accessToken))
+		{
+			await js.InvokeVoidAsync("SetStorage", "GithubAccessToken", accessToken);
+			github.SetToken(accessToken);
+		}
+	}
+
+	async Task SetState(ExportState newState)
+	{
+		state = newState;
+
+		if(state == ExportState.Github)
+		{
+			github?.Init();
+
+			FlowUrl = null;
+			GithubUrl = null;
+			CommitUrl = null;
+
+			var accessToken = await js.InvokeAsync<string>("GetStorage", "GithubAccessToken");
+			if (!string.IsNullOrWhiteSpace(accessToken) && github != null)
+			{
+				github.SetToken(accessToken);
+			}
+
+			await DoLoginFlow();
+		}
+	}
+
+	async Task DoLoginFlow()
+	{
+		if(!await github.IsAuthenticated())
+		{
+			var csrf = Guid.NewGuid().ToString("N")[..24];
+			await js.InvokeVoidAsync("SetSession", "GithubCSRF", csrf);
+			FlowUrl = github.GetLoginUrl(csrf);
+			StateHasChanged();
+		}
+	}
+
+	async Task DoArchive()
+	{
+		var files = await FileExport.GetFiles(cache);
+		await js.InvokeVoidAsync("DownloadFile", "export.zip", files.Select(g => g.filename).ToList(), files.Select(g => g.contents).ToList());
+	}
+
+	async Task DoGithub()
+	{
+		var repo = await github.ForkOrGet("blaxbb", "MetaBenchmark");
+		Console.WriteLine(repo.Name);
+		var files = await FileExport.GetFiles(cache);
+		string basePath = "MetaBenchmark/wwwroot/data/";
+		var reference = await github.UpdateFiles(repo, "Automated update from MetaBenchmark", files.Select(g => basePath + g.filename).ToList(), files.Select(g => g.contents).ToList());
+		CommitUrl = repo.Url;
+	}
+
+	async Task DoLogout()
+	{
+		await js.InvokeVoidAsync("SetStorage", "GithubAccessToken", null);
+		await SetState(ExportState.Choice);
+	}
+}
