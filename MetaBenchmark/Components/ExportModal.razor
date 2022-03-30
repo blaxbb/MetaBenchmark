@@ -11,17 +11,39 @@
 @inject Github.GithubHelper github;
 @inject NavigationManager nav;
 
-<Modal Name="Export Data" Id="ExportModal">
+<Modal Name="Export Data" Id="ExportModal" @ref=modal>
     @switch (state)
     {
         case ExportState.Choice:
             <div class="row">
-                <button class="col btn btn-primary p-3 m-3" @onclick="async () => await SetState(ExportState.Github)">
-                    Github
-                </button>
-                <button class="col btn btn-primary p-3 m-3" @onclick="async () => await SetState(ExportState.Archive)">
-                    Download Archive
-                </button>
+				<div class="col">
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            Automatic
+                        </div>
+                        <ul class="list-group my-auto">
+                            <li class="list-group-item my-3">
+								<button class="col btn btn-primary" @onclick="async () => await SetState(ExportState.Github)">
+									Export a GitHub commit
+								</button>
+							</li>
+						</ul>
+                    </div>
+				</div>
+				<div class="col">
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            Manual
+                        </div>
+                        <ul class="list-group my-auto">
+                            <li class="list-group-item my-3">
+								<button class="col btn btn-primary" @onclick="async () => await SetState(ExportState.Archive)">
+									Download Zip Archive
+								</button>
+							</li>
+						</ul>
+                    </div>
+				</div>
             </div>
 
             break;
@@ -30,28 +52,31 @@
 
             <div class="row">
                 <div class="col">
-                    <ul>
-                        <li>
-                            Download zip
-                        </li>
-                        <li>
-                            Replace contents of /MetaBenchmark/wwwroot/data
-                        </li>
-                        <li>
-                            Commit changes
-                        </li>
-                        <li>
-                            Submit Pull Request
-                        </li>
-                    </ul>
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            Instructions
+                        </div>
+                        <ul class="list-group my-auto">
+                            <li class="list-group-item">Download Zip file</li>
+							<li class="list-group-item">Replace contents of /MetaBenchmark/wwwroot/data</li>
+							<li class="list-group-item">Commit changes</li>
+							<li class="list-group-item">Submit Pull Request</li>
+						</ul>
+                    </div>
                 </div>
                 <div class="col">
-                    <button class="btn btn-primary" @onclick="async () => await DoArchive()">
-                        Download
-                    </button>
-                    <button class="btn btn-secondary" @onclick="async () => await SetState(ExportState.Choice)">
-                        Cancel
-                    </button>
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            Zip File
+                        </div>
+                        <ul class="list-group my-auto">
+                            <li class="list-group-item my-auto">
+								<button class="btn btn-primary w-100" @onclick="async () => await DoArchive()">
+									Download
+								</button>
+							</li>
+						</ul>
+                    </div>
                 </div>
 			</div>
 
@@ -120,19 +145,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-				<div class="col">
-					<button class="btn btn-secondary" @onclick="async () => await SetState(ExportState.Choice)">
-						Cancel
-					</button>
-				</div>
-            </div>
             break;
 
     }
 </Modal>
 
 @code {
+
+	Modal? modal;
+
 	ExportState state;
 	enum ExportState
 	{
@@ -181,9 +202,30 @@
 		}
 	}
 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender)
+		{
+			if (modal != null)
+			{
+				modal.OnBackButtonPressed += async () => await SetState(ExportState.Choice);
+			}
+		}
+	}
+
 	async Task SetState(ExportState newState)
 	{
 		state = newState;
+		if(modal != null)
+		{
+			modal.BackButtonEnabled = state switch
+			{
+				ExportState.Choice => false,
+				ExportState.Archive => true,
+				ExportState.Github => true,
+				_ => true
+			};
+		}
 
 		if(state == ExportState.Github)
 		{

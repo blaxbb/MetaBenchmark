@@ -2,6 +2,12 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                @if(BackButtonEnabled)
+                {
+                    <button class="modal-title btn btn-secondary mx-3" @onclick="() => OnBackButtonPressed?.Invoke()" aria-label="Back">
+                        <span class="oi oi-chevron-left" aria-hidden="true"></span>
+                    </button>
+                }
                 <h5 class="modal-title" id="@(Id)Title">@(Name)</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -23,4 +29,8 @@
 
     [Parameter]
     public string Id { get; set; }
+
+    public bool BackButtonEnabled{ get; set; }
+    public delegate void BackButtonPressed();
+    public event BackButtonPressed? OnBackButtonPressed;
 }
