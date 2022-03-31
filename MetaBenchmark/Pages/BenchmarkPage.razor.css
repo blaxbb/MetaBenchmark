@@ -59,3 +59,21 @@
 .products-grid .product-group:nth-of-type(2n+1) {
     background-color: rgba(0,0,0,.05);
 }
+
+.benchmark-list-item:hover {
+    background-color: rgb(255, 255, 255, 0.14);
+}
+
+.benchmark-image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.other-benchmarks {
+    opacity: .8;
+}
+
+.container > .row {
+    min-height: 90vh;
+}

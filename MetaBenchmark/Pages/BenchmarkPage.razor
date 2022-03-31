@@ -9,31 +9,20 @@
 
 @if (Benchmark != null)
 {
+    var appid = Benchmark?.Specs?.FirstOrDefault(s => s?.Spec?.Name == "AppId");
+    const string COLOR_1 = "rgb(0 0 0 / 0%)";
+    const string COLOR_2 = "rgb(20 20 20 / 69%)";
+    //var style = appid?.Spec?.Value != null ? $"background-image: linear-gradient( {COLOR_1}, {COLOR_2} ),url(https://cdn.cloudflare.steamstatic.com/steam/apps/{appid.Spec.Value}/library_600x900.jpg);" : "";
+    var style = appid?.Spec?.Value != null ? $"background-image: url(https://cdn.cloudflare.steamstatic.com/steam/apps/{appid.Spec.Value}/library_600x900.jpg);" : "";
     <div class="container">
         <div class="row">
-            <div class="col-12 col-md-4 filter-col">
-                <div class="row">
-                    <div class="col product-name d-flex">
-                        <h1 class="my-auto">@Benchmark.Name</h1>
-                    </div>
-                </div>
-                <table class="table table-striped table-hover">
-                    <tbody>
-                        @foreach(var spec in Benchmark.Specs)
-                        {
-                            <tr>
-                                <td>@spec.Spec.Name</td>
-                                <td>@spec.Spec.Value</td>
-                            </tr>
-                        }      
-                    </tbody>
-                </table>
+            <div class="col-12 col-md-4 filter-col benchmark-image px-0 border-0" style="@style">
                 <div class="other-benchmarks card">
                     <div class="card-header">Similar Benchmarks</div>
                     <ul class="list-group list-group-flush">
                         @foreach(var bench in AllBenchmarks.Where(b => b != Benchmark && b.Name == Benchmark.Name))
                         {
-                            <li class="list-group-item cursor-pointer">
+                            <li class="list-group-item cursor-pointer benchmark-list-item">
                                 <div class="d-flex flex-column curor-pointer position-relative" @onclick="(() => NavigateBenchmark(bench.Id))">
                                     <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
                                     <h5>@bench.Name</h5>
@@ -53,7 +42,10 @@
                 </div>
             </div>
             <div class="col-12 col-md-8 products-grid">
-                <div class="row filter-row">
+                <div class="row filter-row py-3">
+                    <div class="col-auto">
+                        <h1 class="my-auto">@Benchmark.Name</h1>
+                    </div>
                     <div class="col">
                         <select class="form-control selectpicker form-control-lg"
                                 id="benchmarkSourceFilter"
@@ -68,6 +60,16 @@
                             }
                         </select>
                     </div>
+                </div>
+                <div class="row py-3 h6 justify-content-md-center">
+                    @foreach(var spec in Benchmark.Specs)
+                    {
+                        <div class="col-auto">
+                            <span>@spec.Spec.Name</span>
+                            <span> - </span>
+                            <span>@spec.Spec.Value</span>
+                        </div>
+                    }  
                 </div>
                 @{
                     bool odd = true;
