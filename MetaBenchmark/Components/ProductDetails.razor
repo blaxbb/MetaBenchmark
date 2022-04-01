@@ -10,6 +10,28 @@
     var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
 
     <div class="container">
+        @if (product.BenchmarkEntries != null && product.BenchmarkEntries.Count > 0)
+        {
+            <div class="row m-3">
+                <div class="col-md-3 p-0">
+                    <div class="list-group btn-group-toggle benchmark-type-buttons" data-toggle="buttons">
+                        @foreach(var type in product.BenchmarkEntries.Select(e => e.Benchmark.Type).Distinct())
+                        {
+                            bool act = CurrentBenchmarkType == type;
+                            <label class="btn btn-secondary @(act ? "active" : "")">
+                                <input type="radio" name="options" id="option@((int)type)" autocomplete="off" @onclick="(() => SelectedBenchmarkType(type))"> @type.DisplayName()
+                            </label>
+                        }
+                    </div>
+                </div>  
+                <div class="col">
+                    <ProductChart Id="myChart"
+                        Labels="@product.BenchmarkEntries.Where(FilterBenchmark).DistinctBy(e => e.Benchmark).OrderBy(g => g.Benchmark.Name).Select(e => e.Benchmark.Name).ToList()"
+                        Values="@product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(e => e.Benchmark).OrderBy(g => g.Key.Name).Select(g => g.Average(b => b.Value)).ToList()"
+                        MaxVal="@product.BenchmarkEntries.Max(e => e.Value)"/>
+                </div>
+            </div>
+        }
         <div class="row">
             <div class="col-12 col-md-4 filter-col">
                 <div class="row">
@@ -44,24 +66,6 @@
                 <div class="row filter-row">
                     <div class="col">
                         <select class="form-control selectpicker form-control-lg"
-                                id="benchmarkTypeFilter"
-                                data-style="btn-secondary"
-                                @onchange="((val) => SelectedBenchmarkType())">
-                            @foreach(var type in product.BenchmarkEntries.Select(e => e.Benchmark.Type).Distinct())
-                            {
-                                if (CurrentBenchmarkType == type)
-                                {
-                                    <option selected value=@((int)type)>@type.DisplayName()</option>
-                                }
-                                else
-                                {
-                                    <option value=@((int)type)>@type.DisplayName()</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    <div class="col">
-                        <select class="form-control selectpicker form-control-lg"
                                 id="benchmarkSourceFilter"
                                 data-style="btn-secondary"
                                 @onchange="((val) => SelectedSource())"
@@ -93,15 +97,6 @@
                         </select>
                     </div>
                 </div>
-                @if (product.BenchmarkEntries != null && product.BenchmarkEntries.Count > 0)
-                {
-                    <div class="row m-3">
-                        <ProductChart Id="myChart"
-                                    Labels="@product.BenchmarkEntries.Where(FilterBenchmark).DistinctBy(e => e.Benchmark).OrderBy(g => g.Benchmark.Name).Select(e => e.Benchmark.Name).ToList()"
-                                    Values="@product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(e => e.Benchmark).OrderBy(g => g.Key.Name).Select(g => g.Average(b => b.Value)).ToList()"
-                                    MaxVal="@product.BenchmarkEntries.Max(e => e.Value)"/>
-                    </div>
-                }
                 @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark).OrderBy(g => g.Key.Name))
                 {
                     var bench = group.Key;
@@ -200,7 +195,12 @@
     async Task SelectedBenchmarkType()
     {
         var val = await js.InvokeAsync<string>("GetVal", "#benchmarkTypeFilter");
-        CurrentBenchmarkType = (Benchmark.BenchmarkType)(int.Parse(val));
+        await SelectedBenchmarkType((Benchmark.BenchmarkType)(int.Parse(val)));
+    }
+
+    async Task SelectedBenchmarkType(Benchmark.BenchmarkType type)
+    {
+        CurrentBenchmarkType = type;
         CurrentSource.Clear();
         SetAvailableBenchmarks();
 

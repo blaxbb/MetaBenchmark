@@ -146,9 +146,12 @@
                         <div class="product col-5 col-md-3 m-0 py-1 card benchmark-name-col @(sourceIndex == 0 && sourceIds.Count > 1 ? "border-bottom-0" : "")">
                             <div class="row h-100 @(sourceIndex > 0 ? "d-none benchmark-name-spacer" : "")">
 
-                                <div class="col my-auto d-flex align-items-center cursor-pointer" style="@(sourceIds.Count > 1 ? $"height: {sourceIds.Count}00%;" : "")" @onclick="() => NavigateBenchmark(bench.Id)">
-                                    <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
-                                    <h5 class="my-3 benchmark-name">@bench.Name</h5>
+                                <div class="col cursor-pointer d-flex flex-column justify-content-center" style="@(sourceIds.Count > 1 ? $"height: {sourceIds.Count}00%;" : "")" @onclick="() => NavigateBenchmark(bench.Id)">
+                                    <div class="row">
+                                        <div class="product-click-hint"><span class="oi oi-external-link" aria-hidden="true"></span></div>
+                                        <h5 class="my-3 benchmark-name">@bench.Name</h5>
+                                    </div>
+                                    <div class="row">
                                     @if (bench.Specs != null && bench.Specs.Count > 0)
                                     {
                                         <div class="benchmark-specs d-flex flex-wrap h5 m-0">
@@ -158,6 +161,7 @@
                                             }
                                         </div>
                                     }
+                                    </div>
                                 </div>
                             </div>
                         </div>
