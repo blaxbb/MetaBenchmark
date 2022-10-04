@@ -122,8 +122,27 @@
                                 var entry = group.ElementAt(i);
                                 var textClass = GetTextClass(entry);
                                 <div class="row benchmark-entry">
-                                    <div class="col-12 col-md-6 mx-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
-                                    <div class="col-12 col-md-auto benchmark-value @textClass">@entry.ValueLabel()</div>
+                                    <div class="col-md">
+                                        <div class="benchmark-value @textClass">@entry.ValueLabel()</div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="row">
+                                            <div class="col mx-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
+                                            <div class="col-auto">
+                                                <div class="btn-group float-right">
+                                                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split p-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="#">Hide this source</a>
+                                                        <a class="dropdown-item" href="#">Show Only this source</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">Visit source</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             }
 

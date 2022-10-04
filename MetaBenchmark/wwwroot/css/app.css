@@ -102,6 +102,10 @@ a, .btn-link {
     flex: 0 0 auto;
 }
 
+body {
+    background-color: #000814;
+}
+
 @media(min-width: 992px) {
 
     .product-header.brand-Nvidia::before {

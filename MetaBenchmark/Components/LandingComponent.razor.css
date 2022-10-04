@@ -41,3 +41,8 @@
     padding-top: 1em;
     padding-right: 1em;
 }
+
+.container {
+    background: #001d3d;
+    padding: 1em;
+}
