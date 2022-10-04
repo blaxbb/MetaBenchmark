@@ -115,14 +115,16 @@
                         var brandClass = brand == null ?  "" : $"brand-{brand.Spec.Value}";
 
                         <div class="row card-body product-header w-100 h-100 pr-0 py-0 pl-3 @brandClass">
-                            <h4 class="col-md my-auto product-title @brandClass" @onclick="(() => NavigateProduct(SelectedProducts[index].Id))">@SelectedProducts[i].Name</h4>
-                            <div class="col-md-auto row px-0 mx-auto">
-                                <button class="btn btn-sm col-auto btn-danger btn-remove product-btn my-auto" @onclick="(() => Selected(null, index))">
-                                    <span class="oi oi-x" aria-hidden="true"></span>
+                            <div class="col-md my-auto">
+                                <h4 class="my-auto product-title @brandClass" @onclick="(() => NavigateProduct(SelectedProducts[index].Id))">@SelectedProducts[i].Name</h4>
+                                <button type="button" class="btn btn-sm col-auto btn-danger btn-remove product-btn m-0 p-1" @onclick="(() => Selected(null, index))">
+                                    <span class="oi oi-x my-0 py-0" aria-hidden="true"></span>
                                 </button>
+                            </div>
+                            <div class="col-md-auto row px-0 mx-auto">
                                 @if(i == SelectedProducts.Length - 1)
                                 {
-                                    <button class="btn btn-sm col-auto btn-success product-btn my-auto @hideAddButtonClass" @onclick="AddProduct">
+                                    <button type="button" class="btn btn-sm col-auto btn-success product-btn my-auto @hideAddButtonClass" @onclick="AddProduct">
                                         <span class="oi oi-plus" aria-hidden="true"></span>
                                     </button>
                                 }

@@ -56,8 +56,17 @@
 
 .product-header .btn-remove {
     display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0;
+    height: auto;
 }
 
 .benchmark-type-buttons .btn:not(.active) {
     color: #ffffff7F;
+}
+
+.compare-products {
+    background: #001d3d;
 }
