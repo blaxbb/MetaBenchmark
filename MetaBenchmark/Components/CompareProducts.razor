@@ -447,9 +447,9 @@ else
             }
         }
 
-        if (p == null && SelectedProducts.Length > 1)
+        if (p == null && SelectedProducts.Length > 2)
         {
-            if (SelectedProducts.Length > 1)
+            if (SelectedProducts.Length > 2)
             {
                 var newArr = new Product[SelectedProducts.Length - 1];
                 //0 1 2 3
@@ -465,7 +465,7 @@ else
             }
             else
             {
-                SelectedProducts = new Product[1];
+                SelectedProducts = new Product[2];
             }
         }
         else
@@ -474,6 +474,7 @@ else
         }
         ComputeAverages();
         StateHasChanged();
+        await Task.Delay(1);
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
