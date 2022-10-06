@@ -18,9 +18,8 @@
         <div class="row">
             <div class="col-12 col-md-4 filter-col benchmark-image px-0 border-0" style="@style">
                 <div class="other-benchmarks card">
-                    <div class="card-header">Similar Benchmarks</div>
                     <ul class="list-group list-group-flush">
-                        @foreach(var bench in AllBenchmarks.Where(b => b != Benchmark && b.Name == Benchmark.Name))
+                        @foreach(var bench in AllBenchmarks.Where(b => b != Benchmark && b.Name == Benchmark.Name).Prepend(Benchmark))
                         {
                             <li class="list-group-item cursor-pointer benchmark-list-item">
                                 <div class="d-flex flex-column curor-pointer position-relative" @onclick="(() => NavigateBenchmark(bench.Id))">

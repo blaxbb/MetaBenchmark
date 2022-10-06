@@ -134,10 +134,10 @@
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Hide this source</a>
-                                                        <a class="dropdown-item" href="#">Show Only this source</a>
+                                                        <button type="button" class="dropdown-item" @onclick="@(async () => await HideSource(entry.Source))">Hide this source</button>
+                                                        <button type="button" class="dropdown-item" @onclick="@(async () => await ShowOnlySource(entry.Source))">Show Only this source</button>
                                                         <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="#">Visit source</a>
+                                                        <a class="dropdown-item" href="@entry.Source.Url">Visit source</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,7 +224,7 @@
         SetAvailableBenchmarks();
 
         StateHasChanged();
-        
+
         await js.InvokeVoidAsync("SetUrl", $"{nav.Uri}?bt={CurrentBenchmarkType}");
 
         await Task.Delay(1);
@@ -266,6 +266,26 @@
         StateHasChanged();
         await Task.Delay(100);
         await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    async Task ShowOnlySource(BenchmarkSource source)
+    {
+        CurrentSource.Clear();
+        CurrentSource.Add(source);
+        await js.InvokeVoidAsync("ShowSelectPicker");
+    }
+
+    async Task HideSource(BenchmarkSource source)
+    {
+        if(CurrentSource.Count == 0)
+        {
+            CurrentSource.AddRange(product.BenchmarkEntries.Select(e => e.Source).Distinct().Where(s => s != source));
+        }
+        else
+        {
+            CurrentSource.Remove(source);
+        }
+        StateHasChanged();
     }
 
     string GetTextClass(BenchmarkEntry entry)
