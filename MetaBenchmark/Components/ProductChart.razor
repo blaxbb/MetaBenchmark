@@ -20,7 +20,7 @@
     [Parameter]
     public double MaxVal{ get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnAfterRenderAsync(bool first)
     {
         if (!string.IsNullOrWhiteSpace(Id))
         {

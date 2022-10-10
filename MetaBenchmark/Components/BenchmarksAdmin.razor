@@ -1,9 +1,11 @@
 ﻿@using MetaBenchmark.Components
 
 @using MetaBenchmark.Models
+@using MetaBenchmark.Services
+
 @inject HttpClient Http
 @inject IJSRuntime Js
-@inject DataCache cache
+@inject DataService data
 
 <Modal Name="Add Benchmark" Id="AddBenchmarkModal">
 	<h3>Add Benchmark</h3>
@@ -79,7 +81,7 @@ else
 
     async Task Refresh()
     {
-        Benchmarks = (await cache.Benchmarks()).Value;
+        Benchmarks = data.AllBenchmarks();
         this.StateHasChanged();
     }
 
@@ -110,7 +112,8 @@ else
         {
             Model.Id = Benchmarks.Max(b => b.Id) + 1;
             Benchmarks.Add(Model);
-            await cache.SetBenchmarks(Benchmarks);
+            //await cache.SetBenchmarks(Benchmarks);
+            Console.WriteLine("NOT IMPLEMENTED!!!");
         }
         else
         {
@@ -120,7 +123,8 @@ else
                 Benchmarks.Remove(existing);
                 Benchmarks.Add(Model);
                 Benchmarks = Benchmarks.OrderBy(b => b.Id).ToList();
-                await cache.SetBenchmarks(Benchmarks);
+                Console.WriteLine("NOT IMPLEMENTED!!!");
+                //await cache.SetBenchmarks(Benchmarks);
             }
         }
         StateHasChanged();
@@ -136,7 +140,8 @@ else
             if(existing != null)
             {
                 Benchmarks.Remove(existing);
-                await cache.SetBenchmarks(Benchmarks);
+                //await cache.SetBenchmarks(Benchmarks);
+                Console.WriteLine("NOT IMPLEMENTED!!!");
             }
         }
 
@@ -148,7 +153,8 @@ else
     {
         var bench = Benchmarks.FirstOrDefault(p => p.Id == model.Id);
         bench.Specs = model.Specs;
-        await cache.SetSpecifications(allSpecs);
-        await cache.SetBenchmarks(Benchmarks);
+        //await cache.SetSpecifications(allSpecs);
+        //await cache.SetBenchmarks(Benchmarks);
+        Console.WriteLine("NOT IMPLEMENTED!!!");
     }
 }

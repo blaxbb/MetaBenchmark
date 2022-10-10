@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MetaBenchmark.Models
@@ -22,7 +22,7 @@ namespace MetaBenchmark.Models
         }
         public BenchmarkType Type { get; set; }
         public List<BenchmarkEntry> Entries { get; set; }
-        public ICollection<SpecificationEntry> Specs { get; set; }
+        public List<SpecificationEntry> Specs { get; set; }
 
         public Benchmark()
         {
@@ -51,6 +51,30 @@ namespace MetaBenchmark.Models
         public static bool operator !=(Benchmark left, Benchmark right)
         {
             return !(left == right);
+        }
+
+        public Benchmark ViewModel()
+        {
+            return new Benchmark()
+            {
+                Id = Id,
+                Type = Type,
+                Name = Name,
+                Specs = Specs.Select(s => s.StripParent()).ToList(),
+                Entries = Entries.Select(e => e.StripBenchmark()).ToList()
+            };
+        }
+
+        public Benchmark StripEntries()
+        {
+            return new Benchmark()
+            {
+                Name = Name,
+                Specs = Specs.Select(s => s.StripParent()).ToList(),
+                Type = Type,
+                Id = Id,
+                Entries = default
+            };
         }
 
         [JsonIgnore]

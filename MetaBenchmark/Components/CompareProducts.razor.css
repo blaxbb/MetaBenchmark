@@ -72,3 +72,7 @@
 .content {
     background: #001d3d;
 }
+
+.sticky-top {
+    z-index: 0;
+}

@@ -6,7 +6,7 @@
 
 @if(Product != null)
 {
-    var b = Product.BenchmarkEntries?.ToList()?.RandomItem();
+    var b = entry;
     var br = Product.Specs.FirstOrDefault(s => s?.Spec?.Name == "brand");
     var bc = br == null ?  "" : $"brand-{br.Spec.Value}";
 
@@ -39,7 +39,7 @@
                             @for (int i = 0; i < b.Benchmark.Specs.Count && i < 4; i++)
                             {
                                 var spec = b.Benchmark.Specs.ElementAt(i);
-                                <div class="mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                                <div class="mx-1 my-1 badge bg-primary benchmark-spec benchmark-spec-@spec.Spec.Name benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
                             }
                         </div>
                     }   
@@ -56,12 +56,18 @@
     [Parameter]
     public Product? Product { get; set; }
 
+    BenchmarkEntry entry { get; set; }
+
+    Random random;
+
     ElementReference prodDiv;
     ElementReference nameDiv;
     ElementReference benchDiv;
 
     protected override void OnInitialized()
     {
+        random = Random.Shared;
+        GetEntry();
         Task.Run(Timer);
     }
 
@@ -72,11 +78,17 @@
         await js.InvokeVoidAsync("FadeOut", benchDiv);
 
         await Task.Delay(250);
-        StateHasChanged();
+        GetEntry();
+        await InvokeAsync(StateHasChanged);
         await js.InvokeVoidAsync("FadeIn", nameDiv);
         await js.InvokeVoidAsync("FadeIn", benchDiv);
 
         Task.Run(Timer);
+    }
+
+    void GetEntry()
+    {
+        entry = Product.BenchmarkEntries?.ToList().RandomItem(random);
     }
 
     void Selected(Product prod)

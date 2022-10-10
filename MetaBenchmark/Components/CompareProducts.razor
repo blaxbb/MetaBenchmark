@@ -1,11 +1,12 @@
 ﻿@using MetaBenchmark
 @using MetaBenchmark.Models
+@using MetaBenchmark.Services
 @using Newtonsoft.Json
 @using System.Web
 @inject HttpClient Http;
 @inject IJSRuntime js;
 @inject NavigationManager nav;
-@inject DataCache cache;
+@inject DataService data;
 
 @if(AllProducts != null)
 {
@@ -25,12 +26,13 @@
         <div class="compare-products container mb-3 card">
             <div class="row justify-content-center card-body">
                 <div class="col-md-3 p-0">
-                    <div class="list-group btn-group-toggle benchmark-type-buttons" data-toggle="buttons">
+                    <div class="btn-group btn-group-vertical benchmark-type-buttons w-100" data-toggle="buttons">
                         @foreach(var type in AllProducts.SelectMany(p => p.BenchmarkEntries).Select(e => e.Benchmark.Type).Distinct())
                         {
                             bool act = CurrentBenchmarkType == type;
-                            <label class="btn btn-secondary @(act ? "active" : "")">
-                                <input type="radio" name="options" id="option@((int)type)" autocomplete="off" @onclick="(() => SelectedBenchmarkType(type))"> @type.DisplayName()
+                            <input type="radio" class="btn-check" name="options" id="option@((int)type)" autocomplete="off" @onclick="(() => SelectedBenchmarkType(type))">
+                            <label class="btn btn-secondary @(act ? "active" : "")" for="option@((int)type)">
+                                @type.DisplayName()
                             </label>
                         }
                     </div>
@@ -263,8 +265,18 @@ else
 
     bool HasInit = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool first)
     {
+        if (nav != null && SelectedProducts != null && SelectedProducts.Count() > 0)
+        {
+            await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.Id))}");
+        }
+
+        if(!first)
+        {
+            return;
+        }
+
         var query = HttpUtility.ParseQueryString(new Uri(nav.Uri).Query);
         var prodTypeQuery = query.Get("pt");
         var benchTypeQuery = query.Get("bt");
@@ -289,15 +301,11 @@ else
             CurrentBenchmarkType = Benchmark.BenchmarkType.FPS_1440P;
         }
 
-        var all = await cache.All();
-        AllProducts = all.Value;
-        UserModified = all.UserModified;
+        AllProducts = data.AllProducts();
+        UserModified = false;
 
-
-        Console.WriteLine(nav.Uri);
 
         var prodParam = query.Get("products");
-        Console.WriteLine(prodParam);
 
         string[] prodFromQuery = null;
         if (!string.IsNullOrWhiteSpace(prodParam))
@@ -316,15 +324,6 @@ else
         await js.InvokeVoidAsync("SelectValue", "#benchmarkTypeFilter", (int)CurrentBenchmarkType);
         await js.InvokeVoidAsync("ShowSelectPicker");
         await js.InvokeVoidAsync("MoveFilterToNav");
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (nav != null && SelectedProducts != null && SelectedProducts.Count() > 0)
-        {
-            await js.InvokeVoidAsync("SetUrl", $"{nav.BaseUri}compare?pt={CurrentProductType}&bt={CurrentBenchmarkType}&products={string.Join(',', SelectedProducts.Where(s => s != null).Select(s => s.Id))}");
-        }
-        await base.OnAfterRenderAsync(firstRender);
     }
 
     async Task<List<Product>> GetAllProducts()

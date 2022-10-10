@@ -1,14 +1,14 @@
 ﻿@using FuzzySharp
 @using MetaBenchmark.Models
 @using MetaBenchmark
+@using MetaBenchmark.Services
 
-@inject DataCache cache;
+@inject DataService data;
 @inject NavigationManager nav;
 @inject IJSRuntime js;
 
 @if(AllProducts != null && AllProducts.Count > 0)
 {
-    rand = new Random(1241245142);
     <div class="container">
         <div class="row">
             <div class="col-md-4 order-last order-md-first">
@@ -50,15 +50,9 @@
 
     List<Product> AllProducts = new List<Product>();
 
-    //
-    // Use the same seed every time so the selected benchmarks aren't changed as the UI refreshes.
-    // This should probably be initialized to a different random seed on first load ¯\_(ツ)_/¯
-    //
-    Random rand = new Random(1241245142);
     protected override async Task OnInitializedAsync()
     {
-        var all = await cache.All();
-        AllProducts = all.Value;
+        AllProducts = data.AllProducts();
     }
 
     void Selected(Product prod)

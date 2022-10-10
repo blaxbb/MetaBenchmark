@@ -1,10 +1,12 @@
-﻿@using MetaBenchmark.Components
+﻿@*@using MetaBenchmark.Components
 @using MetaBenchmark.Models
 
 @using MetaBenchmark
+@using MetaBenchmark.Services
 @inject HttpClient Http
 @inject IJSRuntime Js
 @inject DataCache cache
+@inject DataService data
 
 <Modal Name="Add Benchmark Source" Id="AddBenchmarkSourceModal">
 	<h3>Add Benchmark Source</h3>
@@ -127,9 +129,10 @@ else
 
     async Task Refresh()
     {
-        Sources = (await cache.Sources()).Value;
-        allBenchmarks = (await cache.Benchmarks()).Value;
-        allProducts = (await cache.All()).Value;
+        //Sources = (await cache.Sources()).Value;
+
+        allBenchmarks = data.AllBenchmarks();
+        allProducts = data.AllProducts();
         this.StateHasChanged();
     }
 
@@ -234,4 +237,4 @@ else
             }
         }
     }
-}
+}*@

@@ -1,6 +1,7 @@
-﻿@page "/settings"
+﻿@*@page "/settings"
+@using MetaBenchmark.Services
 @inject IJSRuntime js;
-@inject DataCache cache;
+@inject DataService data;
 
 
 @if (settings != null)
@@ -48,3 +49,4 @@
         await settings?.Save(js);
     }
 }
+*@

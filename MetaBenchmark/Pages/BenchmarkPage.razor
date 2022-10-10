@@ -1,8 +1,9 @@
 ﻿@page "/benchmark/{benchmarkId}"
-@inject DataCache cache;
+@inject DataService data;
 @inject IJSRuntime js;
 @inject NavigationManager nav;
 
+@using MetaBenchmark.Services
 @using Newtonsoft.Json;
 @using MetaBenchmark.Models;
 @using MetaBenchmark;
@@ -19,7 +20,7 @@
             <div class="col-12 col-md-4 filter-col benchmark-image px-0 border-0" style="@style">
                 <div class="other-benchmarks card">
                     <ul class="list-group list-group-flush">
-                        @foreach(var bench in AllBenchmarks.Where(b => b != Benchmark && b.Name == Benchmark.Name).Prepend(Benchmark))
+                        @foreach(var bench in AllBenchmarks.Where(b => b != Benchmark && b.Name == Benchmark.Name).ToList().Prepend(Benchmark))
                         {
                             <li class="list-group-item cursor-pointer benchmark-list-item">
                                 <div class="d-flex flex-column curor-pointer position-relative" @onclick="(() => NavigateBenchmark(bench.Id))">
@@ -122,42 +123,28 @@
         await base.OnInitializedAsync();
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnAfterRenderAsync(bool first)
     {
-        await base.OnParametersSetAsync();
+        if(!first)
+        {
+            return;
+        }
         await InitializeData();
-        await Task.Delay(100);
+        //await Task.Delay(100);
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
     private async Task InitializeData()
     {
-        var benches = await cache.Benchmarks();
-        if(benches != null)
-        {
-            AllBenchmarks = benches.Value;
-        }
-        else
-        {
-            AllBenchmarks = new List<Benchmark>();
-            return;
-        }
+        AllBenchmarks = data.AllBenchmarks();
 
         if(long.TryParse(benchmarkId, out long id))
         {
             Benchmark = AllBenchmarks.FirstOrDefault(b => b.Id == id);
-            if(Benchmark != default)
-            {
-                var all = await cache.All();
-
-                Benchmark.Entries.AddRange(all?.Value.SelectMany(p => p.BenchmarkEntries).Where(e => e.BenchmarkId == Benchmark.Id));
-                Benchmark.Entries.ForEach(e => e.Product = all?.Value.FirstOrDefault(p => p.Id == e.ProductId));
-                Benchmark.Entries = Benchmark.Entries.OrderByDescending(e => e.Value).ToList();
-            }
         }
 
         StateHasChanged();
-        await Task.Delay(100);
+        //await Task.Delay(100);
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
@@ -198,5 +185,5 @@
     }
 
     void NavigateProduct(long id) => nav?.NavigateTo($"/product/{id}");
-    void NavigateBenchmark(long id) => nav?.NavigateTo($"/benchmark/{id}");
+    void NavigateBenchmark(long id) => nav?.NavigateTo($"/benchmark/{id}", forceLoad: true);
 }

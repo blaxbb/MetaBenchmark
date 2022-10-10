@@ -9,6 +9,6 @@ namespace MetaBenchmark.Models
     public interface ISpecAttachable
     {
         public long Id { get; set; }
-        public ICollection<SpecificationEntry> Specs { get; set; }
+        public List<SpecificationEntry> Specs { get; set; }
     }
 }

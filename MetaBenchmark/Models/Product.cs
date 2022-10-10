@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MetaBenchmark
+namespace MetaBenchmark.Models
 {
     public class Product : ISpecAttachable
     {
@@ -18,8 +18,8 @@ namespace MetaBenchmark
             GPU
         }
         public ProductType Type { get; set; }
-        public ICollection<BenchmarkEntry> BenchmarkEntries { get; set; }
-        public ICollection<SpecificationEntry> Specs { get; set; }
+        public List<BenchmarkEntry> BenchmarkEntries { get; set; }
+        public List<SpecificationEntry> Specs { get; set; }
 
         [JsonIgnore]
         public string Brand => Specs?.FirstOrDefault(s => s?.Spec?.Name == "brand")?.Spec.Value;
@@ -50,6 +50,34 @@ namespace MetaBenchmark
         public static bool operator !=(Product left, Product right)
         {
             return !(left == right);
+        }
+
+        public Product ViewModel() => new Product()
+        {
+            Name = Name,
+            BenchmarkEntries = BenchmarkEntries.Select(b => new BenchmarkEntry()
+            {
+                Benchmark = b.Benchmark.StripEntries(),
+                Value = b.Value,
+                Url = b.Url,
+                Specs = b.Specs.Select(s => s.StripParent()).ToList(),
+                Source = b.Source.StripEntries()
+            }).ToList(),
+            Id = Id,
+            Specs = Specs.Select(s => s.StripParent()).ToList(),
+            Type = Type,
+        };
+
+        public Product StripEntries()
+        {
+            return new Product()
+            {
+                Name = Name,
+                Id = Id,
+                Specs = Specs.Select(s => s.StripParent()).ToList(),
+                Type = Type,
+                BenchmarkEntries = default
+            };
         }
     }
 }

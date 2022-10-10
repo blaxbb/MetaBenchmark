@@ -1,8 +1,9 @@
 @using FuzzySharp
 @using MetaBenchmark
 @using MetaBenchmark.Models
+@using MetaBenchmark.Services
 
-@inject DataCache cache;
+@inject DataService data;
 @inject NavigationManager nav;
 @inject IJSRuntime js;
 
@@ -80,10 +81,13 @@
     }
     public List<FuzzyEntry> SearchResults { get; set; } = new List<FuzzyEntry>();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool first)
     {
-        var all = await cache.All();
-        AllProducts = all.Value;
+        if(!first)
+        {
+            return;
+        }
+        AllProducts = data.AllProducts();
         AllBenchmarks = AllProducts.SelectMany(p => p.BenchmarkEntries.Select(b => b.Benchmark)).DistinctBy(b => b.Id).ToList();
     }        
 

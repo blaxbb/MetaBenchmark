@@ -20,7 +20,7 @@ window.HideModal = function (id) {
 }
 
 window.ShowSelectPicker = function () {
-    $('.selectpicker').selectpicker('refresh');
+    $('.selectpicker').selectpicker('render');
 }
 
 window.RemoveSelectPicker = function (index) {

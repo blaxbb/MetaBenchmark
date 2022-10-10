@@ -1,16 +1,17 @@
 ﻿@page "/product/{productId}"
-@inject DataCache cache;
+@inject DataService data;
 @inject NavigationManager nav;
 
 @using MetaBenchmark.Components
 @using MetaBenchmark
 @using System.Web
 @using MetaBenchmark.Models
+@using MetaBenchmark.Services
 
 <ProductDetails product="product" allProducts="allProducts" CurrentBenchmarkType="benchmarkType"/>
 
 @code {
-    Product product;
+    Product? product;
     List<Product> allProducts;
 
     [Parameter]
@@ -24,11 +25,10 @@
         var benchTypeQuery = query.Get("bt");
 
 
-        var all = await cache.All();
-        if (all.Value != null && long.TryParse(productId, out long id))
+        allProducts = data.AllProducts();
+        if (allProducts != null && long.TryParse(productId, out long id))
         {
-            allProducts = all.Value;
-            product = all.Value.FirstOrDefault(p => p.Id == id);
+            product = allProducts.FirstOrDefault(p => p.Id == id);
             if(Enum.TryParse<Benchmark.BenchmarkType>(benchTypeQuery, out var type))
             {
                 benchmarkType = type;

@@ -4,6 +4,7 @@
 
 .search-result li {
     background-color: rgba(128,128,128,.05);
+    z-index: 100;
 }
 
 

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.1.32203.90
+VisualStudioVersion = 17.4.32804.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaBenchmark", "MetaBenchmark\MetaBenchmark.csproj", "{64D6C4E7-956E-49B7-A11D-138C0179F6F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBenchmark", "MetaBenchmark\MetaBenchmark.csproj", "{C3BC34EC-288F-4E59-8E33-6C7003654C37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{64D6C4E7-956E-49B7-A11D-138C0179F6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64D6C4E7-956E-49B7-A11D-138C0179F6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64D6C4E7-956E-49B7-A11D-138C0179F6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64D6C4E7-956E-49B7-A11D-138C0179F6F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3BC34EC-288F-4E59-8E33-6C7003654C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3BC34EC-288F-4E59-8E33-6C7003654C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3BC34EC-288F-4E59-8E33-6C7003654C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3BC34EC-288F-4E59-8E33-6C7003654C37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F3A3AA80-8821-4BB0-9986-AC69B192CC2B}
+		SolutionGuid = {7FEC7BA5-7C0B-454D-BB73-DCE8599DA76F}
 	EndGlobalSection
 EndGlobal

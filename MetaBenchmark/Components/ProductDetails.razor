@@ -14,13 +14,12 @@
         {
             <div class="row m-3">
                 <div class="col-md-3 p-0">
-                    <div class="list-group btn-group-toggle benchmark-type-buttons" data-toggle="buttons">
+                    <div class="btn-group btn-group-vertical benchmark-type-buttons w-100" role="group" data-toggle="buttons">
                         @foreach(var type in product.BenchmarkEntries.Select(e => e.Benchmark.Type).Distinct())
                         {
                             bool act = CurrentBenchmarkType == type;
-                            <label class="btn btn-secondary @(act ? "active" : "")">
-                                <input type="radio" name="options" id="option@((int)type)" autocomplete="off" @onclick="(() => SelectedBenchmarkType(type))"> @type.DisplayName()
-                            </label>
+                            <input type="radio" class="btn-check" name="options" id="option@((int)type)" autocomplete="off" @onclick="(() => SelectedBenchmarkType(type))">
+                            <label class="btn btn-secondary @(act ? "active" : "")" for="option@((int)type)">@type.DisplayName()</label>
                         }
                     </div>
                 </div>  
@@ -39,7 +38,7 @@
                         <h1 class="my-auto">@product.Name</h1>
                     </div>
                 </div>
-                <button class="compare-button my-2 btn btn-secondary dropdown-toggle w-100 border-info" type="button" data-toggle="collapse" data-target="#collapseCompare" aria-expanded="false" aria-controls="collapseCompare">Compare</button>
+                <button class="compare-button my-2 btn btn-secondary dropdown-toggle w-100 border-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCompare" aria-expanded="false" aria-controls="collapseCompare">Compare</button>
                 <div class="collapse w-100 mb-2" id="collapseCompare">
                     <div class="card py-1">
                         @foreach(var p in allProducts.Where(p => p != product && p.Type == product.Type))
@@ -65,36 +64,36 @@
             <div class="col-12 col-md-8">
                 <div class="row filter-row">
                     <div class="col">
-                        <select class="form-control selectpicker form-control-lg"
-                                id="benchmarkSourceFilter"
-                                data-style="btn-secondary"
-                                @onchange="((val) => SelectedSource())"
-                                title="Select Sources"
-                                data-actions-box="true"
-                                multiple>
-                            @foreach(var source in product.BenchmarkEntries.Select(e => e.Source).Distinct().OrderBy(s => s.Name))
-                            {
-                                <option value=@((int)source.Id)>@source.Name</option>
-                            }
-                        </select>
+                        @if(HiddenSources.Count > 0)
+                        {
+                            <div class="dropdown w-100">
+                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="sources" data-bs-toggle="dropdown" aria-expanded="false">@HiddenSources.Count Sources Hidden</button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="sources">
+                                    <li><button type="button" class="btn-secondary dropdown-item" @onclick="() => ShowAllSources()">Show All</button></li>
+                                    <li>&nbsp;</li>
+                                    @foreach(var source in HiddenSources)
+                                    {
+                                        <li><button type="button" class="btn-secondary dropdown-item" @onclick="() => ShowSource(source)">@source.Name</button></li>
+                                    }
+                                </ul>
+                            </div>
+                        }
                     </div>
                     <div class="col">
-                        <select class="form-control selectpicker form-control-lg"
-                                id="benchmarkFilter"
-                                data-style="btn-secondary"
-                                @onchange="((val) => SelectedBenchmark())"
-                                title="Select Benchmarks"
-                                data-actions-box="true"
-                                data-selected-text-format="static"
-                                multiple>
-                            @if(AvailableBenchmarks != null && AvailableBenchmarks.Count > 0)
-                            {
-                                @foreach(var bench in AvailableBenchmarks.OrderBy(b => b.Name))
-                                {
-                                    <option value=@((int)bench.Id)>@bench.Name</option>   
-                                }
-                            }
-                        </select>
+                        @if (HiddenBenchmarks.Count > 0)
+                        {
+                            <div class="dropdown w-100">
+                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="benches" data-bs-toggle="dropdown" aria-expanded="false">@HiddenBenchmarks.Count Benchmarks Hidden</button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="benches">
+                                    <li><button type="button" class="btn-secondary dropdown-item" @onclick="() => ShowAllBenchmarks()">Show All</button></li>
+                                    <li>&nbsp;</li>
+                                    @foreach (var bench in HiddenBenchmarks)
+                                    {
+                                        <li><button type="button" class="btn-secondary dropdown-item" @onclick="() => ShowBenchmark(bench)">@bench.Name</button></li>
+                                    }
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </div>
                 @foreach(var group in product.BenchmarkEntries.Where(FilterBenchmark).GroupBy(b => b.Benchmark).OrderBy(g => g.Key.Name))
@@ -111,7 +110,7 @@
                                 <div class="benchmark-specs d-flex flex-wrap h5">
                                     @foreach(var spec in bench.Specs)
                                     {
-                                        <div class="d-block mx-1 my-1 badge badge-info benchmark-spec benchmark-spec-@spec.Spec.Name benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
+                                        <div class="d-block mx-1 my-1 badge bg-primary benchmark-spec benchmark-spec-@spec.Spec.Name benchmark-spec-@spec.Spec.Name-@spec.Spec.Value"></div>
                                     }
                                 </div>
                             }
@@ -129,13 +128,15 @@
                                         <div class="row">
                                             <div class="col mx-auto text-center"><a href="@entry.Source.Url"><img src="@entry.Source.LogoUrl" alt="@entry.Source.Name" title="@entry.Source.Name" /></a></div>
                                             <div class="col-auto">
-                                                <div class="btn-group float-right">
-                                                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split p-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                <div class="dropdown float-right">
+                                                    <button type="button" class="btn btn-danger dropdown-toggle p-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <button type="button" class="dropdown-item" @onclick="@(async () => await HideSource(entry.Source))">Hide this source</button>
-                                                        <button type="button" class="dropdown-item" @onclick="@(async () => await ShowOnlySource(entry.Source))">Show Only this source</button>
+                                                        <button type="button" class="dropdown-item" @onclick="@(async () => HideBenchmark(entry.Benchmark))">Hide this benchmark</button>
+                                                        <button type="button" class="dropdown-item" @onclick="@(async () => ShowOnlyBenchmark(entry.Benchmark))">Show only this benchmark</button>
+                                                        <div class="dropdown-divider"></div>
+                                                        <button type="button" class="dropdown-item" @onclick="@(async () => HideSource(entry.Source))">Hide this source</button>
+                                                        <button type="button" class="dropdown-item" @onclick="@(async () => ShowOnlySource(entry.Source))">Show Only this source</button>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item" href="@entry.Source.Url">Visit source</a>
                                                     </div>
@@ -181,17 +182,22 @@
 
     [Parameter]
     public Benchmark.BenchmarkType CurrentBenchmarkType { get; set; }
-    List<BenchmarkSource> CurrentSource = new List<BenchmarkSource>();
-    List<Benchmark> CurrentBenchmarks = new List<Benchmark>();
     List<Benchmark> AvailableBenchmarks = new List<Benchmark>();
 
-    protected override async Task OnParametersSetAsync()
+    List<BenchmarkSource> HiddenSources = new List<BenchmarkSource>();
+    List<Benchmark> HiddenBenchmarks = new List<Benchmark>();
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Task.Delay(1);
-        var first = product?.BenchmarkEntries.FirstOrDefault();
+        if(!firstRender)
+        {
+            return;
+        }
+
         SetAvailableBenchmarks();
-        await js.InvokeVoidAsync("ShowSelectPicker");
         this.StateHasChanged();
+        await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
     void SetAvailableBenchmarks()
@@ -205,8 +211,8 @@
     bool FilterBenchmark(BenchmarkEntry b)
     {
         var isType = b.Benchmark.Type == CurrentBenchmarkType;
-        var isSource = CurrentSource == null || CurrentSource.Count == 0 || CurrentSource.Contains(b.Source);
-        var isBench = CurrentBenchmarks == null || CurrentBenchmarks.Count == 0 || CurrentBenchmarks.Contains(b.Benchmark);
+        var isSource = HiddenSources == null || HiddenSources.Count == 0 || !HiddenSources.Contains(b.Source);
+        var isBench = HiddenBenchmarks == null || HiddenBenchmarks.Count == 0 || !HiddenBenchmarks.Contains(b.Benchmark);
 
         return isType && isSource && isBench;
     }
@@ -220,7 +226,8 @@
     async Task SelectedBenchmarkType(Benchmark.BenchmarkType type)
     {
         CurrentBenchmarkType = type;
-        CurrentSource.Clear();
+        //CurrentSource.Clear();
+        HiddenBenchmarks.Clear();
         SetAvailableBenchmarks();
 
         StateHasChanged();
@@ -233,59 +240,55 @@
         await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
-    async Task SelectedSource()
+    void ShowOnlySource(BenchmarkSource source)
     {
-        var vals = await js.InvokeAsync<string[]>("GetVal", "#benchmarkSourceFilter");
-        CurrentSource.Clear();
-        foreach(var val in vals)
-        {
-            if(long.TryParse(val, out long id))
-            {
-                var source = product.BenchmarkEntries.Select(b => b.Source).FirstOrDefault(s => s.Id == id);
-                CurrentSource.Add(source);
-            }
-        }
+        HiddenSources.Clear();
+        HiddenSources.AddRange(product.BenchmarkEntries.Select(e => e.Source).Distinct().Where(s => s != source));
+
         StateHasChanged();
-        await Task.Delay(100);
-        await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
-    async Task SelectedBenchmark()
+    void HideSource(BenchmarkSource source)
     {
-        var vals = await js.InvokeAsync<string[]>("GetVal", "#benchmarkFilter");
-        CurrentBenchmarks.Clear();
-        foreach(var val in vals)
+        if(!HiddenSources.Contains(source))
         {
-            if(long.TryParse(val, out long id))
-            {
-                var bench = product.BenchmarkEntries.Select(b => b.Benchmark).FirstOrDefault(s => s.Id == id);
-                CurrentBenchmarks.Add(bench);
-            }
+            HiddenSources.Add(source);
         }
 
         StateHasChanged();
-        await Task.Delay(100);
-        await js.InvokeVoidAsync("ShowSelectPicker");
     }
 
-    async Task ShowOnlySource(BenchmarkSource source)
+    void ShowSource(BenchmarkSource source)
     {
-        CurrentSource.Clear();
-        CurrentSource.Add(source);
-        await js.InvokeVoidAsync("ShowSelectPicker");
-    }
-
-    async Task HideSource(BenchmarkSource source)
-    {
-        if(CurrentSource.Count == 0)
-        {
-            CurrentSource.AddRange(product.BenchmarkEntries.Select(e => e.Source).Distinct().Where(s => s != source));
-        }
-        else
-        {
-            CurrentSource.Remove(source);
-        }
+        HiddenSources.Remove(source);
         StateHasChanged();
+    }
+
+    void ShowAllSources()
+    {
+        HiddenSources.Clear();
+        StateHasChanged();
+    }
+
+    void ShowOnlyBenchmark(Benchmark bench)
+    {
+        HiddenBenchmarks.Clear();
+        HiddenBenchmarks.AddRange(product.BenchmarkEntries.Select(e => e.Benchmark).Distinct().Where(b => b != bench && b.Type == CurrentBenchmarkType));
+    }
+    void HideBenchmark(Benchmark bench)
+    {
+        if(!HiddenBenchmarks.Contains(bench))
+        {
+            HiddenBenchmarks.Add(bench);
+        }
+    }
+    void ShowBenchmark(Benchmark bench)
+    {
+        HiddenBenchmarks.Remove(bench);
+    }
+    void ShowAllBenchmarks()
+    {
+        HiddenBenchmarks.Clear();
     }
 
     string GetTextClass(BenchmarkEntry entry)

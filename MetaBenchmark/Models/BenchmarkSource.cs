@@ -12,7 +12,7 @@ namespace MetaBenchmark.Models
         public string Name { get; set; }
         public string Url { get; set; }
         public string LogoUrl { get; set; }
-        public ICollection<BenchmarkEntry> BenchmarkEntries { get; set; }
+        public List<BenchmarkEntry> BenchmarkEntries { get; set; }
 
         public BenchmarkSource()
         {
@@ -39,6 +39,18 @@ namespace MetaBenchmark.Models
         public static bool operator !=(BenchmarkSource left, BenchmarkSource right)
         {
             return !(left == right);
+        }
+
+        public BenchmarkSource StripEntries()
+        {
+            return new BenchmarkSource()
+            {
+                Id = Id,
+                LogoUrl = LogoUrl,
+                Name = Name,
+                Url = Url,
+                BenchmarkEntries = default
+            };
         }
     }
 }

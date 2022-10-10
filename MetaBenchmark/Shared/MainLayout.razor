@@ -7,23 +7,23 @@
         <NavMenu />
     </div>*@
 
-    <div class="main">
+    <div class="main w-100">
         <div class="px-4 navbar navbar-dark">
             <a class="navbar-brand mr-auto" href="">MetaBenchmark</a>
-            <MetaBenchmark.Components.SearchComponent/>
-            <div id="filterContainer" class="d-flex"></div>
-            <NavLink class="nav-link" href="compare">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Compare
-            </NavLink>
-            @if (EditEnabled)
-            {
-                <NavLink class="nav-link" href="admin">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Admin
+            <div class="d-flex">
+                <MetaBenchmark.Components.SearchComponent />
+                @if (EditEnabled)
+                {
+                    <NavLink class="nav-link" href="admin">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Admin
+                    </NavLink>
+                }
+                <NavLink class="btn btn-secondary d-flex mx-3" href="settings">
+                    <div class="my-auto">
+                        ⚙️
+                    </div>
                 </NavLink>
-            }
-            <NavLink class="nav-link" href="settings">
-                <span class="oi oi-cog" aria-hidden="true"></span> Settings
-            </NavLink>
+            </div>
             @*<LoginDisplay />*@
         </div>
 
@@ -41,10 +41,10 @@
     string version;
     protected override async Task OnInitializedAsync()
     {
-        await js.InvokeVoidAsync("setupDb");
-        var settings = await Settings.Load(js);
-        EditEnabled = settings.EditModeEnabled;
-        Settings.SettingsUpdated += (settings) => { EditEnabled = settings.EditModeEnabled; this.StateHasChanged(); };
-        version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
+        //await js.InvokeVoidAsync("setupDb");
+        //var settings = await Settings.Load(js);
+        //EditEnabled = settings.EditModeEnabled;
+        //Settings.SettingsUpdated += (settings) => { EditEnabled = settings.EditModeEnabled; this.StateHasChanged(); };
+        version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description ?? "";
     }
 }

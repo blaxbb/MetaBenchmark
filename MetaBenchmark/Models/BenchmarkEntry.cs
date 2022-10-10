@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace MetaBenchmark
+namespace MetaBenchmark.Models
 {
     public class BenchmarkEntry : ISpecAttachable
     {
@@ -20,7 +20,12 @@ namespace MetaBenchmark
 
         public BenchmarkSource Source { get; set; }
         public long SourceId { get; set; }
-        public ICollection<SpecificationEntry> Specs { get; set; }
+        public List<SpecificationEntry> Specs { get; set; }
+
+        public BenchmarkEntry()
+        {
+            Specs = new List<SpecificationEntry>();
+        }
 
         public override bool Equals(object obj)
         {
@@ -45,6 +50,19 @@ namespace MetaBenchmark
         public static bool operator !=(BenchmarkEntry left, BenchmarkEntry right)
         {
             return !(left == right);
+        }
+
+        public BenchmarkEntry StripBenchmark()
+        {
+            return new BenchmarkEntry()
+            {
+                Id = Id,
+                Url = Url,
+                Value = Value,
+                Product = Product.StripEntries(),
+                Source = Source.StripEntries(),
+                Specs = Specs.Select(s => s.StripParent()).ToList(),
+            };
         }
 
         public string ValueLabel() {

@@ -37,5 +37,14 @@ namespace MetaBenchmark.Models
             return !(left == right);
         }
 
+        public SpecificationEntry StripParent()
+        {
+            return new SpecificationEntry()
+            {
+                Id = Id,
+                Spec = Spec
+            };
+        }
+
     }
 }
