@@ -50,6 +50,11 @@ namespace MetaBenchmark.Services
             return Benchmarks.ContainsKey(id) ? Benchmarks[id] : default;
         }
 
+        public List<Specification> GetAllProductSpecifications()
+        {
+            return AllProductSpecifications.Values.ToList();
+        }
+
         #endregion
 
         #region Initialize

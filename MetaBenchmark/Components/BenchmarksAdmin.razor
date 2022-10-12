@@ -89,7 +89,7 @@ else
     {
         Model = new Benchmark();
         Model.Id = -1;
-        await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkModal");
+        await Js.InvokeVoidAsync("ShowModal", "AddBenchmarkModal");
     }
 
     async void EditClick(Benchmark bench)
@@ -102,12 +102,12 @@ else
             Specs = bench.Specs
         };
 
-        await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkModal");
+        await Js.InvokeVoidAsync("ShowModal", "AddBenchmarkModal");
     }
 
     async void SubmitModel()
     {
-        await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkModal");
+        await Js.InvokeVoidAsync("HideModal", "AddBenchmarkModal");
         if (Model.Id == -1)
         {
             Model.Id = Benchmarks.Max(b => b.Id) + 1;
@@ -133,7 +133,7 @@ else
 
     async void DeleteModel()
     {
-        await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkModal");
+        await Js.InvokeVoidAsync("HideModal", "AddBenchmarkModal");
         if (Model.Id != -1)
         {
             var existing = Benchmarks.FirstOrDefault(b => b.Id == Model.Id);

@@ -1,11 +1,10 @@
-﻿@*@using MetaBenchmark.Components
+﻿@using MetaBenchmark.Components
 @using MetaBenchmark.Models
 
 @using MetaBenchmark
 @using MetaBenchmark.Services
 @inject HttpClient Http
 @inject IJSRuntime Js
-@inject DataCache cache
 @inject DataService data
 
 <Modal Name="Add Benchmark Source" Id="AddBenchmarkSourceModal">
@@ -130,6 +129,7 @@ else
     async Task Refresh()
     {
         //Sources = (await cache.Sources()).Value;
+        Sources = data.AllBenchmarks().SelectMany(b => b.Entries).Select(e => e.Source).Distinct().ToList();
 
         allBenchmarks = data.AllBenchmarks();
         allProducts = data.AllProducts();
@@ -140,7 +140,7 @@ else
     {
         Model = new BenchmarkSource();
         Model.Id = -1;
-        await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkSourceModal");
+        await Js.InvokeVoidAsync("ShowModal", "AddBenchmarkSourceModal");
     }
 
     async void EditClick(BenchmarkSource source)
@@ -154,7 +154,7 @@ else
             Url = source.Url
         };
 
-        await Js.InvokeVoidAsync("ShowModal", "#AddBenchmarkSourceModal");
+        await Js.InvokeVoidAsync("ShowModal", "AddBenchmarkSourceModal");
     }
 
     async void AddBenchmarksClick(BenchmarkSource source)
@@ -164,24 +164,24 @@ else
             SourceId = source.Id,
         };
 
-        await Js.InvokeVoidAsync("ShowModal", "#BulkAddBenchmarksModal");
+        await Js.InvokeVoidAsync("ShowModal", "BulkAddBenchmarksModal");
         await Js.InvokeVoidAsync("ShowSelectPicker");
     }
 
     async void SubmitModel()
     {
-        await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkSourceModal");
+        await Js.InvokeVoidAsync("HideModal", "AddBenchmarkSourceModal");
         if (Model.Id == -1)
         {
             Model.Id = Sources.Max(s => s.Id) + 1;
             Sources.Add(Model);
-            await cache.SetSources(Sources);
+            //await cache.SetSources(Sources);
         }
         else
         {
             Sources.RemoveAll(s => s.Id == Model.Id);
             Sources.Add(Model);
-            await cache.SetSources(Sources);
+            //await cache.SetSources(Sources);
         }
         this.StateHasChanged();
         Model = new BenchmarkSource();
@@ -189,11 +189,11 @@ else
 
     async void DeleteModel()
     {
-        await Js.InvokeVoidAsync("HideModal", "#AddBenchmarkSourceModal");
+        await Js.InvokeVoidAsync("HideModal", "AddBenchmarkSourceModal");
         if (Model.Id != -1)
         {
             Sources.RemoveAll(s => s.Id == Model.Id);
-            await cache.SetSources(Sources);
+            //await cache.SetSources(Sources);
         }
 
         this.StateHasChanged();
@@ -228,7 +228,7 @@ else
                     }
                 }
                 source.BenchmarkEntries.Add(newEntry);
-                await cache.SetSources(Sources);
+                //await cache.SetSources(Sources);
 
                 BulkBenchmark.Value = 0;
                 BulkBenchmark.Product = default;
@@ -237,4 +237,4 @@ else
             }
         }
     }
-}*@
+}

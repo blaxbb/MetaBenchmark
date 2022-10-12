@@ -1,5 +1,4 @@
-﻿@*@using MetaBenchmark.Models
-@inject DataCache cache
+﻿@using MetaBenchmark.Models
 
 <div class="form-group">
     <div class="row">
@@ -72,7 +71,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        AllSpecifications = (await cache.Specifications()).Value;
+        //AllSpecifications = (await cache.Specifications()).Value;
+        AllSpecifications = new();
         var defaultName = AllSpecifications.Where(s => s.Type == SpecType).FirstOrDefault();
         if(defaultName != null)
         {
@@ -124,7 +124,7 @@
             };
             AllSpecifications.Add(spec);
             AllSpecifications = AllSpecifications.OrderBy(s => s.Id).ToList();
-            await cache.SetSpecifications(AllSpecifications);
+            //await cache.SetSpecifications(AllSpecifications);
         }
 
         if(Model.Specs == null)
@@ -165,4 +165,3 @@
         }
     }
 }
-*@

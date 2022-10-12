@@ -1,10 +1,11 @@
-﻿@*@using MetaBenchmark.Components
+﻿@using MetaBenchmark.Components
 
 @using MetaBenchmark
 @using MetaBenchmark.Models
+@using MetaBenchmark.Services
 @inject HttpClient Http
 @inject IJSRuntime Js
-@inject DataCache cache;
+@inject DataService data
 
 <Modal Name="Add Product" Id="AddProductModal">
 	<EditForm Model="Model">
@@ -87,8 +88,8 @@ else
 
     async Task Refresh()
     {
-        Products = (await cache.All()).Value;
-        AllSpecifications = (await cache.Specifications()).Value;
+        Products = data.AllProducts();
+        AllSpecifications = data.GetAllProductSpecifications();
 
         this.StateHasChanged();
     }
@@ -97,7 +98,7 @@ else
     {
         Model = new Product();
         Model.Id = -1;
-        await Js.InvokeVoidAsync("ShowModal", "#AddProductModal");
+        await Js.InvokeVoidAsync("ShowModal", "AddProductModal");
     }
 
     async void EditProductClick(Product product)
@@ -110,18 +111,18 @@ else
             Specs = product.Specs
         };
 
-        await Js.InvokeVoidAsync("ShowModal", "#AddProductModal");
+        await Js.InvokeVoidAsync("ShowModal", "AddProductModal");
     }
 
     async void SubmitModel()
     {
-        await Js.InvokeVoidAsync("HideModal", "#AddProductModal");
+        await Js.InvokeVoidAsync("HideModal", "AddProductModal");
         if (Model.Id == -1)
         {
             Model.Id = Products.Max(p => p.Id) + 1;
             Products.Add(Model);
             
-            await cache.SetProducts(Products);
+            //await cache.SetProducts(Products);
         }
         else
         {
@@ -131,7 +132,7 @@ else
                 Products.Remove(existing);
                 Products.Add(Model);
                 Products = Products.OrderBy(p => p.Id).ToList();
-                await cache.SetProducts(Products);
+                //await cache.SetProducts(Products);
             }
         }
         StateHasChanged();
@@ -140,14 +141,14 @@ else
 
     async void DeleteModel()
     {
-        await Js.InvokeVoidAsync("HideModal", "#AddProductModal");
+        await Js.InvokeVoidAsync("HideModal", "AddProductModal");
         if (Model.Id != -1)
         {
             var existing = Products.FirstOrDefault(p => p.Id == Model.Id);
             if(existing != null)
             {
                 Products.Remove(existing);
-                await cache.SetProducts(Products);
+                //await cache.SetProducts(Products);
             }
         }
 
@@ -159,7 +160,7 @@ else
     {
         var prod = Products.FirstOrDefault(p => p.Id == model.Id);
         prod.Specs = model.Specs;
-        await cache.SetSpecifications(allSpecs);
-        await cache.SetProducts(Products);
+        //await cache.SetSpecifications(allSpecs);
+        //await cache.SetProducts(Products);
     }
-}*@
+}

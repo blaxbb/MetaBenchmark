@@ -1,5 +1,6 @@
 ﻿window.ShowModal = function (id) {
-    $(id).modal();
+    var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById(id));
+    myModal.show();
 }
 
 let focusHandlers = {};
@@ -12,11 +13,13 @@ window.ShowModalFocus = function (modal, focus) {
             $(focus).trigger('focus');
         });
     }
-    $(modal).modal();
+    ShowModal(modal);
+
 }
 
 window.HideModal = function (id) {
-    $(id).modal('hide');
+    var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById(id));
+    myModal.hide();
 }
 
 window.ShowSelectPicker = function () {
